@@ -13,7 +13,7 @@
 
 ### From the chrome web store
 
-Coming soon : chrome web store link
+[install from the chrome web store](https://chrome.google.com/webstore/detail/injagampgkalbbmhpemnfknoeghfenif)
 
 ### Your own version
 

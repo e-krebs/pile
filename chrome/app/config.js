@@ -1,7 +1,7 @@
 app.factory('httpRequestInterceptor', httpRequestInterceptor)
 	.config(httpProvider)
 	.config(compileProvider)
-	.value('consumer_key', 'XXXXX-XXXXXXXXXXX')
+	.value('consumer_key', '42500-5e9208689d537fa630ce1e3f')
 	.value('access_token', localStorage.pocket_token)
 	.value('redirect_uri', chrome.extension.getURL('oauth.html'));
 	
