@@ -1,0 +1,89 @@
+body {
+	width: 500px;
+	margin: 0;
+	font-size: 16px;
+	line-height: 16px;
+	white-space: nowrap;
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.line {
+	margin: 0;
+	padding: 16px;
+	height: 16px;
+	float: left;
+	clear: left;
+	display: flex;
+	width: 468px;
+}
+.action-list {
+	float: right;
+	margin: 0 40px 0 56px;
+}
+.article a {
+	text-decoration: none;
+}
+.round {
+	border: 1px solid;
+	border-radius: 50%;
+}
+.avatar {
+	width: 30px;
+	height: 30px;
+	margin: -7px 24px 0 0;
+    position: relative;
+}
+.avatar:hover {
+    border-color: rgba(0, 0, 0, 0.5) !important;
+}
+.avatar img {
+	margin: 7px;
+    width: 16px;
+    height: 16px;
+}
+.avatar:hover img {
+    opacity: 0;
+}
+.avatar .icon {
+    display:none;
+    margin: 3px;
+    position: absolute;
+    color: rgba(0, 0, 0, 0.67);
+}
+.avatar:hover .icon {
+    display: block;
+}
+.article .title {
+	width: 373px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 22px;
+	top: -3px;
+	position: relative;
+	color: rgba(0, 0, 0, 0.87)
+}
+.icon {
+	width: 24px;
+	height: 24px;
+	margin: -4px 0 0 16px;
+	float: right;
+}
+.icon.expandable i {
+	margin: 0;
+}
+.clickable {
+	cursor: pointer;
+}
+.expandable .expandable-more,
+.expandable.expandable-more,
+.expandable.expanded.expandable-less,
+.expandable.expanded .expandable-less {
+	display: inline-block;
+}
+.expandable .expandable-less,
+.expandable.expandable-less,
+.expandable .expandable-less,
+.expandable.expanded.expandable-more,
+.expandable.expanded .expandable-more {
+	display: none;				
+}
