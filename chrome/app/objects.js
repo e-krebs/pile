@@ -69,16 +69,14 @@ function ArticleObject($q, $http, fileService) {
 		var primaryIsVibrant = null;
 		if (!isNull(swatches.Vibrant) && !isNull(swatches.Muted)) primaryIsVibrant = (swatches.Vibrant.population >= swatches.Muted.population);
         else primaryIsVibrant = (!isNull(swatches.Vibrant) || isNull(swatches.Muted));
-		return (isNull(primaryIsVibrant) || (isNull(swatches.Vibrant) && isNull(swatches.Muted)))
-				? [0, 0, 0] : (primaryIsVibrant ? swatches.Vibrant.getRgb() : swatches.Muted.getRgb());
+		return (isNull(primaryIsVibrant) || (isNull(swatches.Vibrant) && isNull(swatches.Muted))) ? [0, 0, 0] : (primaryIsVibrant ? swatches.Vibrant.getRgb() : swatches.Muted.getRgb());
 	}
 
 	function getAccentRgb(swatches) {
 		var accentIsVibrant = null;
 		if (!isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted)) accentIsVibrant = (swatches.DarkVibrant.population >= swatches.DarkMuted.population);
         else accentIsVibrant = (!isNull(swatches.DarkVibrant) || isNull(swatches.DarkMuted));
-		return (isNull(accentIsVibrant) || (isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted)))
-			? [0, 0, 0] : (accentIsVibrant ? swatches.DarkVibrant.getRgb() : swatches.DarkMuted.getRgb());
+		return (isNull(accentIsVibrant) || (isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted))) ? [0, 0, 0] : (accentIsVibrant ? swatches.DarkVibrant.getRgb() : swatches.DarkMuted.getRgb());
 	}
 
 	function isNull(object) {
@@ -141,6 +139,6 @@ function ArticleObject($q, $http, fileService) {
 			primary_bg: `rgba(${primary[0]}, ${primary[1]}, ${primary[2]}, 0.1)`,
 			accent: `rgba(${accent[0]}, ${accent[1]}, ${accent[2]}, 0.5)`,
 			accent_bg: `rgba(${accent[0]}, ${accent[1]}, ${accent[2]}, 0.1)`
-		}
+		};
 	}
 }
