@@ -23,13 +23,13 @@ function ArticleObject($q, $http, fileService) {
 	function article(data) {
 		var promise = $q.defer();
 		
-		var url = data.given_url && data.given_url != null && data.given_url != '' ? data.given_url : data.resolved_url;
+		var url = data.given_url && data.given_url !== null && data.given_url !== '' ? data.given_url : data.resolved_url;
 		var hostname = new URL(url).hostname;
 		
 		var articleData = {
 			id: data.item_id,
 			order: data.sort_id,
-			title: data.given_title && data.given_title != null && data.given_title != '' ? data.given_title : (data.resolved_title && data.resolved_title != null && data.resolved_title != '') ? data.resolved_title : url,
+			title: data.given_title && data.given_title !== null && data.given_title !== '' ? data.given_title : (data.resolved_title && data.resolved_title !== null && data.resolved_title !== '') ? data.resolved_title : url,
 			url: url,
 			hostname: hostname,
 			favorite: (data.favorite == 1)
@@ -43,12 +43,12 @@ function ArticleObject($q, $http, fileService) {
 		});
 		
 		return promise;
-	};
+	}
 	
 	function vibrant(iconData) {
 		var promise = $q.defer();
 		
-		if (iconData.icon == null) {
+		if (iconData.icon === null) {
 			console.log('no icon in returned data');
 			iconData.colors = {
 				primary: 'rgba(0, 0, 0, 0.5)',
@@ -59,7 +59,7 @@ function ArticleObject($q, $http, fileService) {
 			promise.resolve(iconData);
 		} else {
 			fileService.readJson(`${iconData.hostname}_palette.json`).then(function(res) {
-				if (res != null) {
+				if (res !== null) {
 					iconData.colors = {
 						primary: `rgba(${res.primary[0]}, ${res.primary[1]}, ${res.primary[2]}, 0.5)`,
 						primary_bg: `rgba(${res.primary[0]}, ${res.primary[1]}, ${res.primary[2]}, 0.1)`,
@@ -71,63 +71,69 @@ function ArticleObject($q, $http, fileService) {
 					console.log(`there was no vibrant file for ${iconData.hostname}, iconData.icon beeing : ${iconData.icon}`);
 					var img = document.createElement('img');
 					img.setAttribute('src', iconData.icon);
-					img.addEventListener('load', function() {
-						console.log(`getting vibrant`);
-						try {
-							var vibrant = new Vibrant(img);
-						} catch(ex) {
-							console.error(`error getting vibrant for ${iconData.hostname}, iconData.icon beeing : ${iconData.icon}`);
-							// TODO : dédoublonner
-							iconData.colors = {
-								primary: 'rgba(0, 0, 0, 0.5)',
-								primary_bg: 'rgba(0, 0, 0, 0.1)',
-								accent: 'rgba(0, 0, 0, 0.5)',
-								accent_bg: 'rgba(0, 0, 0, 0.1)',
-							};
-							promise.resolve(iconData);
-							return;
-						}
-						console.log(`vibrant : ${vibrant}`);
-						console.log(`getting swatches...`);
-						var swatches = vibrant.swatches();
-						console.log(`swatches : ${swatches}`);
-						var primaryIsVibrant = null;
-						if (swatches.Vibrant != null && swatches.Muted != null) primaryIsVibrant = (swatches.Vibrant.population >= swatches.Muted.population);
-						else primaryIsVibrant = (swatches.Vibrant != null || swatches.Muted == null);
-						
-						var primaryRgb = [0, 0, 0];
-						if (primaryIsVibrant != null && (swatches.Vibrant != null || swatches.Muted != null)) {
-							primaryRgb = (primaryIsVibrant ? swatches.Vibrant.getRgb() : swatches.Muted.getRgb());
-						}
-						
-						var accentIsVibrant = null;
-						if (swatches.DarkVibrant != null && swatches.DarkMuted != null) accentIsVibrant = (swatches.DarkVibrant.population >= swatches.DarkMuted.population);
-						else accentIsVibrant = (swatches.DarkVibrant != null || swatches.DarkMuted == null);
-
-						var accentRgb = [0, 0, 0];
-						if (accentIsVibrant && (swatches.DarkVibrant != null || swatches.DarkMuted != null)) {
-							accentRgb = (accentIsVibrant ? swatches.DarkVibrant.getRgb() : swatches.DarkMuted.getRgb());							
-						}
-						
-						iconData.colors = {
-							primary: `rgba(${primaryRgb[0]}, ${primaryRgb[1]}, ${primaryRgb[2]}, 0.5)`,
-							primary_bg: `rgba(${primaryRgb[0]}, ${primaryRgb[1]}, ${primaryRgb[2]}, 0.1)`,
-							accent: `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.5)`,
-							accent_bg: `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.1)`,
-						};
-						
-						promise.resolve(iconData);
-						fileService.writeJson({'primary': primaryRgb, 'accent': accentRgb}, `${iconData.hostname}_palette.json`);
-					});
+					img.addEventListener('load', imageLoaded.bind(null, img, iconData, promise));
 				}
 			});
 		}
 		return promise.promise;
 	}
+
+	function imageLoaded(img, iconData, promise) {
+		console.log(`getting vibrant`);
+		var vibrant;
+		try {
+			vibrant = new Vibrant(img);
+		} catch(ex) {
+			console.error(`error getting vibrant for ${iconData.hostname}, iconData.icon beeing : ${iconData.icon}`);
+			iconData.colors = {
+				primary: 'rgba(0, 0, 0, 0.5)',
+				primary_bg: 'rgba(0, 0, 0, 0.1)',
+				accent: 'rgba(0, 0, 0, 0.5)',
+				accent_bg: 'rgba(0, 0, 0, 0.1)',
+			};
+			promise.resolve(iconData);
+			return;
+		}
+		console.log(`vibrant : `, vibrant);
+		console.log(`getting swatches...`);
+		var swatches = vibrant.swatches();
+		console.log(`swatches : `, swatches);
+		var primaryIsVibrant = null;
+		if (!isNull(swatches.Vibrant) && !isNull(swatches.Muted)) primaryIsVibrant = (swatches.Vibrant.population >= swatches.Muted.population);
+		else primaryIsVibrant = (!isNull(swatches.Vibrant) || isNull(swatches.Muted));
+		
+		var primaryRgb = [0, 0, 0];
+		if (!isNull(primaryIsVibrant) && (!isNull(swatches.Vibrant) || !isNull(swatches.Muted))) {
+			primaryRgb = (primaryIsVibrant ? swatches.Vibrant.getRgb() : swatches.Muted.getRgb());
+		}
+		
+		var accentIsVibrant = null;
+		if (!isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted)) accentIsVibrant = (swatches.DarkVibrant.population >= swatches.DarkMuted.population);
+		else accentIsVibrant = (!isNull(swatches.DarkVibrant) || isNull(swatches.DarkMuted));
+
+		var accentRgb = [0, 0, 0];
+		if (accentIsVibrant && (!isNull(swatches.DarkVibrant) || !isNull(swatches.DarkMuted))) {
+			accentRgb = (accentIsVibrant ? swatches.DarkVibrant.getRgb() : swatches.DarkMuted.getRgb());							
+		}
+		
+		iconData.colors = {
+			primary: `rgba(${primaryRgb[0]}, ${primaryRgb[1]}, ${primaryRgb[2]}, 0.5)`,
+			primary_bg: `rgba(${primaryRgb[0]}, ${primaryRgb[1]}, ${primaryRgb[2]}, 0.1)`,
+			accent: `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.5)`,
+			accent_bg: `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.1)`,
+		};
+		
+		promise.resolve(iconData);
+		fileService.writeJson({'primary': primaryRgb, 'accent': accentRgb}, `${iconData.hostname}_palette.json`);
+	}
+
+	function isNull(object) {
+		return typeof object == typeof undefined || object === null;
+	}
 	
 	function getIcon(iconUrl, res) {
 		var defer = $q.defer();
-		if (typeof(res) != 'undefined' && res != null && res.hostname != null && res.icon != null) {
+		if (typeof(res) != 'undefined' && res !== null && res.hostname !== null && res.icon !== null) {
 			//console.log('getIcon already there', hostname, iconUrl);
 			defer.resolve(res);
 		} else {
@@ -150,12 +156,12 @@ function ArticleObject($q, $http, fileService) {
 							}
 						})
 						.error(function(error) {
-							console.warn(`error getting icon blob ${iconUrl} for ${res.hostname}`);
+							console.warn(`error getting icon blob ${iconUrl} for ${res.hostname}`, error);
 							return defer.resolve(res);
 						});
 					})
 				.error(function(error) {
-					console.warn(`error testing icon url ${iconUrl} for ${res.hostname}`);
+					console.warn(`error testing icon url ${iconUrl} for ${res.hostname}`, error);
 					return defer.resolve(res);
 				});
 		}
@@ -178,5 +184,5 @@ function ArticleObject($q, $http, fileService) {
 			.then(getGoogleIcon)
 			.then(getPocketIcon)
 			.then(getFallbackIcon);
-	};
+	}
 }
