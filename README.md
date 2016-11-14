@@ -1,4 +1,5 @@
 # Pile
+[![bitHound Overall Score](https://www.bithound.io/github/e-krebs/pile/badges/score.svg)](https://www.bithound.io/github/e-krebs/pile)
 
 > pile is a material design-ish chrome extension that show your [pocket](https://getpocket.com) list
 
