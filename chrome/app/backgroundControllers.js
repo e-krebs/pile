@@ -26,8 +26,8 @@ function backgroundController($scope, $q, oAuthService, fileService, articleObje
 	// on alarm triggering
 	chrome.alarms.onAlarm.addListener(function(alarm) {
 		if (alarm.name == "pocket_refresh") {
-			if (typeof(localStorage['pocket_code']) == 'undefined' || typeof(localStorage['pocket_token']) == 'undefined') {
-				console.warn(`no token : pocket_code = ${localStorage['pocket_code']}, pocket_token = ${localStorage['pocket_token']}`);
+			if (typeof(localStorage.pocket_code) == 'undefined' || typeof(localStorage.pocket_token) == 'undefined') {
+				console.warn(`no token : pocket_code = ${localStorage.pocket_code}, pocket_token = ${localStorage.pocket_token}`);
 			} else {
 				console.info('refreshing list');
 				$scope.refreshList();

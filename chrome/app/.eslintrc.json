@@ -23,6 +23,8 @@
     },
     "globals": {
         "Vibrant": true,
-        "app": true
+        "app": true,
+        "angular": true,
+        "date": true
     }
 }

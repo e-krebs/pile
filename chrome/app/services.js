@@ -1,14 +1,14 @@
 app.factory('fileService', ['$q', fileService]);
 
 function fileService($q) {
+    var fs = null; // filesystem support
+
     return {
         writeJson: writeJson,
         readJson: readJson,
         writeFile: writeAnyFile,
         readFile: readAnyFile
     };
-    
-    var fs = null; // filesystem support
     
     function writeJson(jsonData, name) {
         return getFilesystem()
@@ -58,7 +58,7 @@ function fileService($q) {
         window.webkitResolveLocalFileSystemURL(filePath, function (json_file) {
             json_file.file(function(file) {
                 var reader = new FileReader();
-                reader.onloadend = function(e) {
+                reader.onloadend = function() {
                     // console.log('json_file', file, 'read !', this.result);
                     var json_data = JSON.parse(this.result);
                     //console.log('json_file', file, 'read:', json_data);
@@ -76,7 +76,7 @@ function fileService($q) {
 
     function getFilesystem() {
         var resp = $q.defer();
-        if (fs != null) {
+        if (fs !== null) {
             //console.info('filesystem already OK');
             resp.resolve(fs);
         } else {
@@ -149,8 +149,8 @@ function fileService($q) {
         //console.log('readJsonFile', filePath);
         window.webkitResolveLocalFileSystemURL(filePath, function () {
             response.resolve(filePath);
-        }, function(x) {
-            console.log('Error readJsonFile', filePath, x);
+        }, function(e) {
+            console.log('Error readJsonFile', filePath, e);
             response.resolve(null);
         });
         return response.promise;

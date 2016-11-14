@@ -20,7 +20,7 @@ function pocketOAuthService($http, $q, consumer_key, access_token, redirect_uri)
     }
     
     function requestToken() {
-        var code = localStorage['pocket_code'];
+        var code = localStorage.pocket_code;
         var params = {
                 consumer_key: consumer_key,
                 code: code

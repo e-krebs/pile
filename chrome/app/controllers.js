@@ -6,7 +6,7 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 			if (response.status == 200) {
 				var pocket_token = response.data.code;
 				//console.log(response.statusText, pocket_token);
-				localStorage['pocket_code'] = pocket_token;
+				localStorage.pocket_code = pocket_token;
 				var url = `https://getpocket.com/auth/authorize?request_token=${pocket_token}&redirect_uri=${redirect_uri}`;
 				//console.log('redirect url:', url);
 				chrome.tabs.create({url: url});
@@ -17,13 +17,13 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 	};
 
 	$scope.requestList = function() {
-		$scope.articles = []; // TODO : faire de la comparaison au lieu de vider + écrire
+		$scope.articles = [];
 		
 		fileService.readJson('articles.json').then(function(result) {
-			if (result == null) result = [];
+			if (result === null) result = [];
 			//window.articles = result;
 			//console.log('json file length:', result.length);
-			if ($scope.articles.length == 0) {
+			if ($scope.articles.length === 0) {
 				$scope.articles = result;
 				console.log('articles from local backup');
 			} else {
@@ -71,59 +71,59 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 		});
 	};
 	
-	$scope.delete = function(item_id) {
-		oAuthService.delete(item_id).then(function(response) {
+	$scope.delete = function (item_id) {
+		oAuthService.delete(item_id).then(function (response) {
 			//console.log(response);
 			if (response.status == 200) {
 				if (response.data.status == 1) {
 					removeFromList(item_id);
 				} else {
-					console.error('error deleting', item_id, response.data.action_failures);					
+					console.error('error deleting', item_id, response.data.action_failures);
 				}
 			} else {
 				console.error('error deleting', item_id, response.data.status);
 			}
 		});
-	}
+	};
 	
-	$scope.favorite = function(item_id) {
-		oAuthService.favorite(item_id).then(function(response) {
+	$scope.favorite = function (item_id) {
+		oAuthService.favorite(item_id).then(function (response) {
 			//console.log(response);
 			if (response.status == 200) {
 				if (response.data.status == 1) {
-                    $scope.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
+					$scope.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
 					fileService.writeJson(angular.copy($scope.articles), 'articles.json'); // update json backup					
 					console.info("article favorited correctly", item_id);
 				} else {
-					console.error('error favoriting', item_id, response.data.action_failures);					
+					console.error('error favoriting', item_id, response.data.action_failures);
 				}
 			} else {
 				console.error('error favoriting', item_id, response.data.status);
 			}
 		});
-	}
+	};
 	
-	$scope.unfavorite = function(item_id) {
-		oAuthService.unfavorite(item_id).then(function(response) {
+	$scope.unfavorite = function (item_id) {
+		oAuthService.unfavorite(item_id).then(function (response) {
 			//console.log(response);
 			if (response.status == 200) {
 				if (response.data.status == 1) {
-                    $scope.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
+					$scope.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
 					fileService.writeJson(angular.copy($scope.articles), 'articles.json'); // update json backup					
 					console.info("article unfavorited correctly", item_id);
 				} else {
-					console.error('error unfavoriting', item_id, response.data.action_failures);					
+					console.error('error unfavoriting', item_id, response.data.action_failures);
 				}
 			} else {
 				console.error('error unfavoriting', item_id, response.data.status);
 			}
 		});
-	}
+	};
     
-    $scope.expand = function(item_id) {
-        $scope.articles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
-        $scope.articles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
-    }
+	$scope.expand = function (item_id) {
+		$scope.articles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
+		$scope.articles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
+	};
 	
 	function removeFromList(item_id) {
         var item = $scope.articles.filter(x => x.id == item_id)[0];
@@ -135,13 +135,13 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 
 	$scope.articles = null;
 
-	if (typeof(localStorage['pocket_code']) == 'undefined' || typeof(localStorage['pocket_token']) == 'undefined') {
+	if (typeof(localStorage.pocket_code) == 'undefined' || typeof(localStorage.pocket_token) == 'undefined') {
 		console.info('requesting token');
 		$scope.requestToken();
-	} else if($scope.articles == null) {
+	} else if($scope.articles === null) {
 		console.info('requesting list');
 		$scope.requestList();
 	} else {
 		console.info('wtf ?!', localStorage, $scope.articles);
 	}
-};
+}

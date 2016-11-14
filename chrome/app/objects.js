@@ -79,7 +79,6 @@ function ArticleObject($q, $http, fileService) {
 	}
 
 	function imageLoaded(img, iconData, promise) {
-		console.log(`getting vibrant`);
 		var vibrant;
 		try {
 			vibrant = new Vibrant(img);
@@ -95,26 +94,10 @@ function ArticleObject($q, $http, fileService) {
 			return;
 		}
 		console.log(`vibrant : `, vibrant);
-		console.log(`getting swatches...`);
 		var swatches = vibrant.swatches();
 		console.log(`swatches : `, swatches);
-		var primaryIsVibrant = null;
-		if (!isNull(swatches.Vibrant) && !isNull(swatches.Muted)) primaryIsVibrant = (swatches.Vibrant.population >= swatches.Muted.population);
-		else primaryIsVibrant = (!isNull(swatches.Vibrant) || isNull(swatches.Muted));
-		
-		var primaryRgb = [0, 0, 0];
-		if (!isNull(primaryIsVibrant) && (!isNull(swatches.Vibrant) || !isNull(swatches.Muted))) {
-			primaryRgb = (primaryIsVibrant ? swatches.Vibrant.getRgb() : swatches.Muted.getRgb());
-		}
-		
-		var accentIsVibrant = null;
-		if (!isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted)) accentIsVibrant = (swatches.DarkVibrant.population >= swatches.DarkMuted.population);
-		else accentIsVibrant = (!isNull(swatches.DarkVibrant) || isNull(swatches.DarkMuted));
-
-		var accentRgb = [0, 0, 0];
-		if (accentIsVibrant && (!isNull(swatches.DarkVibrant) || !isNull(swatches.DarkMuted))) {
-			accentRgb = (accentIsVibrant ? swatches.DarkVibrant.getRgb() : swatches.DarkMuted.getRgb());							
-		}
+		var primaryRgb = getPrimaryRGB(swatches);
+		var accentRgb = getAccentRgb(swatches);
 		
 		iconData.colors = {
 			primary: `rgba(${primaryRgb[0]}, ${primaryRgb[1]}, ${primaryRgb[2]}, 0.5)`,
@@ -125,6 +108,30 @@ function ArticleObject($q, $http, fileService) {
 		
 		promise.resolve(iconData);
 		fileService.writeJson({'primary': primaryRgb, 'accent': accentRgb}, `${iconData.hostname}_palette.json`);
+	}
+
+	function getPrimaryRGB(swatches) {
+		var primaryIsVibrant = null;
+		if (!isNull(swatches.Vibrant) && !isNull(swatches.Muted)) primaryIsVibrant = (swatches.Vibrant.population >= swatches.Muted.population);
+		else primaryIsVibrant = (!isNull(swatches.Vibrant) || isNull(swatches.Muted));
+		
+		var primaryRgb = [0, 0, 0];
+		if (!isNull(primaryIsVibrant) && (!isNull(swatches.Vibrant) || !isNull(swatches.Muted))) {
+			primaryRgb = (primaryIsVibrant ? swatches.Vibrant.getRgb() : swatches.Muted.getRgb());
+		}
+		return primaryRgb;
+	}
+
+	function getAccentRgb(swatches) {
+		var accentIsVibrant = null;
+		if (!isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted)) accentIsVibrant = (swatches.DarkVibrant.population >= swatches.DarkMuted.population);
+		else accentIsVibrant = (!isNull(swatches.DarkVibrant) || isNull(swatches.DarkMuted));
+
+		var accentRgb = [0, 0, 0];
+		if (accentIsVibrant && (!isNull(swatches.DarkVibrant) || !isNull(swatches.DarkMuted))) {
+			accentRgb = (accentIsVibrant ? swatches.DarkVibrant.getRgb() : swatches.DarkMuted.getRgb());							
+		}
+		return accentRgb;
 	}
 
 	function isNull(object) {
