@@ -5,11 +5,11 @@ function ArticleObject($q, $http, fileService) {
 	
 	function article(data) {
 		var promise = $q.defer();
-		var url = data.given_url && data.given_url !== null && data.given_url !== '' ? data.given_url : data.resolved_url;
+		var url = data.resolved_url && data.resolved_url !== null && data.resolved_url !== '' ? data.resolved_url : data.given_url;
 		var articleData = {
 			id: data.item_id,
 			order: data.sort_id,
-			title: data.given_title && data.given_title !== null && data.given_title !== '' ? data.given_title : (data.resolved_title && data.resolved_title !== null && data.resolved_title !== '') ? data.resolved_title : url,
+			title: data.resolved_title && data.resolved_title !== null && data.resolved_title !== '' ? data.resolved_title : (data.given_title && data.given_title !== null && data.given_title !== '') ? data.given_title : url,
 			url: url,
 			hostname: new URL(url).hostname,
 			favorite: (data.favorite == 1)
