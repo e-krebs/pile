@@ -7,6 +7,16 @@ body {
 	color: rgba(0, 0, 0, 0.5);
 }
 
+.empty {
+	text-align: center;
+	margin: 50px 0;
+	font-size: 18px;
+}
+
+.empty > * {
+	vertical-align: middle;
+}
+
 .line {
 	margin: 0;
 	padding: 16px;

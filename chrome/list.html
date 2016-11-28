@@ -7,6 +7,10 @@
 		<link href="content/main.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body id="body" ng-controller="listController">
+		<div ng-show="articles.length <= 0" class="empty">
+			<img src="content/img/smiley.svg" />
+			<span>Congrats, you read everything !</span>
+		</div>
 		<div ng-repeat-start="article in articles | orderBy : 'order'"
 			class="article line" ng-class="{'expanded': article.expanded}"
 			ng-style="{'background-color': article.expanded ? article.colors.primary_bg : rgba(0, 0, 0, 0)}">
