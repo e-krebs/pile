@@ -14,8 +14,12 @@ function backgroundController($scope, $q, oAuthService, fileService, articleObje
 				$q.all(promiseArray).then(function(dataArray) {
 					console.log(`saving dataArray, length ${dataArray.length}`);
 					fileService.writeJson(dataArray, 'articles.json');
-					chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 0, 150]});
-					chrome.browserAction.setBadgeText({text: dataArray.length.toString()});
+					chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 150] });
+					if (dataArray.length > 0) {
+						chrome.browserAction.setBadgeText({text: dataArray.length.toString()});
+					} else {
+						chrome.browserAction.setBadgeText({text: '-'});
+					}
 				});
 			} else {
 				console.error('error requesting the code', response);

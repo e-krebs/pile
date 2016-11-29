@@ -53,7 +53,11 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 	var updateBadge = function() {
 		//console.log('updateBadge:', $scope.articles.length);
 		chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 0, 150]});
-		chrome.browserAction.setBadgeText({text: $scope.articles.length.toString()});		
+		if ($scope.articles.length > 0) {
+			chrome.browserAction.setBadgeText({text: $scope.articles.length.toString()});
+		} else {
+			chrome.browserAction.setBadgeText({text: '-'});
+		}
 	};
 	
 	$scope.archive = function(item_id) {

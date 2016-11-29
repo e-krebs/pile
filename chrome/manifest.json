@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "pile",
 	"description": "pile",
-	"version": "0.3",
+	"version": "0.4",
     "icons": {
         "16": "/content/icons/ic_library_books_black_16dp.png",
         "48": "/content/icons/ic_library_books_black_48dp_1x.png",
