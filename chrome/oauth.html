@@ -1,7 +1,8 @@
 ﻿<!DOCTYPE html>
 <html ng-csp ng-app="oAuthApp"><!-- TODO : design -->
 	<head>
-		<title>oauth page</title>
+		<title>Pile oAuth page</title>
+		<link href="content/main.css" rel="stylesheet" type="text/css"/>
 		<script type="text/javascript" src="scripts/console.js"></script>
 		<script type="text/javascript" src="scripts/angular.min.js"></script>
 		<script type="text/javascript" src="app/oAuth/app.js"></script>
@@ -13,15 +14,16 @@
 		</style>
 	</head>
 	<body ng-controller="oauthController">
-		oauth page
-		<div ng-show="!auth_failed && !auth_success">
+		<div class="connect" ng-show="!auth_failed && !auth_success">
 			Trying to get authorization...
 		</div>
-		<div ng-show="auth_failed">
+		<div class="connect" ng-show="auth_failed">
 			Please authorize "Pile" to access pocket in order to work.
 		</div>
-		<div ng-show="auth_success">
-			"Pile" has now access to pocket !
+		<div class="connect" ng-show="auth_success">
+			<img src="content/img/smiley.svg" />
+			<span>"Pile" has now access to pocket !</span><br />
+			<span>You can close this window and start using it</span>
 		</div>
 	</body>
 </html>

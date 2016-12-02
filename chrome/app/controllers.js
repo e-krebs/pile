@@ -137,11 +137,16 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 		console.info("article remove from list correctly", item_id);
 	}
 
-	$scope.articles = null;
-
-	if (typeof(localStorage.pocket_code) == 'undefined' || typeof(localStorage.pocket_token) == 'undefined') {
-		console.info('requesting token');
+	$scope.pocketConnect = function () {
 		$scope.requestToken();
+	}
+
+	$scope.articles = null;
+	$scope.isPocketConnected = true;
+	
+	if (typeof(localStorage.pocket_code) == 'undefined' || typeof(localStorage.pocket_token) == 'undefined') {
+		console.info('pocket not connected');
+		$scope.isPocketConnected = false;
 	} else if($scope.articles === null) {
 		console.info('requesting list');
 		$scope.requestList();

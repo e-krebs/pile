@@ -7,14 +7,26 @@ body {
 	color: rgba(0, 0, 0, 0.5);
 }
 
+.connect,
 .empty {
 	text-align: center;
 	margin: 50px 0;
 	font-size: 18px;
 }
 
-.empty > * {
+.empty > *,
+.connect > * {
 	vertical-align: middle;
+}
+
+.connect-logo {
+	width: 24px;
+	height: 24px;
+	margin-right: 8px;
+}
+.connect-logo,
+.connect-text {
+	cursor: pointer;	
 }
 
 .line {
