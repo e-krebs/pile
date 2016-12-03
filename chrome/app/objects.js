@@ -129,7 +129,7 @@ function ArticleObject($q, $http, fileService) {
 	function icon(hostname) {
 		const getGoogleIcon = getIcon.bind(undefined, `https://www.google.com/s2/favicons?domain=${hostname}&alt=404`);
 		const getPocketIcon = getIcon.bind(undefined, `https://img.readitlater.com/i/${hostname}/favicon.ico`);
-		const getFallbackIcon = getIcon.bind(undefined, chrome.extension.getURL('content/img/icon_default.png'));
+		const getFallbackIcon = getIcon.bind(undefined, chrome.extension.getURL('content/img/default-icon.png'));
 		return readIconFile(hostname).then(getGoogleIcon).then(getPocketIcon).then(getFallbackIcon);
 	}
 	
