@@ -1,12 +1,12 @@
 app.controller('oauthController', ['$scope', 'pocketOAuthService', oauthController]);
 
 
-function oauthController($scope, oAuthService) {
+function oauthController($scope, pocketOAuth) {
 	$scope.accessToken = function() {
 		$scope.auth_failed = false;
 		$scope.auth_success = false;
 		
-		oAuthService.requestToken().then(function(response) {
+		pocketOAuth.requestToken().then(function(response) {
 			if (response.status == 200) {
 				//console.log(response.statusText, response.data);
 				localStorage.pocket_token = response.data.access_token;
@@ -21,7 +21,7 @@ function oauthController($scope, oAuthService) {
 		});
 	};
 
-	if (typeof(localStorage.pocket_code) == 'undefined' || typeof(localStorage.pocket_token) == 'undefined') {
+	if (angular.isUndefined(localStorage.pocket_code) || angular.isUndefined(localStorage.pocket_token)) {
 		$scope.accessToken();
 	}
 }

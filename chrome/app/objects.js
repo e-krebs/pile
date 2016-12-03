@@ -80,12 +80,12 @@ function ArticleObject($q, $http, fileService) {
 	}
 
 	function isNull(object) {
-		return typeof object == typeof undefined || object === null;
+		return angular.isUndefined(object) || object === null;
 	}
 	
 	function getIcon(iconUrl, res) {
 		var defer = $q.defer();
-		if (typeof(res) != 'undefined' && res !== null && res.hostname !== null && res.icon !== null) {
+		if (!isNull(res) && res.hostname !== null && res.icon !== null) {
 			defer.resolve(res);
 		} else {
 			console.log('getIcon', res.hostname, iconUrl, res);

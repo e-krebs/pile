@@ -1,22 +1,8 @@
 app.controller('listController', ['$scope', '$q', 'pocketOAuthService', 'fileService', 'articleObject', 'redirect_uri', listController]);
 
-function listController($scope, $q, oAuthService, fileService, articleObject, redirect_uri) {
-	$scope.requestToken = function() {
-		oAuthService.requestCode().then(function(response) {
-			if (response.status == 200) {
-				var pocket_token = response.data.code;
-				//console.log(response.statusText, pocket_token);
-				localStorage.pocket_code = pocket_token;
-				var url = `https://getpocket.com/auth/authorize?request_token=${pocket_token}&redirect_uri=${redirect_uri}`;
-				//console.log('redirect url:', url);
-				chrome.tabs.create({url: url});
-			} else {
-				console.error('error requesting the code', response);
-			}
-		});
-	};
+function listController($scope, $q, pocketOAuth, fileService, articleObject, redirect_uri) {
 
-	$scope.requestList = function() {
+	function requestList() {
 		$scope.articles = [];
 		
 		fileService.readJson('articles.json').then(function(result) {
@@ -31,7 +17,7 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 			}
 		});
 		
-		oAuthService.requestList().then(function(response) {
+		pocketOAuth.requestList().then(function(response) {
 			if (response.status == 200) {
 				var promiseArray = [];
 				for (var index in response.data.list) {
@@ -50,8 +36,7 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 		});
 	};
 	
-	var updateBadge = function() {
-		//console.log('updateBadge:', $scope.articles.length);
+	function updateBadge() {
 		chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 0, 150]});
 		if ($scope.articles.length > 0) {
 			chrome.browserAction.setBadgeText({text: $scope.articles.length.toString()});
@@ -60,8 +45,16 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 		}
 	};
 	
+	function removeFromList(item_id) {
+        var item = $scope.articles.filter(x => x.id == item_id)[0];
+		$scope.articles.splice($scope.articles.indexOf(item), 1);
+		fileService.writeJson(angular.copy($scope.articles), 'articles.json'); // update json backup					
+		updateBadge();
+		console.info("article remove from list correctly", item_id);
+	}
+	
 	$scope.archive = function(item_id) {
-		oAuthService.archive(item_id).then(function(response) {
+		pocketOAuth.archive(item_id).then(function(response) {
 			//console.log(response);
 			if (response.status == 200) {
 				if (response.data.status == 1) {
@@ -76,7 +69,7 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 	};
 	
 	$scope.delete = function (item_id) {
-		oAuthService.delete(item_id).then(function (response) {
+		pocketOAuth.delete(item_id).then(function (response) {
 			//console.log(response);
 			if (response.status == 200) {
 				if (response.data.status == 1) {
@@ -91,7 +84,7 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 	};
 	
 	$scope.favorite = function (item_id) {
-		oAuthService.favorite(item_id).then(function (response) {
+		pocketOAuth.favorite(item_id).then(function (response) {
 			//console.log(response);
 			if (response.status == 200) {
 				if (response.data.status == 1) {
@@ -108,7 +101,7 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 	};
 	
 	$scope.unfavorite = function (item_id) {
-		oAuthService.unfavorite(item_id).then(function (response) {
+		pocketOAuth.unfavorite(item_id).then(function (response) {
 			//console.log(response);
 			if (response.status == 200) {
 				if (response.data.status == 1) {
@@ -128,28 +121,30 @@ function listController($scope, $q, oAuthService, fileService, articleObject, re
 		$scope.articles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
 		$scope.articles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
 	};
-	
-	function removeFromList(item_id) {
-        var item = $scope.articles.filter(x => x.id == item_id)[0];
-		$scope.articles.splice($scope.articles.indexOf(item), 1);
-		fileService.writeJson(angular.copy($scope.articles), 'articles.json'); // update json backup					
-		updateBadge();
-		console.info("article remove from list correctly", item_id);
-	}
 
 	$scope.pocketConnect = function () {
-		$scope.requestToken();
+		pocketOAuth.requestCode().then(function(response) {
+			if (response.status == 200) {
+				var pocket_token = response.data.code;
+				localStorage.pocket_code = pocket_token;
+				var url = `https://getpocket.com/auth/authorize?request_token=${pocket_token}&redirect_uri=${redirect_uri}`;
+				chrome.tabs.create({url: url});
+			} else {
+				console.error('error requesting the code', response);
+			}
+		});
 	}
 
+// initializing	
 	$scope.articles = null;
 	$scope.isPocketConnected = true;
 	
-	if (typeof(localStorage.pocket_code) == 'undefined' || typeof(localStorage.pocket_token) == 'undefined') {
+	if (angular.isUndefined(localStorage.pocket_code) || angular.isUndefined(localStorage.pocket_token)) {
 		console.info('pocket not connected');
 		$scope.isPocketConnected = false;
 	} else if($scope.articles === null) {
 		console.info('requesting list');
-		$scope.requestList();
+		requestList();
 	} else {
 		console.info('wtf ?!', localStorage, $scope.articles);
 	}

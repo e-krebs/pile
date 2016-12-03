@@ -1,10 +1,10 @@
 app.controller('backgroundController', ['$scope', '$q', 'pocketOAuthService', 'fileService', 'articleObject', 'redirect_uri', backgroundController]);
 
-function backgroundController($scope, $q, oAuthService, fileService, articleObject, redirect_uri) {
+function backgroundController($scope, $q, pocketOAuth, fileService, articleObject, redirect_uri) {
 	
 	// refresh the list
 	$scope.refreshList = function() {
-		oAuthService.requestList().then(function(response) {
+		pocketOAuth.requestList().then(function(response) {
 			if (response.status == 200) {
 				var promiseArray = [];
 				for (var index in response.data.list) {
@@ -30,7 +30,7 @@ function backgroundController($scope, $q, oAuthService, fileService, articleObje
 	// on alarm triggering
 	chrome.alarms.onAlarm.addListener(function(alarm) {
 		if (alarm.name == "pocket_refresh") {
-			if (typeof(localStorage.pocket_code) == 'undefined' || typeof(localStorage.pocket_token) == 'undefined') {
+			if (angular.isUndefined(localStorage.pocket_code) || angular.isUndefined(localStorage.pocket_token)) {
 				console.warn(`no token : pocket_code = ${localStorage.pocket_code}, pocket_token = ${localStorage.pocket_token}`);
 			} else {
 				console.info('refreshing list');
