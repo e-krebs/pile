@@ -12,7 +12,7 @@ function pocketOAuthService($http, $q, consumer_key, access_token, redirect_uri)
     };
     
     function requestCode() {
-        var params = {
+        const params = {
                 consumer_key: consumer_key,
                 redirect_uri: redirect_uri
             };
@@ -20,8 +20,8 @@ function pocketOAuthService($http, $q, consumer_key, access_token, redirect_uri)
     }
     
     function requestToken() {
-        var code = localStorage.pocket_code;
-        var params = {
+        const code = localStorage.pocket_code;
+        const params = {
                 consumer_key: consumer_key,
                 code: code
             };
@@ -29,7 +29,7 @@ function pocketOAuthService($http, $q, consumer_key, access_token, redirect_uri)
     }
     
     function requestList() {
-        var params = {
+        const params = {
                 consumer_key: consumer_key,
                 access_token: access_token,
                 sort: 'newest'/*,
@@ -39,7 +39,7 @@ function pocketOAuthService($http, $q, consumer_key, access_token, redirect_uri)
     }
     
     function modifyArticle(action, item_id) {
-        var params = {
+        const params = {
             consumer_key: consumer_key,
             access_token: access_token,
             actions: [{

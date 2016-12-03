@@ -1,7 +1,7 @@
 {
     "env": {
         "browser": true,
-        "commonjs": false,
+        "commonjs": true,
         "es6": true,
         "node": false,
         "webextensions": true
@@ -19,6 +19,7 @@
         "no-unreachable": "warn",
         "no-unused-vars": "warn",
         "constructor-super": "warn",
+        "no-var": "warn",
         "valid-typeof": "warn"
     },
     "globals": {

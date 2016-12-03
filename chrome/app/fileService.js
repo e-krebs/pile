@@ -1,7 +1,7 @@
 app.factory('fileService', ['$q', fileService]);
 
 function fileService($q) {
-    var fs = null; // filesystem support
+    let fs = null; // filesystem support
     return {
         writeJson: writeJson,
         readJson: readJson,
@@ -34,9 +34,9 @@ function fileService($q) {
     }
 
     function writeJsonFile(jsonData, name) {
-        var response = $q.defer();
-        var stringJsonData = JSON.stringify(jsonData);
-        var blob = new Blob([stringJsonData], {type: 'application/json'});
+        const response = $q.defer();
+        const stringJsonData = JSON.stringify(jsonData);
+        const blob = new Blob([stringJsonData], {type: 'application/json'});
         blob.name = name;
         writeFile(blob);
         response.resolve(response);
@@ -44,13 +44,13 @@ function fileService($q) {
     }
 
     function readJsonFile(name) {
-        var response = $q.defer();
-        var filePath = fs.root.toURL() + 'storage/' + name;
+        const response = $q.defer();
+        const filePath = fs.root.toURL() + 'storage/' + name;
         window.webkitResolveLocalFileSystemURL(filePath, function (json_file) {
             json_file.file(function(file) {
-                var reader = new FileReader();
+                const reader = new FileReader();
                 reader.onloadend = function() {
-                    var json_data = JSON.parse(this.result);
+                    const json_data = JSON.parse(this.result);
                     response.resolve(json_data);
                 };
                 reader.readAsText(file);
@@ -63,7 +63,7 @@ function fileService($q) {
     }
 
     function getFilesystem() {
-        var resp = $q.defer();
+        const resp = $q.defer();
         if (fs !== null) {
             resp.resolve(fs);
         } else {
@@ -82,7 +82,7 @@ function fileService($q) {
 
     function writeBlob(blob) {
         // write new blob
-        var resp = $q.defer();
+        const resp = $q.defer();
         if (!fs.root) {
             console.error('fileSystem not available, blob not written : ' + blob.name);
             resp.resolve(null);
@@ -97,7 +97,7 @@ function fileService($q) {
                         file.createWriter(function (writer) {
                             //fileWriter.onerror = onError;
                             writer.onwriteend = function () {
-                                var localPath = fs.root.toURL() + 'storage/' + blob.name;
+                                const localPath = fs.root.toURL() + 'storage/' + blob.name;
                                 resp.resolve(localPath);
                             };
                             writer.write(blob);
@@ -111,7 +111,7 @@ function fileService($q) {
     
     function deleteBlob(blob) {
         // delete existing blob
-        var resp = $q.defer();
+        const resp = $q.defer();
         fs.root.getFile('storage/' + blob.name, {create: false}, function(fileEntry) {
             fileEntry.remove(function() {
                 console.log(`file ${blob.name} removed`);
@@ -126,8 +126,8 @@ function fileService($q) {
     }
     
     function readFile(name) {
-        var response = $q.defer();
-        var filePath = fs.root.toURL() + 'storage/' + name;
+        const response = $q.defer();
+        const filePath = fs.root.toURL() + 'storage/' + name;
         window.webkitResolveLocalFileSystemURL(filePath, function () {
             response.resolve(filePath);
         }, function(e) {

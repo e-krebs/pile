@@ -19,8 +19,8 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
 		
 		pocketOAuth.requestList().then(function(response) {
 			if (response.status == 200) {
-				var promiseArray = [];
-				for (var index in response.data.list) {
+				const promiseArray = [];
+				for (const index in response.data.list) {
 					promiseArray.push(articleObject.article(response.data.list[index]).promise);
 				}
 				console.log('pocket response', response.statusText); 
@@ -46,7 +46,7 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
 	};
 	
 	function removeFromList(item_id) {
-        var item = $scope.articles.filter(x => x.id == item_id)[0];
+		const item = $scope.articles.filter(x => x.id == item_id)[0];
 		$scope.articles.splice($scope.articles.indexOf(item), 1);
 		fileService.writeJson(angular.copy($scope.articles), 'articles.json'); // update json backup					
 		updateBadge();
@@ -125,9 +125,9 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
 	$scope.pocketConnect = function () {
 		pocketOAuth.requestCode().then(function(response) {
 			if (response.status == 200) {
-				var pocket_token = response.data.code;
+				const pocket_token = response.data.code;
 				localStorage.pocket_code = pocket_token;
-				var url = `https://getpocket.com/auth/authorize?request_token=${pocket_token}&redirect_uri=${redirect_uri}`;
+				const url = `https://getpocket.com/auth/authorize?request_token=${pocket_token}&redirect_uri=${redirect_uri}`;
 				chrome.tabs.create({url: url});
 			} else {
 				console.error('error requesting the code', response);

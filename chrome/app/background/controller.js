@@ -1,13 +1,13 @@
-app.controller('backgroundController', ['$scope', '$q', 'pocketOAuthService', 'fileService', 'articleObject', 'redirect_uri', backgroundController]);
+app.controller('backgroundController', ['$scope', '$q', 'pocketOAuthService', 'fileService', 'articleObject', backgroundController]);
 
-function backgroundController($scope, $q, pocketOAuth, fileService, articleObject, redirect_uri) {
+function backgroundController($scope, $q, pocketOAuth, fileService, articleObject) {
 	
 	// refresh the list
 	$scope.refreshList = function() {
 		pocketOAuth.requestList().then(function(response) {
 			if (response.status == 200) {
-				var promiseArray = [];
-				for (var index in response.data.list) {
+				const promiseArray = [];
+				for (const index in response.data.list) {
 					promiseArray.push(articleObject.article(response.data.list[index]).promise);
 				}
 				console.log(`pocket response : ${response.statusText}`); 

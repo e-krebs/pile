@@ -1,6 +1,5 @@
 app.controller('oauthController', ['$scope', 'pocketOAuthService', oauthController]);
 
-
 function oauthController($scope, pocketOAuth) {
 	$scope.accessToken = function() {
 		$scope.auth_failed = false;

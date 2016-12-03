@@ -4,9 +4,9 @@ function ArticleObject($q, $http, fileService) {
 	return { article: article };
 	
 	function article(data) {
-		var promise = $q.defer();
-		var url = data.resolved_url && data.resolved_url !== null && data.resolved_url !== '' ? data.resolved_url : data.given_url;
-		var articleData = {
+		const promise = $q.defer();
+		const url = data.resolved_url && data.resolved_url !== null && data.resolved_url !== '' ? data.resolved_url : data.given_url;
+		const articleData = {
 			id: data.item_id,
 			order: data.sort_id,
 			title: data.resolved_title && data.resolved_title !== null && data.resolved_title !== '' ? data.resolved_title : (data.given_title && data.given_title !== null && data.given_title !== '') ? data.given_title : url,
@@ -17,7 +17,7 @@ function ArticleObject($q, $http, fileService) {
 		icon(articleData.hostname).then(vibrant).then(function(iconData) {
 			articleData.icon = iconData.icon;
 			articleData.colors = iconData.colors;
-			var result = Object.assign(Object.create({
+			const result = Object.assign(Object.create({
 				id: null, order: null, title: null, url: null, hostname: null, icon: null, colors: colors([0, 0, 0], [0, 0, 0])
 			}), articleData);
 			promise.resolve(result);
@@ -26,7 +26,7 @@ function ArticleObject($q, $http, fileService) {
 	}
 	
 	function vibrant(iconData) {
-		var promise = $q.defer();
+		const promise = $q.defer();
 		if (iconData.icon === null) {
 			console.log('no icon in returned data');
 			promise.resolve(iconData);
@@ -37,7 +37,7 @@ function ArticleObject($q, $http, fileService) {
 					promise.resolve(iconData);
 				} else {
 					console.log(`there was no vibrant file for ${iconData.hostname}, iconData.icon beeing : ${iconData.icon}`);
-					var img = document.createElement('img');
+					const img = document.createElement('img');
 					img.setAttribute('src', iconData.icon);
 					img.addEventListener('load', imageLoaded.bind(null, img, iconData, promise));
 				}
@@ -47,7 +47,7 @@ function ArticleObject($q, $http, fileService) {
 	}
 
 	function imageLoaded(img, iconData, promise) {
-		var vibrant;
+		let vibrant;
 		try {
 			vibrant = new Vibrant(img);
 		} catch(ex) {
@@ -56,24 +56,24 @@ function ArticleObject($q, $http, fileService) {
 			return;
 		}
 		console.log(`vibrant : `, vibrant);
-		var swatches = vibrant.swatches();
+		const swatches = vibrant.swatches();
 		console.log(`swatches : `, swatches);
-		var primaryRgb = getPrimaryRGB(swatches);
-		var accentRgb = getAccentRgb(swatches);
+		const primaryRgb = getPrimaryRGB(swatches);
+		const accentRgb = getAccentRgb(swatches);
 		iconData.colors = colors(primaryRgb, accentRgb);
 		promise.resolve(iconData);
 		fileService.writeJson({'primary': primaryRgb, 'accent': accentRgb}, `${iconData.hostname}_palette.json`);
 	}
 
 	function getPrimaryRGB(swatches) {
-		var primaryIsVibrant = null;
+		let primaryIsVibrant = null;
 		if (!isNull(swatches.Vibrant) && !isNull(swatches.Muted)) primaryIsVibrant = (swatches.Vibrant.population >= swatches.Muted.population);
         else primaryIsVibrant = (!isNull(swatches.Vibrant) || isNull(swatches.Muted));
 		return (isNull(primaryIsVibrant) || (isNull(swatches.Vibrant) && isNull(swatches.Muted))) ? [0, 0, 0] : (primaryIsVibrant ? swatches.Vibrant.getRgb() : swatches.Muted.getRgb());
 	}
 
 	function getAccentRgb(swatches) {
-		var accentIsVibrant = null;
+		let accentIsVibrant = null;
 		if (!isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted)) accentIsVibrant = (swatches.DarkVibrant.population >= swatches.DarkMuted.population);
         else accentIsVibrant = (!isNull(swatches.DarkVibrant) || isNull(swatches.DarkMuted));
 		return (isNull(accentIsVibrant) || (isNull(swatches.DarkVibrant) && !isNull(swatches.DarkMuted))) ? [0, 0, 0] : (accentIsVibrant ? swatches.DarkVibrant.getRgb() : swatches.DarkMuted.getRgb());
@@ -84,7 +84,7 @@ function ArticleObject($q, $http, fileService) {
 	}
 	
 	function getIcon(iconUrl, res) {
-		var defer = $q.defer();
+		const defer = $q.defer();
 		if (!isNull(res) && res.hostname !== null && res.icon !== null) {
 			defer.resolve(res);
 		} else {
@@ -119,7 +119,7 @@ function ArticleObject($q, $http, fileService) {
 	}
 	
 	function readIconFile(hostname) {
-		var defer = $q.defer();
+		const defer = $q.defer();
 		fileService.readFile(`${hostname}.png`).then(function(res) {
 			return defer.resolve({hostname: hostname, icon: res});
 		});
@@ -127,9 +127,9 @@ function ArticleObject($q, $http, fileService) {
 	}
 	
 	function icon(hostname) {
-		var getGoogleIcon = getIcon.bind(undefined, `https://www.google.com/s2/favicons?domain=${hostname}&alt=404`);
-		var getPocketIcon = getIcon.bind(undefined, `https://img.readitlater.com/i/${hostname}/favicon.ico`);
-		var getFallbackIcon = getIcon.bind(undefined, chrome.extension.getURL('content/img/icon_default.png'));
+		const getGoogleIcon = getIcon.bind(undefined, `https://www.google.com/s2/favicons?domain=${hostname}&alt=404`);
+		const getPocketIcon = getIcon.bind(undefined, `https://img.readitlater.com/i/${hostname}/favicon.ico`);
+		const getFallbackIcon = getIcon.bind(undefined, chrome.extension.getURL('content/img/icon_default.png'));
 		return readIconFile(hostname).then(getGoogleIcon).then(getPocketIcon).then(getFallbackIcon);
 	}
 	
