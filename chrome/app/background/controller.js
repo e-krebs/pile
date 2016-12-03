@@ -1,9 +1,9 @@
-app.controller('backgroundController', ['$scope', '$q', 'pocketOAuthService', 'fileService', 'articleObject', backgroundController]);
+app.controller('backgroundController', ['$q', 'pocketOAuthService', 'fileService', 'articleObject', backgroundController]);
 
-function backgroundController($scope, $q, pocketOAuth, fileService, articleObject) {
+function backgroundController($q, pocketOAuth, fileService, articleObject) {
 	
 	// refresh the list
-	$scope.refreshList = function() {
+	function refreshPocketList() {
 		pocketOAuth.requestList().then(function(response) {
 			if (response.status == 200) {
 				const promiseArray = [];
@@ -13,7 +13,7 @@ function backgroundController($scope, $q, pocketOAuth, fileService, articleObjec
 				console.log(`pocket response : ${response.statusText}`); 
 				$q.all(promiseArray).then(function(dataArray) {
 					console.log(`saving dataArray, length ${dataArray.length}`);
-					fileService.writeJson(dataArray, 'articles.json');
+					fileService.writeJson(dataArray, 'pocketArticles.json');
 					chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 150] });
 					if (dataArray.length > 0) {
 						chrome.browserAction.setBadgeText({text: dataArray.length.toString()});
@@ -34,7 +34,7 @@ function backgroundController($scope, $q, pocketOAuth, fileService, articleObjec
 				console.warn(`no token : pocket_code = ${localStorage.pocket_code}, pocket_token = ${localStorage.pocket_token}`);
 			} else {
 				console.info('refreshing list');
-				$scope.refreshList();
+				refreshPocketList();
 			}
 		} else {
 			console.warn('alarm', date(), alarm);		
@@ -46,5 +46,5 @@ function backgroundController($scope, $q, pocketOAuth, fileService, articleObjec
 	console.info('pocket_refresh alarm set');
 	
 	//trigger it at launch
-	$scope.refreshList();
+	refreshPocketList();
 }

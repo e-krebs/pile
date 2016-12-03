@@ -1,79 +1,85 @@
 ﻿<!DOCTYPE html>
 <html ng-csp ng-app="pileList">
-	<head>
-		<title>read me's list of items</title>
-		<style>.ng-hide { display: none; }</style>
-		<link href="content/material-icons.css" rel="stylesheet" type="text/css"/>
-		<link href="content/main.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<body id="body" ng-controller="listController">
 
-		<!-- connect to pocket -->
-		<div class="connect" ng-show="!isPocketConnected" ng-click="pocketConnect()">
-			<img class="connect-logo" src="content/img/Pocket.svg" />
-			<span class="connect-text">connect to pocket</span>
-		</div>
+<head>
+  <title>read me's list of items</title>
+  <style>
+    .ng-hide {
+      display: none;
+    }
+  </style>
+  <link href="content/material-icons.css" rel="stylesheet" type="text/css" />
+  <link href="content/main.css" rel="stylesheet" type="text/css" />
+</head>
 
-		<!-- nothing to read -->
-		<div class="empty" ng-show="articles.length <= 0">
-			<img src="content/img/smiley.svg" />
-			<span>Congrats, you read everything !</span>
-		</div>
+<body id="body" ng-controller="listController">
 
-		<div ng-repeat-start="article in articles | orderBy : 'order'"
-			class="article line" ng-class="{'expanded': article.expanded}"
-			ng-style="{'background-color': article.expanded ? article.colors.primary_bg : rgba(0, 0, 0, 0)}">
-			<div class="avatar round clickable" ng-click="archive(article.id)"
-                ng-style="{'background-color': article.colors.primary, 'border-color': article.colors.accent_bg}">
-				<div class="icon">
-					<i class="material-icons heavy">archive</i>
-				</div>
-				<img title="archive" ng-src="{{article.icon}}"/>
-			</div>				
-			<a href="{{article.url}}" target="_blank" title="{{article.hostname}} &ndash; {{article.title}}">
-				<div class="title">
-					{{article.title}}
-				</div>
-			</a>
-			<div class="icon expandable clickable" ng-click="expand(article.id)" ng-class="{'expanded': article.expanded}">
-				<i class="material-icons expandable-more" title="more">expand_more</i>
-				<i class="material-icons expandable-less" title="less">expand_less</i>
-			</div>
-			<!--<span>{{article}}<span>-->
-		</div>
+  <!-- connect to pocket -->
+  <div class="connect" ng-show="!isPocketConnected" ng-click="pocket.connect()">
+    <img class="connect-logo" src="content/img/Pocket.svg" />
+    <span class="connect-text">connect to pocket</span>
+  </div>
 
-		<div ng-repeat-end class="line expandable expandable-less"
-			ng-style="{'background-color': article.colors.primary_bg}" ng-class="{'expanded': article.expanded}">
-			<div class="action-list expandable-less" ng-style="{'color': article.colors.primary}">
-				<div class="icon" title="unfavorite" ng-show="article.favorite">
-					<i class="material-icons clickable" ng-click="unfavorite(article.id)">star</i>
-				</div>
-				<div class="icon" title="favorite" ng-hide="article.favorite">
-					<i class="material-icons clickable" ng-click="favorite(article.id)">star_border</i>
-				</div>
-				<div class="icon ng-hide" title="modify tags">
-					<i class="material-icons clickable">label</i>
-				</div>
-				<div class="icon ng-hide" title="add tags">
-					<i class="material-icons clickable">label_outline</i>
-				</div>
-				<div class="icon" title="delete">
-					<i class="material-icons clickable" ng-click="delete(article.id)">delete</i>
-				</div>
-				<div class="icon" title="archive">
-					<i class="material-icons clickable" ng-click="archive(article.id)">archive</i>
-				</div>
-			</div>
-		</div>
+  <!-- nothing to read -->
+  <div class="empty" ng-show="pocketArticles.length <= 0">
+    <img src="content/img/smiley.svg" />
+    <span>congrats, you read everything !</span>
+  </div>
 
-		<script type="text/javascript" src="scripts/console.js"></script>
-		<script type="text/javascript" src="scripts/angular.min.js"></script>
-		<script type="text/javascript" src="scripts/vibrant.min.js"></script>
-		<script type="text/javascript" src="app/list/app.js"></script>
-		<script type="text/javascript" src="app/config.js"></script>
-		<script type="text/javascript" src="app/objects.js"></script>
-		<script type="text/javascript" src="app/fileService.js"></script>
-		<script type="text/javascript" src="app/oAuth/service.js"></script>
-		<script type="text/javascript" src="app/list/controller.js"></script>
-	</body>
+  <!-- list of pocket items -->
+  <div ng-repeat-start="pocketArticle in pocketArticles | orderBy : 'order' track by pocketArticle.id" class="article line"
+    ng-class="{'expanded': pocketArticle.expanded}" ng-style="{'background-color': pocketArticle.expanded ? pocketArticle.colors.primary_bg : rgba(0, 0, 0, 0)}">
+    <div class="avatar round clickable" ng-click="pocket.archive(pocketArticle.id)" ng-style="{'background-color': pocketArticle.colors.primary, 'border-color': pocketArticle.colors.accent_bg}">
+      <div class="icon">
+        <i class="material-icons heavy">archive</i>
+      </div>
+      <img title="archive" ng-src="{{pocketArticle.icon}}" />
+    </div>
+    <a href="{{pocketArticle.url}}" target="_blank" title="{{pocketArticle.hostname}} &ndash; {{pocketArticle.title}}">
+      <div class="title">
+        {{pocketArticle.title}}
+      </div>
+    </a>
+    <div class="icon expandable clickable" ng-click="pocket.expand(pocketArticle.id)" ng-class="{'expanded': pocketArticle.expanded}">
+      <i class="material-icons expandable-more" title="more">expand_more</i>
+      <i class="material-icons expandable-less" title="less">expand_less</i>
+    </div>
+  </div>
+
+  <!-- list of items (expandable part) -->
+  <div ng-repeat-end class="line expandable expandable-less" ng-style="{'background-color': pocketArticle.colors.primary_bg}"
+    ng-class="{'expanded': pocketArticle.expanded}">
+    <div class="action-list expandable-less" ng-style="{'color': pocketArticle.colors.primary}">
+      <div class="icon" title="unfavorite" ng-show="pocketArticle.favorite">
+        <i class="material-icons clickable" ng-click="pocket.unfavorite(pocketArticle.id)">star</i>
+      </div>
+      <div class="icon" title="favorite" ng-hide="pocketArticle.favorite">
+        <i class="material-icons clickable" ng-click="pocket.favorite(pocketArticle.id)">star_border</i>
+      </div>
+      <div class="icon ng-hide" title="modify tags">
+        <i class="material-icons clickable">label</i>
+      </div>
+      <div class="icon ng-hide" title="add tags">
+        <i class="material-icons clickable">label_outline</i>
+      </div>
+      <div class="icon" title="delete">
+        <i class="material-icons clickable" ng-click="pocket.delete(pocketArticle.id)">delete</i>
+      </div>
+      <div class="icon" title="archive">
+        <i class="material-icons clickable" ng-click="pocket.archive(pocketArticle.id)">archive</i>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="scripts/console.js"></script>
+  <script type="text/javascript" src="scripts/angular.min.js"></script>
+  <script type="text/javascript" src="scripts/vibrant.min.js"></script>
+  <script type="text/javascript" src="app/list/app.js"></script>
+  <script type="text/javascript" src="app/config.js"></script>
+  <script type="text/javascript" src="app/objects.js"></script>
+  <script type="text/javascript" src="app/fileService.js"></script>
+  <script type="text/javascript" src="app/oAuth/service.js"></script>
+  <script type="text/javascript" src="app/list/controller.js"></script>
+</body>
+
 </html>
