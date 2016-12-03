@@ -1,14 +1,27 @@
-app.controller('listController', ['$scope', '$q', 'pocketOAuthService', 'fileService', 'articleObject', 'redirect_uri', listController]);
+app.controller('listController', ['$q', 'pocketOAuthService', 'fileService', 'articleObject', 'redirect_uri', listController]);
 
-function listController($scope, $q, pocketOAuth, fileService, articleObject, redirect_uri) {
-
-  function requestList() {
-    $scope.pocketArticles = [];
+function listController($q, pocketOAuth, fileService, articleObject, redirect_uri) {
+  const vm = this;
+    
+  vm.pocket = {
+    archive:    pocketArchive,    // function
+    articles:   null,             // array
+    connect:    pocketConnect,    // function
+    connected:  null,             // boolean
+    delete:     pocketDelete,     // function
+    expand:     pocketExpand,     // function
+    favorite:   pocketFavorite,   // function
+    request:    pocketRequest,    // function
+    unfavorite: pocketUnfavorite  // function
+  };
+ 
+  function pocketRequest() {
+    vm.pocket.articles = [];
 
     fileService.readJson('pocketArticles.json').then(function (result) {
       if (result === null) result = [];
-      if ($scope.pocketArticles.length === 0) {
-        $scope.pocketArticles = result;
+      if (vm.pocket.articles.length === 0) {
+        vm.pocket.articles = result;
         console.log('pocket articles from local backup');
       } else {
         console.log('pocketArticles.json came too late', result);
@@ -23,7 +36,7 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
         }
         console.log('pocket response', response.statusText);
         $q.all(promiseArray).then(function (dataArray) {
-          $scope.pocketArticles = dataArray;
+          vm.pocket.articles = dataArray;
           console.log('saving dataArray, length:', dataArray.length);
           fileService.writeJson(dataArray, 'pocketArticles.json');
           updateBadge();
@@ -36,24 +49,22 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
 
   function updateBadge() {
     chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 150] });
-    if ($scope.pocketArticles.length > 0) {
-      chrome.browserAction.setBadgeText({ text: $scope.pocketArticles.length.toString() });
+    if (vm.pocket.articles.length > 0) {
+      chrome.browserAction.setBadgeText({ text: vm.pocket.articles.length.toString() });
     } else {
       chrome.browserAction.setBadgeText({ text: '-' });
     }
   };
 
   function removeFromList(item_id) {
-    const item = $scope.pocketArticles.filter(x => x.id == item_id)[0];
-    $scope.pocketArticles.splice($scope.pocketArticles.indexOf(item), 1);
-    fileService.writeJson(angular.copy($scope.pocketArticles), 'pocketArticles.json'); // update json backup					
+    const item = vm.pocket.articles.filter(x => x.id == item_id)[0];
+    vm.pocket.articles.splice(vm.pocket.articles.indexOf(item), 1);
+    fileService.writeJson(angular.copy(vm.pocket.articles), 'pocketArticles.json'); // update json backup					
     updateBadge();
     console.info("article remove from list correctly", item_id);
   }
-
-  $scope.pocket = {};
   
-  $scope.pocket.archive = function (item_id) {
+  function pocketArchive(item_id) {
     pocketOAuth.archive(item_id).then(function (response) {
       //console.log(response);
       if (response.status == 200) {
@@ -68,7 +79,7 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
     });
   };
 
-  $scope.pocket.delete = function (item_id) {
+  function pocketDelete(item_id) {
     pocketOAuth.delete(item_id).then(function (response) {
       //console.log(response);
       if (response.status == 200) {
@@ -83,13 +94,13 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
     });
   };
 
-  $scope.pocket.favorite = function (item_id) {
+  function pocketFavorite(item_id) {
     pocketOAuth.favorite(item_id).then(function (response) {
       //console.log(response);
       if (response.status == 200) {
         if (response.data.status == 1) {
-          $scope.pocketArticles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
-          fileService.writeJson(angular.copy($scope.pocketArticles), 'pocketArticles.json'); // update json backup					
+          vm.pocket.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
+          fileService.writeJson(angular.copy(vm.pocket.articles), 'pocketArticles.json'); // update json backup					
           console.info("article favorited correctly", item_id);
         } else {
           console.error('error favoriting', item_id, response.data.action_failures);
@@ -100,13 +111,13 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
     });
   };
 
-  $scope.pocket.unfavorite = function (item_id) {
+  function pocketUnfavorite(item_id) {
     pocketOAuth.unfavorite(item_id).then(function (response) {
       //console.log(response);
       if (response.status == 200) {
         if (response.data.status == 1) {
-          $scope.pocketArticles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
-          fileService.writeJson(angular.copy($scope.pocketArticles), 'pocketArticles.json'); // update json backup					
+          vm.pocket.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
+          fileService.writeJson(angular.copy(vm.pocket.articles), 'pocketArticles.json'); // update json backup					
           console.info("article unfavorited correctly", item_id);
         } else {
           console.error('error unfavoriting', item_id, response.data.action_failures);
@@ -117,12 +128,12 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
     });
   };
 
-  $scope.pocket.expand = function (item_id) {
-    $scope.pocketArticles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
-    $scope.pocketArticles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
+  function pocketExpand(item_id) {
+    vm.pocket.articles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
+    vm.pocket.articles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
   };
 
-  $scope.pocket.connect = function () {
+  function pocketConnect() {
     pocketOAuth.requestCode().then(function (response) {
       if (response.status == 200) {
         const pocket_token = response.data.code;
@@ -136,16 +147,12 @@ function listController($scope, $q, pocketOAuth, fileService, articleObject, red
   }
 
   // initializing	
-  $scope.pocketArticles = null;
-  $scope.isPocketConnected = true;
-
   if (angular.isUndefined(localStorage.pocket_code) || angular.isUndefined(localStorage.pocket_token)) {
     console.info('pocket not connected');
-    $scope.isPocketConnected = false;
-  } else if ($scope.pocketArticles === null) {
-    console.info('requesting list');
-    requestList();
+    vm.pocket.connected = false;
   } else {
-    console.info('wtf ?!', localStorage, $scope.pocketArticles);
+    console.info('requesting list');
+    vm.pocket.connected = true;
+    pocketRequest();
   }
 }

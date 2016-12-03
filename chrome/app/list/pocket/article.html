@@ -1,0 +1,44 @@
+<!-- always visible part : avatar, title+link, expand -->
+<div class="article line" ng-class="{'expanded': article.expanded}"
+     ng-style="{'background-color': article.expanded ? article.colors.primary_bg : rgba(0, 0, 0, 0)}">
+  <div class="avatar round clickable" ng-click="vm.pocket.archive(article.id)" ng-style="{'background-color': article.colors.primary, 'border-color': article.colors.accent_bg}">
+    <div class="icon">
+      <i class="material-icons heavy">archive</i>
+    </div>
+    <img title="archive" ng-src="{{article.icon}}" />
+  </div>
+  <a href="{{article.url}}" target="_blank" title="{{article.hostname}} &ndash; {{article.title}}">
+    <div class="title">
+      {{article.title}}
+    </div>
+  </a>
+  <div class="icon expandable clickable" ng-click="vm.pocket.expand(article.id)" ng-class="{'expanded': article.expanded}">
+    <i class="material-icons expandable-more" title="more">expand_more</i>
+    <i class="material-icons expandable-less" title="less">expand_less</i>
+  </div>
+</div>
+
+<!-- expandable part : actions -->
+<div class="line expandable expandable-less" ng-class="{'expanded': article.expanded}"
+     ng-style="{'background-color': article.colors.primary_bg}">
+  <div class="action-list expandable-less" ng-style="{'color': article.colors.primary}">
+    <div class="icon" title="unfavorite" ng-show="article.favorite">
+      <i class="material-icons clickable" ng-click="vm.pocket.unfavorite(article.id)">star</i>
+    </div>
+    <div class="icon" title="favorite" ng-hide="article.favorite">
+      <i class="material-icons clickable" ng-click="vm.pocket.favorite(article.id)">star_border</i>
+    </div>
+    <div class="icon ng-hide" title="modify tags">
+      <i class="material-icons clickable">label</i>
+    </div>
+    <div class="icon ng-hide" title="add tags">
+      <i class="material-icons clickable">label_outline</i>
+    </div>
+    <div class="icon" title="delete">
+      <i class="material-icons clickable" ng-click="vm.pocket.delete(article.id)">delete</i>
+    </div>
+    <div class="icon" title="archive">
+      <i class="material-icons clickable" ng-click="vm.pocket.archive(article.id)">archive</i>
+    </div>
+  </div>
+</div>

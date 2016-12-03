@@ -1,31 +1,23 @@
 ﻿<!DOCTYPE html>
-<html ng-csp ng-app="oAuthApp"><!-- TODO : design -->
+<html ng-csp ng-app="oAuthApp">
+
 	<head>
 		<title>Pile oAuth page</title>
 		<link href="content/main.css" rel="stylesheet" type="text/css"/>
+		<style>.ng-hide { display: none; }</style>
+	</head>
+
+	<body ng-controller="oauthController as vm">
+
+    <!-- pocket section -->
+    <div ng-include="'app/oAuth/pocket.html'"></div>
+
 		<script type="text/javascript" src="scripts/console.js"></script>
 		<script type="text/javascript" src="scripts/angular.min.js"></script>
 		<script type="text/javascript" src="app/oAuth/app.js"></script>
 		<script type="text/javascript" src="app/config.js"></script>
 		<script type="text/javascript" src="app/oAuth/service.js"></script>
 		<script type="text/javascript" src="app/oAuth/controller.js"></script>
-		<style>
-			.ng-hide { display: none; }
-		</style>
-	</head>
-	<body ng-controller="oauthController">
-    <!-- pocket section -->
-		<div class="connect" ng-show="pocketAuth_inprogress">
-			Trying to get Pocket's authorization...
-		</div>
-		<div class="connect" ng-show="pocketAuth_failed">
-			Please authorize "Pile" in Pocket in order to work.
-		</div>
-		<div class="connect" ng-show="pocketAuth_success">
-			<img src="content/img/smiley.svg" />
-			<span>"Pile" has now access to pocket !</span><br />
-			<span>You can close this window and start using it</span>
-		</div>
-
 	</body>
+
 </html>
