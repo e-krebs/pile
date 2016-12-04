@@ -1,9 +1,7 @@
 app.factory('pocketListService', ['$q', 'commonService', 'pocketOAuthService', 'fileService', 'articleObject', 'redirect_uri', pocketListService]);
 
 function pocketListService($q, commonService, pocketOAuth, fileService, articleObject, redirect_uri) {
-  const vm = {};
-
-  return vm.pocket = {
+  const vm = {
     archive: pocketArchive, // function
     articles: null, // array
     connect: pocketConnect, // function
@@ -14,26 +12,28 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
     init: init, // init function
     request: pocketRequest, // function
     unfavorite: pocketUnfavorite // function
-  }
+    }
+    
+  return vm;
 
   function init() {
     if (angular.isUndefined(localStorage.pocket_code) || angular.isUndefined(localStorage.pocket_token)) {
       console.info('pocket not connected');
-      vm.pocket.connected = false;
+      vm.connected = false;
     } else {
       console.info('requesting list');
-      vm.pocket.connected = true;
-      vm.pocket.request();
+      vm.connected = true;
+      pocketRequest();
     }
   }
 
   function pocketRequest() {
-    vm.pocket.articles = [];
+    vm.articles = [];
 
     fileService.readJson('pocketArticles.json').then(function (result) {
       if (result === null) result = [];
-      if (vm.pocket.articles.length === 0) {
-        vm.pocket.articles = result;
+      if (vm.articles.length === 0) {
+        vm.articles = result;
         console.log('pocket articles from local backup');
       } else {
         console.log('pocketArticles.json came too late', result);
@@ -48,10 +48,10 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
         }
         console.log('pocket response', response.statusText);
         $q.all(promiseArray).then(function (dataArray) {
-          vm.pocket.articles = dataArray;
+          vm.articles = dataArray;
           console.log('saving dataArray, length:', dataArray.length);
           fileService.writeJson(dataArray, 'pocketArticles.json');
-          commonService.serviceLists['pocket'] = vm.pocket.articles.length;
+          commonService.serviceLists['pocket'] = vm.articles.length;
           commonService.updateBadge();
         });
       } else {
@@ -95,8 +95,8 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
       //console.log(response);
       if (response.status == 200) {
         if (response.data.status == 1) {
-          vm.pocket.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
-          fileService.writeJson(angular.copy(vm.pocket.articles), 'pocketArticles.json'); // update json backup					
+          vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
+          fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup					
           console.info("article favorited correctly", item_id);
         } else {
           console.error('error favoriting', item_id, response.data.action_failures);
@@ -112,8 +112,8 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
       //console.log(response);
       if (response.status == 200) {
         if (response.data.status == 1) {
-          vm.pocket.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
-          fileService.writeJson(angular.copy(vm.pocket.articles), 'pocketArticles.json'); // update json backup					
+          vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
+          fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup					
           console.info("article unfavorited correctly", item_id);
         } else {
           console.error('error unfavoriting', item_id, response.data.action_failures);
@@ -125,8 +125,8 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
   }
 
   function pocketExpand(item_id) {
-    vm.pocket.articles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
-    vm.pocket.articles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
+    vm.articles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
+    vm.articles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
   }
 
   function pocketConnect() {
@@ -143,10 +143,10 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
   }
 
   function removeFromList(item_id) {
-    const item = vm.pocket.articles.filter(x => x.id == item_id)[0];
-    vm.pocket.articles.splice(vm.pocket.articles.indexOf(item), 1);
-    fileService.writeJson(angular.copy(vm.pocket.articles), 'pocketArticles.json'); // update json backup
-    commonService.serviceLists['pocket'] = vm.pocket.articles.length;
+    const item = vm.articles.filter(x => x.id == item_id)[0];
+    vm.articles.splice(vm.articles.indexOf(item), 1);
+    fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup
+    commonService.serviceLists['pocket'] = vm.articles.length;
     commonService.updateBadge();
     console.info("article remove from list correctly", item_id);
   }
