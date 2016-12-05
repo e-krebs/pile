@@ -115,7 +115,6 @@ function fileService($q) {
         const resp = $q.defer();
         fs.root.getFile('storage/' + blob.name, {create: false}, function(fileEntry) {
             fileEntry.remove(function() {
-                console.log(`file ${blob.name} removed`);
                 resp.resolve(blob);
             }, function() {
                 resp.resolve(blob);

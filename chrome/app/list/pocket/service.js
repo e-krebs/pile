@@ -1,6 +1,6 @@
-app.factory('pocketListService', ['$q', 'commonService', 'pocketOAuthService', 'fileService', 'articleObject', 'redirect_uri', pocketListService]);
+app.factory('pocketListService', ['$q', 'commonService', 'pocketOAuthService', 'fileService', 'articleService', 'redirect_uri', pocketListService]);
 
-function pocketListService($q, commonService, pocketOAuth, fileService, articleObject, redirect_uri) {
+function pocketListService($q, commonService, pocketOAuth, fileService, articleService, redirect_uri) {
   const vm = {
     archive: pocketArchive, // function
     articles: null, // array
@@ -29,7 +29,7 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
     pocketOAuth.requestList().then(commonService.checkStatus).then(function (response) {
       const promiseArray = [];
       for (const index in response.data.list) {
-        promiseArray.push(articleObject.article(response.data.list[index]).promise);
+        promiseArray.push(articleService.article(response.data.list[index]).promise);
       }
       $q.all(promiseArray).then(function (dataArray) {
         vm.articles = dataArray;

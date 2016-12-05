@@ -1,13 +1,13 @@
-app.controller('backgroundController', ['$q', 'commonService', 'pocketOAuthService', 'fileService', 'articleObject', backgroundController]);
+app.controller('backgroundController', ['$q', 'commonService', 'pocketOAuthService', 'fileService', 'articleService', backgroundController]);
 
-function backgroundController($q, commonService, pocketOAuth, fileService, articleObject) {
+function backgroundController($q, commonService, pocketOAuth, fileService, articleService) {
 
   // refresh the list
   function refreshPocketList() {
     pocketOAuth.requestList().then(commonService.checkStatus).then(function (response) {
       const promiseArray = [];
       for (const index in response.data.list) {
-        promiseArray.push(articleObject.article(response.data.list[index]).promise);
+        promiseArray.push(articleService.article(response.data.list[index]).promise);
       }
       console.log(`pocket response : ${response.statusText}`);
       $q.all(promiseArray).then(function (dataArray) {
