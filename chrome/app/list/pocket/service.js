@@ -12,115 +12,53 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
     init: init, // init function
     request: pocketRequest, // function
     unfavorite: pocketUnfavorite // function
-    }
-    
+  };
+
   return vm;
 
   function init() {
-    if (angular.isUndefined(localStorage.pocket_code) || angular.isUndefined(localStorage.pocket_token)) {
-      console.info('pocket not connected');
-      vm.connected = false;
-    } else {
-      console.info('requesting list');
-      vm.connected = true;
-      pocketRequest();
-    }
+    vm.connected = angular.isDefined(localStorage.pocket_code) && angular.isDefined(localStorage.pocket_token);
+    if (vm.connected) pocketRequest();
   }
 
   function pocketRequest() {
     vm.articles = [];
 
-    fileService.readJson('pocketArticles.json').then(function (result) {
-      if (result === null) result = [];
-      if (vm.articles.length === 0) {
-        vm.articles = result;
-        console.log('pocket articles from local backup');
-      } else {
-        console.log('pocketArticles.json came too late', result);
-      }
-    });
+    fileService.readJson('pocketArticles.json', []).then(result => { if (vm.articles.length === 0) vm.articles = result; });
 
-    pocketOAuth.requestList().then(function (response) {
-      if (response.status == 200) {
-        const promiseArray = [];
-        for (const index in response.data.list) {
-          promiseArray.push(articleObject.article(response.data.list[index]).promise);
-        }
-        console.log('pocket response', response.statusText);
-        $q.all(promiseArray).then(function (dataArray) {
-          vm.articles = dataArray;
-          console.log('saving dataArray, length:', dataArray.length);
-          fileService.writeJson(dataArray, 'pocketArticles.json');
-          commonService.serviceLists['pocket'] = vm.articles.length;
-          commonService.updateBadge();
-        });
-      } else {
-        console.error('error requesting the code', response);
+    pocketOAuth.requestList().then(commonService.checkStatus).then(function (response) {
+      const promiseArray = [];
+      for (const index in response.data.list) {
+        promiseArray.push(articleObject.article(response.data.list[index]).promise);
       }
+      $q.all(promiseArray).then(function (dataArray) {
+        vm.articles = dataArray;
+        fileService.writeJson(dataArray, 'pocketArticles.json');
+        commonService.serviceLists.pocket = vm.articles.length;
+        commonService.updateBadge();
+      });
     });
   }
 
   function pocketArchive(item_id) {
-    pocketOAuth.archive(item_id).then(function (response) {
-      //console.log(response);
-      if (response.status == 200) {
-        if (response.data.status == 1) {
-          removeFromList(item_id);
-        } else {
-          console.error('error archiving', item_id, response.data.action_failures);
-        }
-      } else {
-        console.error('error archiving', item_id, response.data.status);
-      }
-    });
+    pocketOAuth.archive(item_id).then(response => removeFromList(response, item_id));
   }
 
   function pocketDelete(item_id) {
-    pocketOAuth.delete(item_id).then(function (response) {
-      //console.log(response);
-      if (response.status == 200) {
-        if (response.data.status == 1) {
-          removeFromList(item_id);
-        } else {
-          console.error('error deleting', item_id, response.data.action_failures);
-        }
-      } else {
-        console.error('error deleting', item_id, response.data.status);
-      }
-    });
+    pocketOAuth.delete(item_id).then(response => removeFromList(response, item_id));
   }
 
   function pocketFavorite(item_id) {
-    pocketOAuth.favorite(item_id).then(function (response) {
-      //console.log(response);
-      if (response.status == 200) {
-        if (response.data.status == 1) {
-          vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
-          fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup					
-          console.info("article favorited correctly", item_id);
-        } else {
-          console.error('error favoriting', item_id, response.data.action_failures);
-        }
-      } else {
-        console.error('error favoriting', item_id, response.data.status);
-      }
+    pocketOAuth.favorite(item_id).then(commonService.checkDataStatus).then(() => {
+      vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
+      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup					
     });
   }
 
   function pocketUnfavorite(item_id) {
-    pocketOAuth.unfavorite(item_id).then(function (response) {
-      //console.log(response);
-      if (response.status == 200) {
-        if (response.data.status == 1) {
-          vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
-          fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup					
-          console.info("article unfavorited correctly", item_id);
-        } else {
-          console.error('error unfavoriting', item_id, response.data.action_failures);
-        }
-      } else {
-        console.error('error unfavoriting', item_id, response.data.status);
-      }
+    pocketOAuth.unfavorite(item_id).then(commonService.checkDataStatus).then(() => {
+      vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
+      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup
     });
   }
 
@@ -130,25 +68,21 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleO
   }
 
   function pocketConnect() {
-    pocketOAuth.requestCode().then(function (response) {
-      if (response.status == 200) {
-        const pocket_token = response.data.code;
-        localStorage.pocket_code = pocket_token;
-        const url = `https://getpocket.com/auth/authorize?request_token=${pocket_token}&redirect_uri=${redirect_uri}`;
-        chrome.tabs.create({ url: url });
-      } else {
-        console.error('error requesting the code', response);
-      }
+    pocketOAuth.requestCode().then(commonService.checkStatus).then(function (response) {
+      localStorage.pocket_code = response.data.code;
+      const url = `https://getpocket.com/auth/authorize?request_token=${localStorage.pocket_code}&redirect_uri=${redirect_uri}`;
+      chrome.tabs.create({ url: url });
     });
   }
 
-  function removeFromList(item_id) {
-    const item = vm.articles.filter(x => x.id == item_id)[0];
-    vm.articles.splice(vm.articles.indexOf(item), 1);
-    fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup
-    commonService.serviceLists['pocket'] = vm.articles.length;
-    commonService.updateBadge();
-    console.info("article remove from list correctly", item_id);
+  function removeFromList(response, item_id) {
+    commonService.checkDataStatus(response).then(() => {
+      const item = vm.articles.filter(x => x.id == item_id)[0];
+      vm.articles.splice(vm.articles.indexOf(item), 1);
+      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup
+      commonService.serviceLists.pocket = vm.articles.length;
+      commonService.updateBadge();
+    });
   }
 
 }

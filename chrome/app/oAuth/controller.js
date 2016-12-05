@@ -21,7 +21,7 @@ function oauthController(pocketOAuth) {
       }
       vm.pocketAuth.inprogress = false;
     });
-  };
+  }
 
   if (angular.isUndefined(localStorage.pocket_code) || angular.isUndefined(localStorage.pocket_token)) {
     pocketAuth();

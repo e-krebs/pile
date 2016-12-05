@@ -15,9 +15,9 @@ function fileService($q) {
         });
     }
     
-    function readJson(name) {
+    function readJson(name, defaultValue) {
         return getFilesystem().then(function() {
-            return readJsonFile(name);
+            return readJsonFile(name, defaultValue);
         });
     }
     
@@ -43,7 +43,8 @@ function fileService($q) {
         return response.promise;
     }
 
-    function readJsonFile(name) {
+    function readJsonFile(name, defaultValue) {
+      if (angular.isUndefined(defaultValue)) defaultValue = null;
         const response = $q.defer();
         const filePath = fs.root.toURL() + 'storage/' + name;
         window.webkitResolveLocalFileSystemURL(filePath, function (json_file) {
@@ -57,7 +58,7 @@ function fileService($q) {
             });
         }, function(x) {
             console.log('Error readJsonFile', filePath, x);
-            response.resolve(null);
+            response.resolve(defaultValue);
         });
         return response.promise;
     }

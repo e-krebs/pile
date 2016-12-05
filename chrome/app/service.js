@@ -1,12 +1,14 @@
-app.factory('commonService', [commonService]);
+app.factory('commonService', ['$q', commonService]);
 
-function commonService() {
+function commonService($q) {
 
   const serviceLists = {};
 
   return {
     serviceLists: serviceLists,
-    updateBadge: updateBadge
+    updateBadge: updateBadge,
+    checkDataStatus: checkDataStatus,
+    checkStatus: checkStatus
   };
 
   function updateBadge() {
@@ -20,11 +22,23 @@ function commonService() {
     }
     
     const badge = {
-      text: (count > 0)
-        ? count.toString()
-        : '-'
+      text: (count > 0) ? count.toString() : '-'
     };
     chrome.browserAction.setBadgeText(badge);
+  }
+
+  function checkStatus(response) {
+    const resp = $q.defer();
+    if (response.status == 200) resp.resolve(response);
+    else resp.reject();
+    return resp.promise;
+  }
+
+  function checkDataStatus(response) {
+    const resp = $q.defer();
+    if (response.status == 200 && response.data.status == 1) resp.resolve(response);
+    else resp.reject();
+    return resp.promise;
   }
 
 }
