@@ -12,7 +12,8 @@ function ArticleService($q, $http, vibrantService, fileService) {
 			title: data.resolved_title && data.resolved_title !== null && data.resolved_title !== '' ? data.resolved_title : (data.given_title && data.given_title !== null && data.given_title !== '') ? data.given_title : url,
 			url: url,
 			hostname: new URL(url).hostname,
-			favorite: (data.favorite == 1)
+      favorite: (data.favorite == 1),
+      expanded: false
 		};
 		icon(articleData.hostname).then(vibrantService.vibrant).then(function(iconData) {
 			articleData.icon = iconData.icon;

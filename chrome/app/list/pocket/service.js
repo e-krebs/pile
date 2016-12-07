@@ -64,7 +64,6 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
 
   function pocketExpand(item_id) {
     vm.articles.filter(x => x.id != item_id).forEach(x => x.expanded = false);
-    vm.articles.filter(x => x.id == item_id).forEach(x => x.expanded = !x.expanded);
   }
 
   function pocketConnect() {

@@ -3,7 +3,11 @@
 
 <head>
   <title>pile's list of items</title>
-  <style>.ng-hide {display: none;}</style>
+  <style>
+    .ng-hide {
+      display: none;
+    }
+  </style>
   <link href="content/material-icons.css" rel="stylesheet" type="text/css" />
   <link href="content/main.css" rel="stylesheet" type="text/css" />
 </head>
@@ -17,8 +21,13 @@
   <div ng-include="'app/list/pocket/empty.html'"></div>
 
   <!-- list of pocket articles -->
-  <div ng-repeat="article in vm.pocket.articles | orderBy : 'order' track by article.id"
-       ng-include="'app/list/pocket/article.html'"></div>
+  <div ng-repeat="article in vm.pocket.articles | orderBy : 'order' track by article.id">
+    <list-item id="article.id" icon="article.icon" url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite"
+      expanded="article.expanded" color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
+      color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)"
+      on-un-favorite="vm.pocket.unfavorite(id)" on-expand="vm.pocket.expand(id)">
+    </list-item>
+  </div>
 
   <script type="text/javascript" src="libs/console.js"></script>
   <script type="text/javascript" src="libs/angular.min.js"></script>
@@ -31,6 +40,7 @@
   <script type="text/javascript" src="app/oAuth/pocketService.js"></script>
   <script type="text/javascript" src="app/commonService.js"></script>
   <script type="text/javascript" src="app/list/pocket/service.js"></script>
+  <script type="text/javascript" src="app/components/listItem.js"></script>
   <script type="text/javascript" src="app/list/controller.js"></script>
 </body>
 
