@@ -55,24 +55,24 @@ body {
 	margin: -7px 24px 0 0;
     position: relative;
 }
-.avatar:hover {
+.avatar.clickable:hover {
     border-color: rgba(0, 0, 0, 0.5) !important;
 }
-.avatar img {
+.avatar .logo {
 	margin: 7px;
     width: 16px;
     height: 16px;
 }
-.avatar:hover img {
+.avatar.clickable:hover .logo {
     opacity: 0;
 }
-.avatar .icon {
+.avatar .action {
     display:none;
     margin: 3px;
     position: absolute;
     color: rgba(0, 0, 0, 0.67);
 }
-.avatar:hover .icon {
+.avatar.clickable:hover .action {
     display: block;
 }
 .article .title {

@@ -1,20 +1,19 @@
 <!-- always visible part : avatar, title+link, expand -->
-<div class="article line" ng-class="{'expanded': $ctrl.expanded}" ng-style="{'background-color': $ctrl.expanded ? $ctrl.colorPrimaryBg : rgba(0, 0, 0, 0)}">
-  <div class="avatar round clickable" ng-click="$ctrl.onArchive({ id: $ctrl.id })" ng-style="{'background-color': $ctrl.colorPrimary, 'border-color': $ctrl.colorAccentBg}">
-    <div class="icon">
-      <i class="material-icons heavy">archive</i>
-    </div>
-    <img title="archive" ng-src="{{$ctrl.icon}}" />
-  </div>
-  <a href="{{$ctrl.url}}" target="_blank" title="{{$ctrl.hostname}} &ndash; {{$ctrl.pageTitle}}">
+<div ng-attr-id="{{$ctrl.id}}" class="article line" ng-class="{'expanded': $ctrl.expanded}" ng-style="{'background-color': $ctrl.expanded ? $ctrl.colorPrimaryBg : rgba(0, 0, 0, 0)}">
+  
+  <avatar avatar-id="$ctrl.id" logo="$ctrl.icon" action="'archive'" on-action="$ctrl.onArchive({ id: $ctrl.id})" background-color="$ctrl.colorPrimary" border-color="$ctrl.colorAccentBg"></avatar>
+
+  <a ng-href="{{$ctrl.url}}" target="_blank"  ng-attr-title="{{$ctrl.hostname}} &ndash; {{$ctrl.pageTitle}}">
     <div class="title">
       {{$ctrl.pageTitle}}
     </div>
   </a>
+
   <div class="icon expandable clickable" ng-click="$ctrl.expand()" ng-class="{'expanded': $ctrl.expanded}">
     <i class="material-icons expandable-more" title="more">expand_more</i>
     <i class="material-icons expandable-less" title="less">expand_less</i>
   </div>
+
 </div>
 
 <!-- expandable part : actions -->
