@@ -1,15 +1,21 @@
 <!-- always visible part : avatar, title+link, expand -->
-<div ng-attr-id="{{$ctrl.id}}" class="article line" ng-class="{'expanded': $ctrl.expanded}" ng-style="{'background-color': $ctrl.expanded ? $ctrl.colorPrimaryBg : rgba(0, 0, 0, 0)}">
-  
-  <avatar avatar-id="$ctrl.id" logo="$ctrl.icon" action="'archive'" on-action="$ctrl.onArchive({ id: $ctrl.id})" background-color="$ctrl.colorPrimary" border-color="$ctrl.colorAccentBg"></avatar>
+<div ng-attr-id="{{$ctrl.id}}" class="article line"
+  ng-class="{'expanded': $ctrl.expanded}"
+  ng-style="{'background-color': $ctrl.expanded ? $ctrl.colorPrimaryBg : rgba(0, 0, 0, 0)}">
 
-  <a ng-href="{{$ctrl.url}}" target="_blank"  ng-attr-title="{{$ctrl.hostname}} &ndash; {{$ctrl.pageTitle}}">
+  <avatar avatar-id="$ctrl.id" logo="$ctrl.icon" action="'archive'"
+    on-action="$ctrl.onArchive({ id: $ctrl.id})" background-color="$ctrl.colorPrimary"
+    border-color="$ctrl.colorAccentBg"></avatar>
+
+  <a ng-href="{{$ctrl.url}}" target="_blank"
+    ng-attr-title="{{$ctrl.hostname}} &ndash; {{$ctrl.pageTitle}}">
     <div class="title">
       {{$ctrl.pageTitle}}
     </div>
   </a>
 
-  <div class="icon expandable clickable" ng-click="$ctrl.expand()" ng-class="{'expanded': $ctrl.expanded}">
+  <div class="icon expandable clickable" ng-click="$ctrl.expand()"
+    ng-class="{'expanded': $ctrl.expanded}">
     <i class="material-icons expandable-more" title="more">expand_more</i>
     <i class="material-icons expandable-less" title="less">expand_less</i>
   </div>
@@ -17,13 +23,18 @@
 </div>
 
 <!-- expandable part : actions -->
-<div class="line expandable expandable-less" ng-class="{'expanded': $ctrl.expanded}" ng-style="{'background-color': $ctrl.colorPrimaryBg}">
+<div class="line expandable expandable-less" ng-class="{'expanded': $ctrl.expanded}"
+  ng-style="{'background-color': $ctrl.colorPrimaryBg}">
   <div class="action-list expandable-less" ng-style="{'color': $ctrl.colorPrimary}">
     <div class="icon" title="unfavorite" ng-show="$ctrl.favorite">
-      <i class="material-icons clickable" ng-click="$ctrl.onUnFavorite({ id: $ctrl.id })">star</i>
+      <i class="material-icons clickable" ng-click="$ctrl.onUnFavorite({ id: $ctrl.id })">
+        star
+      </i>
     </div>
     <div class="icon" title="favorite" ng-hide="$ctrl.favorite">
-      <i class="material-icons clickable" ng-click="$ctrl.onFavorite({ id: $ctrl.id })">star_border</i>
+      <i class="material-icons clickable" ng-click="$ctrl.onFavorite({ id: $ctrl.id })">
+        star_border
+      </i>
     </div>
     <div class="icon ng-hide" title="modify tags">
       <i class="material-icons clickable">label</i>
@@ -32,10 +43,75 @@
       <i class="material-icons clickable">label_outline</i>
     </div>
     <div class="icon" title="delete">
-      <i class="material-icons clickable" ng-click="$ctrl.onDelete({ id: $ctrl.id })">delete</i>
+      <i class="material-icons clickable" ng-click="$ctrl.onDelete({ id: $ctrl.id })">
+        delete
+      </i>
     </div>
     <div class="icon" title="archive">
-      <i class="material-icons clickable" ng-click="$ctrl.onArchive({ id: $ctrl.id })">archive</i>
+      <i class="material-icons clickable" ng-click="$ctrl.onArchive({ id: $ctrl.id })">
+        archive
+      </i>
     </div>
   </div>
 </div>
+
+<style>
+  .line {
+    margin: 0;
+    padding: 16px;
+    height: 16px;
+    float: left;
+    clear: left;
+    display: flex;
+    width: 468px;
+  }
+  
+  .article a {
+    text-decoration: none;
+  }
+  
+  .article .title {
+    width: 373px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 22px;
+    top: -3px;
+    position: relative;
+    color: rgba(0, 0, 0, 0.87)
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
+    margin: -4px 0 0 16px;
+    float: right;
+  }
+  
+  .icon.expandable i {
+    margin: 0;
+  }
+  
+  .clickable {
+    cursor: pointer;
+  }
+  
+  .expandable .expandable-more,
+  .expandable.expandable-more,
+  .expandable.expanded.expandable-less,
+  .expandable.expanded .expandable-less {
+    display: inline-block;
+  }
+  
+  .expandable .expandable-less,
+  .expandable.expandable-less,
+  .expandable .expandable-less,
+  .expandable.expanded.expandable-more,
+  .expandable.expanded .expandable-more {
+    display: none;
+  }
+  
+  .action-list {
+    float: right;
+    margin: 0 40px 0 56px;
+  }
+</style>
