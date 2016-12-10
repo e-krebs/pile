@@ -1,3 +1,6 @@
+
+<link href="app/components/article/article.css" rel="stylesheet" type="text/css" />
+
 <!-- always visible part : avatar, title+link, expand -->
 <div ng-attr-id="{{$ctrl.id}}" class="article line"
   ng-class="{'expanded': $ctrl.expanded}"
@@ -54,64 +57,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .line {
-    margin: 0;
-    padding: 16px;
-    height: 16px;
-    float: left;
-    clear: left;
-    display: flex;
-    width: 468px;
-  }
-  
-  .article a {
-    text-decoration: none;
-  }
-  
-  .article .title {
-    width: 373px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 22px;
-    top: -3px;
-    position: relative;
-    color: rgba(0, 0, 0, 0.87)
-  }
-  
-  .icon {
-    width: 24px;
-    height: 24px;
-    margin: -4px 0 0 16px;
-    float: right;
-  }
-  
-  .icon.expandable i {
-    margin: 0;
-  }
-  
-  .clickable {
-    cursor: pointer;
-  }
-  
-  .expandable .expandable-more,
-  .expandable.expandable-more,
-  .expandable.expanded.expandable-less,
-  .expandable.expanded .expandable-less {
-    display: inline-block;
-  }
-  
-  .expandable .expandable-less,
-  .expandable.expandable-less,
-  .expandable .expandable-less,
-  .expandable.expanded.expandable-more,
-  .expandable.expanded .expandable-more {
-    display: none;
-  }
-  
-  .action-list {
-    float: right;
-    margin: 0 40px 0 56px;
-  }
-</style>

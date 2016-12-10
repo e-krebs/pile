@@ -1,6 +1,6 @@
-app.component('listItem', {
-  templateUrl: 'app/components/listItem.html',
-  controller: ListItemController,
+app.component('article', {
+  templateUrl: 'app/components/article/article.html',
+  controller: ArticleController,
   bindings: {
     id: '<',
     expanded: '=',
@@ -21,7 +21,7 @@ app.component('listItem', {
   }
 });
 
-function ListItemController() {
+function ArticleController() {
   this.expand = function () {
     this.expanded = !this.expanded;
     if (this.expanded) this.onExpand({ id: this.id });

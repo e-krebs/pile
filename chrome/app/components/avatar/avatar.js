@@ -1,5 +1,5 @@
 app.component('avatar', {
-  templateUrl: 'app/components/avatar.html',
+  templateUrl: 'app/components/avatar/avatar.html',
   controller: AvatarController,
   bindings: {
     avatarId: '<',
