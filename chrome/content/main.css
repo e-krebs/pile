@@ -7,6 +7,11 @@ body {
 	color: rgba(0, 0, 0, 0.5);
 }
 
+.toolbar {
+  height: 48px;
+  width: 100%;
+}
+
 .connect,
 .empty {
 	text-align: center;
@@ -27,4 +32,25 @@ body {
 .connect-logo,
 .connect-text {
 	cursor: pointer;	
+}
+
+/* snackbar */
+.snackbar-container {
+	position: static;
+	bottom: 0;
+  width: 100%;
+  height: 48px;
+  clear: left;
+}
+
+.snackbar {
+	background-color: #323232;
+	color: #FFFFFF;
+	font-size: 14px;
+	border-radius: 2px;
+}
+
+.snackbar.snackbar-opened {
+	height: 16px;
+	padding: 16px;
 }

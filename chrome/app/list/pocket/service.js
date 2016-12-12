@@ -16,7 +16,8 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
 
   return vm;
 
-  function init() {
+  function init(snackFn) {
+    if (angular.isDefined(snackFn)) vm.snackbar = snackFn;
     vm.connected = angular.isDefined(localStorage.pocket_code) && angular.isDefined(localStorage.pocket_token);
     if (vm.connected) pocketRequest();
   }
@@ -36,29 +37,43 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
         fileService.writeJson(dataArray, 'pocketArticles.json');
         commonService.serviceLists.pocket = vm.articles.length;
         commonService.updateBadge();
+        showSnack('pocket article list refreshed', 1000);
       });
     });
   }
 
+  function showSnack(message, delay) {
+    if (angular.isDefined(vm.snackbar)) {
+      if (angular.isDefined(delay)) vm.snackbar.create(message, delay);
+      else vm.snackbar.create(message);
+    }
+  }
+
   function pocketArchive(item_id) {
-    pocketOAuth.archive(item_id).then(response => removeFromList(response, item_id));
+    pocketOAuth.archive(item_id)
+      .then(response => removeFromList(response, item_id))
+      .then(() => showSnack('item archived'));
   }
 
   function pocketDelete(item_id) {
-    pocketOAuth.delete(item_id).then(response => removeFromList(response, item_id));
+    pocketOAuth.delete(item_id)
+      .then(response => removeFromList(response, item_id))
+      .then(() => showSnack('item deleted'));
   }
 
   function pocketFavorite(item_id) {
     pocketOAuth.favorite(item_id).then(commonService.checkDataStatus).then(() => {
       vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
-      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup					
+      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') // update json backup			
+        .then(() => showSnack('item favorited'));		
     });
   }
 
   function pocketUnfavorite(item_id) {
     pocketOAuth.unfavorite(item_id).then(commonService.checkDataStatus).then(() => {
       vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
-      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); // update json backup
+      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') // update json backup
+        .then(() => showSnack('item unfavorited'));
     });
   }
 

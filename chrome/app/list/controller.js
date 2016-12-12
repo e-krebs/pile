@@ -1,9 +1,9 @@
-app.controller('listController', ['pocketListService', listController]);
+app.controller('listController', ['pocketListService', 'snackbar', listController]);
 
-function listController(pocketListService) {
+function listController(pocketListService, snackbar) {
   const vm = this;
 
   vm.pocket = pocketListService;
-  vm.pocket.init();
+  vm.pocket.init(snackbar);
 
 }
