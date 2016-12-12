@@ -8,17 +8,17 @@ app.component('avatar', {
     actionTitle: '<',
     backgroundColor: '<',
     borderColor: '<',
-    onAction: '&',
+    onAction: '&'
   }
 });
 
-function AvatarController(...args) {
+function AvatarController() {
 
   if (angular.isUndefined(this.actionTitle) && angular.isDefined(this.action)) {
     this.actionTitle = this.action;
   }
 
-  this.triggerAction = function () {
+  this.triggerAction = function (...args) {
     if (this.action) this.onAction(...args);
   }
 
