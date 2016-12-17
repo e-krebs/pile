@@ -7,6 +7,46 @@ body {
 	color: rgba(0, 0, 0, 0.5);
 }
 
+.tabs {
+  background-color: #fafafa;
+}
+.tabs input[type=radio] {
+  display:none;
+}
+.tab-content {
+  display: none;
+  border-top: 1px solid #e6e6e6;
+  margin-top: -1px;
+  background-color: white;
+}
+#pocket-tab:checked ~ #pocket-tab-content {
+  display: block;
+}
+#pocket-tab:checked ~ label[for=pocket-tab] {
+  border-bottom: 2px red solid;
+  opacity: 1;
+}
+.tab-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 8px;
+  display: inline-block;
+  opacity: 0.3;
+}
+
+.tab-icon img {
+  width: 24px;
+  height: 24px;
+  margin: 12px;
+}
+
+.tab-icon.settings {
+  margin-right: 3px;
+  float: right;
+  color: #757575;
+  opacity: 1;
+}
+
 .toolbar {
   height: 48px;
   width: 100%;
@@ -30,7 +70,8 @@ body {
 	margin-right: 8px;
 }
 .connect-logo,
-.connect-text {
+.connect-text,
+.tab-icon {
 	cursor: pointer;	
 }
 
@@ -39,7 +80,8 @@ body {
 	position: static;
 	bottom: 0;
   width: 100%;
-  height: 48px;
+  height: 0px;
+  margin-bottom: 48px;
   clear: left;
 }
 
@@ -53,4 +95,7 @@ body {
 .snackbar.snackbar-opened {
 	height: 16px;
 	padding: 16px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }

@@ -8,28 +8,41 @@
       display: none;
     }
   </style>
-  <link href="content/material-icons.css" rel="stylesheet" type="text/css" />
-  <link href="content/main.css" rel="stylesheet" type="text/css" />
+<link href="content/material-icons.css" rel="stylesheet" type="text/css" />
+<link href="content/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body id="body" ng-controller="listController as vm">
 
-  <div class="toolbar">
-  </div>
+  <div class="tabs">
 
-  <!-- connect to pocket -->
-  <div ng-include="'app/list/pocket/connect.html'"></div>
+    <input type="radio" id="pocket-tab" name="tabs" checked>
+    <label for="pocket-tab" class="tab-icon">
+        <img src="content/img/pocket.svg" />
+    </label>
 
-  <!-- nothing to read -->
-  <div ng-include="'app/list/pocket/empty.html'"></div>
+    <a class="tab-icon settings" ng-click="vm.openSettings();">
+      <img src="content/img/settings.svg" />
+    </a>
 
-  <!-- list of pocket articles -->
-  <div ng-repeat="article in vm.pocket.articles | orderBy : 'order' track by article.id">
-    <article id="article.id" icon="article.icon" url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite"
-      expanded="article.expanded" color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
-      color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)"
-      on-un-favorite="vm.pocket.unfavorite(id)" on-expand="vm.pocket.expand(id)">
-    </article>
+    <div class="tab-content" id="pocket-tab-content">
+
+      <!-- connect to pocket -->
+      <div ng-include="'app/list/pocket/connect.html'"></div>
+
+      <!-- nothing to read -->
+      <div ng-include="'app/list/pocket/empty.html'"></div>
+
+      <!-- list of pocket articles -->
+      <div ng-repeat="article in vm.pocket.articles | orderBy : 'order' track by article.id">
+        <article id="article.id" icon="article.icon" url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite"
+          expanded="article.expanded" color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
+          color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)"
+          on-un-favorite="vm.pocket.unfavorite(id)" on-expand="vm.pocket.expand(id)">
+        </article>
+      </div>
+    </div>
+
   </div>
 
   <div class="snackbar-container" snackbar snackbar-remove-delay="0"></div>

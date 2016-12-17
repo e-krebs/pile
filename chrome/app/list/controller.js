@@ -6,4 +6,8 @@ function listController(pocketListService, snackbar) {
   vm.pocket = pocketListService;
   vm.pocket.init(snackbar);
 
+  vm.openSettings = function () {
+    browser.runtime.openOptionsPage();
+  }
+
 }
