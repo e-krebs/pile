@@ -28,7 +28,7 @@
     <div class="tab-content" id="pocket-tab-content">
 
       <!-- connect to pocket -->
-      <div ng-include="'app/list/pocket/connect.html'"></div>
+      <div ng-include="'app/list/pocket/connect.html'" class="include-connect"></div>
 
       <!-- nothing to read -->
       <div ng-include="'app/list/pocket/empty.html'"></div>
@@ -45,7 +45,7 @@
 
   </div>
 
-  <div class="snackbar-container" snackbar snackbar-remove-delay="0"></div>
+  <div class="snackbar-container" snackbar snackbar-remove-delay="0" ng-include="'app/footer.html'"></div>
 
   <script type="text/javascript" src="libs/console.js"></script>
   <script type="text/javascript" src="libs/angular.min.js"></script>

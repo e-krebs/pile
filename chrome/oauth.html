@@ -1,23 +1,25 @@
 ﻿<!DOCTYPE html>
 <html ng-csp ng-app="oAuthApp">
 
-	<head>
-		<title>Pile oAuth page</title>
-		<link href="content/main.css" rel="stylesheet" type="text/css"/>
-		<style>.ng-hide { display: none; }</style>
-	</head>
+<head>
+  <title>Pile oAuth page</title>
+  <link href="content/main.css" rel="stylesheet" type="text/css" />
+  <style>.ng-hide { display: none; }</style>
+</head>
 
-	<body ng-controller="oauthController as vm">
+<body ng-controller="oauthController as vm">
 
-    <!-- pocket section -->
-    <div ng-include="'app/oAuth/pocket.html'"></div>
+  <!-- pocket section -->
+  <div ng-include="'app/oAuth/pocket.html'"></div>
 
-		<script type="text/javascript" src="libs/console.js"></script>
-		<script type="text/javascript" src="libs/angular.min.js"></script>
-		<script type="text/javascript" src="app/oAuth/app.js"></script>
-		<script type="text/javascript" src="app/config.js"></script>
-		<script type="text/javascript" src="app/oAuth/pocketService.js"></script>
-		<script type="text/javascript" src="app/oAuth/controller.js"></script>
-	</body>
+  <div ng-include="'app/footer.html'"></div>
+
+  <script type="text/javascript" src="libs/console.js"></script>
+  <script type="text/javascript" src="libs/angular.min.js"></script>
+  <script type="text/javascript" src="app/oAuth/app.js"></script>
+  <script type="text/javascript" src="app/config.js"></script>
+  <script type="text/javascript" src="app/oAuth/pocketService.js"></script>
+  <script type="text/javascript" src="app/oAuth/controller.js"></script>
+</body>
 
 </html>

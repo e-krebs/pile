@@ -7,6 +7,11 @@ body {
 	color: rgba(0, 0, 0, 0.5);
 }
 
+.tab-icon:hover,
+.connect:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .tabs {
   background-color: #fafafa;
 }
@@ -34,6 +39,11 @@ body {
   opacity: 0.3;
 }
 
+.tab-icon:hover {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
 .tab-icon img {
   width: 24px;
   height: 24px;
@@ -47,16 +57,22 @@ body {
   opacity: 1;
 }
 
-.toolbar {
-  height: 48px;
+.tab-icon.settings:hover {
+  border-radius: 50%;
+}
+
+.include-connect {
   width: 100%;
+  display: inline-flex;
 }
 
 .connect,
 .empty {
 	text-align: center;
-	margin: 50px 0;
+	margin: 38px auto;
+  padding: 12px;
 	font-size: 18px;
+  border-radius: 2px;
 }
 
 .empty > *,
