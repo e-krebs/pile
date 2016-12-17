@@ -4,6 +4,7 @@
 > pile is a material design-ish chrome extension that show your [pocket](https://getpocket.com) list
 
 ![example](img/pile.png)
+![example2](img/pile-opened.png)
 
 > the icons color are dynamicaly computed thx to the [`vibrant.js`][1] library
 >
