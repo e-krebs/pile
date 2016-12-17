@@ -20,6 +20,6 @@ function AvatarController() {
 
   this.triggerAction = function (...args) {
     if (this.action) this.onAction(...args);
-  }
+  };
 
 }

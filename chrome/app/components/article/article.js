@@ -25,5 +25,5 @@ function ArticleController() {
   this.expand = function () {
     this.expanded = !this.expanded;
     if (this.expanded) this.onExpand({ id: this.id });
-  }
+  };
 }

@@ -8,6 +8,6 @@ function listController(pocketListService, snackbar) {
 
   vm.openSettings = function () {
     browser.runtime.openOptionsPage();
-  }
+  };
 
 }
