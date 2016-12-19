@@ -26,6 +26,10 @@ article {
   color: rgba(0, 0, 0, 0.87)
 }
 
+.article.expanded .title {
+    white-space: initial;
+}
+
 .icon {
   width: 24px;
   height: 24px;
