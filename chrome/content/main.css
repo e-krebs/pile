@@ -67,7 +67,8 @@ body {
 }
 
 .connect,
-.empty {
+.empty,
+.oAuth {
 	text-align: center;
 	margin: 38px auto;
   padding: 12px;
@@ -76,7 +77,8 @@ body {
 }
 
 .empty > *,
-.connect > * {
+.connect > *,
+.oAuth > * {
 	vertical-align: middle;
 }
 
