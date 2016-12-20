@@ -34,13 +34,12 @@
       <div ng-include="'app/list/pocket/empty.html'"></div>
 
       <!-- list of pocket articles -->
-      <div ng-repeat="article in vm.pocket.articles | orderBy : 'order' track by article.id">
-        <article id="article.id" icon="article.icon" url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite"
-          expanded="article.expanded" color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
-          color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)"
-          on-un-favorite="vm.pocket.unfavorite(id)" on-expand="vm.pocket.expand(id)">
-        </article>
-      </div>
+      <article ng-repeat="article in vm.pocket.articles | orderBy : 'order' track by article.id" ng-class="{'expanded': article.expanded}"
+        id="article.id" icon="article.icon" url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite"
+        expanded="article.expanded" color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
+        color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)"
+        on-un-favorite="vm.pocket.unfavorite(id)" on-expand="vm.pocket.expand(id)">
+      </article>
     </div>
 
   </div>
@@ -49,6 +48,7 @@
 
   <script type="text/javascript" src="libs/console.js"></script>
   <script type="text/javascript" src="libs/angular.min.js"></script>
+  <script type="text/javascript" src="libs/angular-animate.min.js"></script>
   <script type="text/javascript" src="libs/vibrant.min.js"></script>
   <script type="text/javascript" src="app/list/app.js"></script>
   <script type="text/javascript" src="libs/angular.snackbar.min.js"></script>
