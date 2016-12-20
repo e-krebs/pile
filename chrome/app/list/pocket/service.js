@@ -50,31 +50,53 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
   }
 
   function pocketArchive(item_id) {
+    hideFromList(item_id);
     pocketOAuth.archive(item_id)
       .then(response => removeFromList(response, item_id))
-      .then(() => showSnack('item archived'));
+      .then(() => showSnack('item archived'))
+      .catch(error => {
+        hideFromList(item_id, true);
+        showSnack('an error occured while archiving');
+        console.error('pocketArchive', error);
+      });
   }
 
   function pocketDelete(item_id) {
+    hideFromList(item_id);
     pocketOAuth.delete(item_id)
       .then(response => removeFromList(response, item_id))
-      .then(() => showSnack('item deleted'));
+      .then(() => showSnack('item deleted'))
+      .catch(error => {
+        hideFromList(item_id, true);
+        showSnack('an error occured while deleting');
+        console.error('pocketDelete', error);
+      });
   }
 
   function pocketFavorite(item_id) {
-    pocketOAuth.favorite(item_id).then(commonService.checkDataStatus).then(() => {
-      vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
-      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') // update json backup			
-        .then(() => showSnack('item favorited'));		
-    });
+    vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
+    pocketOAuth.favorite(item_id)
+      .then(commonService.checkDataStatus)
+      .then(() => { fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') }) // update json backup
+      .then(() => showSnack('item favorited'))
+      .catch(error => {
+        vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
+        showSnack('an error occured while favoriting');
+        console.error('pocketFavorite', error);
+      });
   }
 
   function pocketUnfavorite(item_id) {
-    pocketOAuth.unfavorite(item_id).then(commonService.checkDataStatus).then(() => {
-      vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
-      fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') // update json backup
-        .then(() => showSnack('item unfavorited'));
-    });
+    vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
+    pocketOAuth.unfavorite(item_id)
+      .then(commonService.checkDataStatus)
+      .then(() => { fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') }) // update json backup
+      .then(() => showSnack('item unfavorited'))
+      .catch(error => {
+        vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
+        showSnack('an error occured while favoriting');
+        console.error('pocketFavorite', error);
+      });
   }
 
   function pocketExpand(item_id) {
@@ -87,6 +109,10 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
       const url = `https://getpocket.com/auth/authorize?request_token=${localStorage.pocket_code}&redirect_uri=${redirect_uri}`;
       chrome.tabs.create({ url: url });
     });
+  }
+
+  function hideFromList(item_id, visibility = false) {
+    vm.articles.filter(x => x.id == item_id).map(x => x.visible = visibility);
   }
 
   function removeFromList(response, item_id) {

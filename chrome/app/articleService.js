@@ -13,7 +13,8 @@ function ArticleService($q, $http, vibrantService, fileService) {
 			url: url,
 			hostname: new URL(url).hostname,
       favorite: (data.favorite == 1),
-      expanded: false
+      expanded: false,
+      visible: true
 		};
 		icon(articleData.hostname).then(vibrantService.vibrant).then(function(iconData) {
 			articleData.icon = iconData.icon;
