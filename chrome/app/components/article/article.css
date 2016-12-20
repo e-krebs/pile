@@ -1,5 +1,5 @@
 body {
-  --transition-duration: 0.5s;
+  --transition-duration: 0.4s;
   --transition-appear-duration: 0.15s;
   --transition-disappear-duration: 0.1s;
 }
@@ -52,6 +52,30 @@ article {
   height: 24px;
   margin: -4px 0 0 16px;
   float: right;
+}
+
+.icon.overlap {
+  margin-right: -40px; /* 40 = width + margin-left + margin-right */
+}
+
+.line.expandable .scale-in {
+  display: none;
+}
+
+.scale-in {
+  transform: scale(1);
+  transition: all var(--transition-duration) ease;
+}
+
+.scale-in.ng-hide {
+  transform: scale(0);
+}
+
+.line.expandable.expanded .scale-in,
+.scale-in,
+.scale-in.ng-hide-add,
+.scale-in.ng-hide-remove {
+  display: inline-block;
 }
 
 .icon.expandable i {
