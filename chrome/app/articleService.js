@@ -37,9 +37,10 @@ function ArticleService($q, $http, vibrantService, fileService) {
 		} else {
 			console.log('getIcon', res.hostname, iconUrl, res);
 			$http.get(iconUrl)
-				.success(function() {
+				.then(function() {
 					$http.get(iconUrl, { responseType: 'blob' })
-						.success(function(blob) {
+            .then(function (resp) {
+              const blob = resp.data;
 							if (blob.size > 0) {
 								blob.name = res.hostname + '.png';
 								fileService.writeFile(blob).then(function(result) {
@@ -52,12 +53,12 @@ function ArticleService($q, $http, vibrantService, fileService) {
 								return defer.resolve(res);
 							}
 						})
-						.error(function(error) {
+						.catch(function(error) {
 							console.warn(`error getting icon blob ${iconUrl} for ${res.hostname}`, error);
 							return defer.resolve(res);
 						});
 					})
-				.error(function(error) {
+				.catch(function(error) {
 					console.warn(`error testing icon url ${iconUrl} for ${res.hostname}`, error);
 					return defer.resolve(res);
 				});

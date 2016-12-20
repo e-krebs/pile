@@ -1,9 +1,8 @@
 {
   "name": "read-me",
   "dependencies": {
-    "angular": "angular#^1.5.8",
+    "angular": "angular#^1.6.0",
     "vibrant": "vibrant#1.0",
-    "material-design-icons": "material-design-icons#^3.0.1",
-    "material-design-icons-iconfont": "material-design-icons-iconfont#^3.0.2"
+    "material-design-icons-iconfont": "material-design-icons-iconfont#^3.0.3"
   }
 }
