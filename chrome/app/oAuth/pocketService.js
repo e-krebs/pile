@@ -1,6 +1,6 @@
-app.factory('pocketOAuthService', ['$http', '$q', 'pocket_key', 'pocket_token', 'redirect_uri', pocketOAuthService]);
+app.factory('pocketOAuthService', ['$http', 'pocket_key', 'pocket_token', 'redirect_uri', pocketOAuthService]);
 
-function pocketOAuthService($http, $q, pocket_key, pocket_token, redirect_uri) {
+function pocketOAuthService($http, pocket_key, pocket_token, redirect_uri) {
   return {
     requestCode: requestCode,
     requestToken: requestToken,
