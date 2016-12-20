@@ -26,15 +26,15 @@
 </div>
 
 <!-- expandable part : actions -->
-<div class="line expandable expandable-less" ng-class="{'expanded': $ctrl.expanded}"
+<div class="line expandable" ng-class="{'expanded': $ctrl.expanded}"
   ng-style="{'background-color': $ctrl.colorPrimaryBg}">
-  <div class="action-list expandable-less" ng-style="{'color': $ctrl.colorPrimary}">
+  <div class="action-list" ng-style="{'color': $ctrl.colorPrimary}">
     <div class="icon" title="unfavorite" ng-show="$ctrl.favorite">
       <i class="material-icons clickable" ng-click="$ctrl.onUnFavorite({ id: $ctrl.id })">
         star
       </i>
     </div>
-    <div class="icon" title="favorite" ng-hide="$ctrl.favorite">
+    <div class="icon" title="favorite" ng-show="!$ctrl.favorite">
       <i class="material-icons clickable" ng-click="$ctrl.onFavorite({ id: $ctrl.id })">
         star_border
       </i>

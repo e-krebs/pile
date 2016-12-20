@@ -1,15 +1,32 @@
+body {
+  --transition-duration: 0.5s;
+  --transition-appear-duration: 0.15s;
+  --transition-disappear-duration: 0.1s;
+}
+
 article {
   display: inline-flex;
   flex-direction: column;
 }
 .line {
   margin: 0;
-  padding: 16px;
-  height: 16px;
   float: left;
   clear: left;
   display: flex;
   width: 468px;
+}
+
+.line.expandable {
+  height: 0px;
+  padding: 0 16px;
+  transition: all var(--transition-duration);
+}
+
+.line,
+.line.expandable.expanded {
+  height: 16px;
+  padding: 16px;
+  transition: all var(--transition-duration);
 }
 
 .article a {
@@ -46,21 +63,24 @@ article {
 }
 
 .expandable .expandable-more,
-.expandable.expandable-more,
-.expandable.expanded.expandable-less,
 .expandable.expanded .expandable-less {
   display: inline-block;
 }
 
 .expandable .expandable-less,
-.expandable.expandable-less,
-.expandable .expandable-less,
-.expandable.expanded.expandable-more,
 .expandable.expanded .expandable-more {
   display: none;
 }
 
-.action-list {
-  float: right;
-  margin: 0 40px 0 56px;
+.line.expandable .action-list {
+  /*float: right;*/
+  margin: 0 40px 0 auto;
+  display: inline-block;  
+  visibility: hidden;
+  transition-delay: var(--transition-disappear-duration); /* disappearing */
+}
+
+.line.expandable.expanded .action-list {
+  visibility: visible;
+  transition-delay: var(--transition-appear-duration); /* appearing */
 }
