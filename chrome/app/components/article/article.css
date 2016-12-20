@@ -1,6 +1,6 @@
 body {
   --transition-duration: 0.4s;
-  --transition-appear-duration: 0.15s;
+  --transition-appear-duration: 0.2s;
   --transition-disappear-duration: 0.1s;
 }
 
@@ -79,6 +79,19 @@ article.expanded.ng-leave-active {
   margin-right: -40px; /* 40 = width + margin-left + margin-right */
 }
 
+.action-list .icon {
+  transition: all var(--transition-disappear-duration) ease;
+}
+.action-list .icon:hover {
+  background-color: white;
+  border-radius: 50%;
+  padding: 8px;
+  margin: -12px -8px -8px 8px; /* original -8px each */
+}
+
+.action-list .icon.overlap:hover {
+  margin-right: -48px; /* 40 -8*/
+}
 .line.expandable .scale-in {
   display: none;
 }
@@ -118,7 +131,6 @@ article.expanded.ng-leave-active {
 }
 
 .line.expandable .action-list {
-  /*float: right;*/
   margin: 0 40px 0 auto;
   display: inline-block;  
   visibility: hidden;

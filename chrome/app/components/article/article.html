@@ -29,31 +29,30 @@
 <div class="line expandable" ng-class="{'expanded': $ctrl.expanded}"
   ng-style="{'background-color': $ctrl.colorPrimaryBg}">
   <div class="action-list" ng-style="{'color': $ctrl.colorPrimary}">
-    <div class="icon scale-in" title="unfavorite" ng-show="$ctrl.favorite">
-      <i class="material-icons clickable" ng-click="$ctrl.onUnFavorite({ id: $ctrl.id })">
-        star
-      </i>
-    </div>
-    <div class="icon scale-in overlap" title="favorite" ng-show="!$ctrl.favorite">
-      <i class="material-icons clickable" ng-click="$ctrl.onFavorite({ id: $ctrl.id })">
-        star_border
-      </i>
-    </div>
-    <div class="icon ng-hide" title="modify tags">
-      <i class="material-icons clickable">label</i>
-    </div>
-    <div class="icon ng-hide" title="add tags">
-      <i class="material-icons clickable">label_outline</i>
-    </div>
-    <div class="icon" title="delete">
-      <i class="material-icons clickable" ng-click="$ctrl.onDelete({ id: $ctrl.id })">
-        delete
-      </i>
-    </div>
+
     <div class="icon" title="archive">
       <i class="material-icons clickable" ng-click="$ctrl.onArchive({ id: $ctrl.id })">
         archive
       </i>
     </div>
+
+    <div class="icon" title="delete">
+      <i class="material-icons clickable" ng-click="$ctrl.onDelete({ id: $ctrl.id })">
+        delete
+      </i>
+    </div>
+
+    <div class="icon scale-in" title="unfavorite" ng-show="$ctrl.favorite">
+      <i class="material-icons clickable" ng-click="$ctrl.onUnFavorite({ id: $ctrl.id })">
+        star
+      </i>
+    </div>
+
+    <div class="icon scale-in overlap" title="favorite" ng-show="!$ctrl.favorite">
+      <i class="material-icons clickable" ng-click="$ctrl.onFavorite({ id: $ctrl.id })">
+        star_border
+      </i>
+    </div>
+
   </div>
 </div>

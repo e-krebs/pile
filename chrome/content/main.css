@@ -37,6 +37,7 @@ body {
   margin: 0 8px;
   display: inline-block;
   opacity: 0.3;
+  transition: all 0.1s ease;
 }
 
 .tab-icon:hover {
