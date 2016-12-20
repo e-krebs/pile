@@ -1,6 +1,7 @@
 app.component('avatar', {
+
   templateUrl: 'app/components/avatar/avatar.html',
-  controller: AvatarController,
+
   bindings: {
     avatarId: '<',
     logo: '<',
@@ -9,17 +10,21 @@ app.component('avatar', {
     backgroundColor: '<',
     borderColor: '<',
     onAction: '&'
+  },
+
+  controller: class AvatarController {
+    constructor() { }
+
+    $onInit() {
+      if (angular.isUndefined(this.actionTitle) && angular.isDefined(this.action)) {
+        this.actionTitle = this.action;
+      }
+    }
+
+    triggerAction(...args) {
+      if (this.action) this.onAction(...args);
+    }
+
   }
+  
 });
-
-function AvatarController() {
-
-  if (angular.isUndefined(this.actionTitle) && angular.isDefined(this.action)) {
-    this.actionTitle = this.action;
-  }
-
-  this.triggerAction = function (...args) {
-    if (this.action) this.onAction(...args);
-  };
-
-}

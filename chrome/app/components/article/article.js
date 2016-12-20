@@ -1,6 +1,7 @@
 app.component('article', {
+
   templateUrl: 'app/components/article/article.html',
-  controller: ArticleController,
+
   bindings: {
     id: '<',
     expanded: '=',
@@ -18,12 +19,16 @@ app.component('article', {
     onFavorite: '&',
     onUnFavorite: '&',
     onExpand: '&'
-  }
-});
+  },
 
-function ArticleController() {
-  this.expand = function () {
-    this.expanded = !this.expanded;
-    if (this.expanded) this.onExpand({ id: this.id });
-  };
-}
+  controller: class ArticleController {
+    constructor() { }
+
+    expand() {
+      this.expanded = !this.expanded;
+      if (this.expanded) this.onExpand({ id: this.id });
+    }
+
+  }
+  
+});
