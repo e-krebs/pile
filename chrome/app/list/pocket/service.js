@@ -77,7 +77,7 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
     vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
     pocketOAuth.favorite(item_id)
       .then(commonService.checkDataStatus)
-      .then(() => { fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') }) // update json backup
+      .then(() => { fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); }) // update json backup
       .then(() => showSnack('item favorited'))
       .catch(error => {
         vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
@@ -90,7 +90,7 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
     vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = false);
     pocketOAuth.unfavorite(item_id)
       .then(commonService.checkDataStatus)
-      .then(() => { fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json') }) // update json backup
+      .then(() => { fileService.writeJson(angular.copy(vm.articles), 'pocketArticles.json'); }) // update json backup
       .then(() => showSnack('item unfavorited'))
       .catch(error => {
         vm.articles.filter(x => x.id == item_id).forEach(x => x.favorite = true);
