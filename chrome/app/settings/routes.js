@@ -1,0 +1,20 @@
+app.config(['$locationProvider', '$routeProvider', settingsRouteProvider]);
+
+function settingsRouteProvider($locationProvider, $routeProvider) {
+
+  $locationProvider.hashPrefix('!');
+
+  $routeProvider
+    .when("/", {
+      templateUrl: "/app/settings/routes/main.html",
+      controller: "mainCtrl"
+    })
+    .when("/main", {
+      templateUrl: "/app/settings/routes/main.html",
+      controller: "mainCtrl"
+    })
+    .when("/pocket", {
+      templateUrl: "/app/settings/routes/pocket.html",
+      controller: "pocketSettingsCtrl"
+    });
+};

@@ -26,13 +26,22 @@ body {
   margin-top: -1px;
   background-color: white;
 }
+/* individual tabs */
+.tab-content[ng-view],
+#main-tab:checked ~ #main-tab-content,
 #pocket-tab:checked ~ #pocket-tab-content {
   display: block;
 }
-#pocket-tab:checked ~ label[for=pocket-tab] {
-  border-bottom: 2px red solid;
+#main-tab:checked ~ label[for=main-tab] {
+  border-bottom: 2px #757575 solid;
   opacity: 1;
 }
+
+#pocket-tab:checked ~ label[for=pocket-tab] {
+  border-bottom: 2px #EF4056 solid;
+  opacity: 1;
+}
+
 .tab-icon {
   width: 48px;
   height: 48px;

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "pile",
   "description": "pile",
-  "version": "0.11",
+  "version": "0.12",
   "icons": {
     "16": "/content/icons/ic_library_books_black_16dp.png",
     "48": "/content/icons/ic_library_books_black_48dp_1x.png",
@@ -24,7 +24,7 @@
   },
   "options_ui": {
     "chrome_style": true,
-    "page": "oauth.html"
+    "page": "settings.html"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "web_accessible_resources": [

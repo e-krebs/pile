@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-csp ng-app="settingsApp">
+
+<head>
+  <title>pile settings</title>
+  <style>
+    .ng-hide {
+      display: none;
+    }
+  </style>
+<link href="content/material-icons.css" rel="stylesheet" type="text/css" />
+<link href="content/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body ng-controller="settingsController as vm">
+  <div class="tabs">
+
+    <input type="radio" id="main-tab" name="tabs" checked />
+    <label for="main-tab" class="tab-icon" ng-click="vm.route('main')">
+        <img src="content/img/settings.svg" />
+    </label>
+
+    <input type="radio" id="pocket-tab" name="tabs" />
+    <label for="pocket-tab" class="tab-icon" ng-click="vm.route('pocket')">
+        <img src="content/img/pocket.svg" />
+    </label>
+
+    <div ng-view class="tab-content"></div>
+
+  </div>
+
+  <div ng-include="'app/footer.html'"></div>
+
+  <script type="text/javascript" src="libs/console.js"></script>
+  <script type="text/javascript" src="libs/angular.min.js"></script>
+  <script type="text/javascript" src="libs/angular-animate.min.js"></script>
+  <script type="text/javascript" src="libs/angular-route.min.js"></script>
+  <script type="text/javascript" src="app/settings/app.js"></script>
+  <script type="text/javascript" src="app/settings/routes.js"></script>
+  <script type="text/javascript" src="app/settings/controller.js"></script>
+  <script type="text/javascript" src="app/config.js"></script>
+</body>
