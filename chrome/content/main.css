@@ -5,6 +5,8 @@ body {
 	line-height: 16px;
 	white-space: nowrap;
 	color: rgba(0, 0, 0, 0.5);
+  --snacbar-animation-duration: 0.2s;
+  --tab-icon-animation-duration: 0.1s;
 }
 
 .tab-icon:hover,
@@ -37,7 +39,7 @@ body {
   margin: 0 8px;
   display: inline-block;
   opacity: 0.3;
-  transition: all 0.1s ease;
+  transition: all var(--tab-icon-animation-duration) ease;
 }
 
 .tab-icon:hover {
@@ -94,6 +96,25 @@ body {
 	cursor: pointer;	
 }
 
+/* snackbar animations */
+@keyframes slide-from-bottom {
+  0% {
+    bottom: -48px;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
+@keyframes slide-out-bottom {
+  0% {
+    bottom: 0;
+  }
+  100% {
+    bottom: -48px;
+  }
+}
+
 /* snackbar */
 .snackbar-container {
 	position: static;
@@ -105,16 +126,22 @@ body {
 }
 
 .snackbar {
+  position: fixed;
+  bottom: -48px;
+  left: 0;
+  width: 100%;
+	height: 16px;
+  line-height: 16px;
+	padding: 16px;
+  transform: translateZ(0);
 	background-color: #323232;
 	color: #FFFFFF;
 	font-size: 14px;
 	border-radius: 2px;
+  animation:  slide-out-bottom var(--snacbar-animation-duration) ease-out;
 }
 
 .snackbar.snackbar-opened {
-	height: 16px;
-	padding: 16px;
-  position: fixed;
   bottom: 0;
-  width: 100%;
+  animation: slide-from-bottom var(--snacbar-animation-duration) ease-in;
 }
