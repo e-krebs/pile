@@ -17,4 +17,4 @@ function settingsRouteProvider($locationProvider, $routeProvider) {
       templateUrl: "/app/settings/routes/pocket.html",
       controller: "pocketSettingsCtrl as vm"
     });
-};
+}

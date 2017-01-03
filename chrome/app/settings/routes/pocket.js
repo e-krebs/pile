@@ -5,7 +5,6 @@ function pocketSettingsCtrl(pocketListService) {
 
   vm.pocket = pocketListService;
   
-  vm.pocketConnected = angular.isDefined(localStorage.pocket_code)
-    && angular.isDefined(localStorage.pocket_token);
-
-};
+  vm.pocketConnected = angular.isDefined(localStorage.pocket_code) &&
+    angular.isDefined(localStorage.pocket_token);
+}
