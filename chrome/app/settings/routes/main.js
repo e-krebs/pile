@@ -12,5 +12,5 @@ function mainCtrl($scope) {
         localStorage.alarmPeriod = vm.alarmPeriod;
         chrome.alarms.create("pocket_refresh", { periodInMinutes: vm.alarmPeriod });
         console.info(`pocket_refresh alarm set to ${vm.alarmPeriod} minutes`);
-    }
+    };
 }
