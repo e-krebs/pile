@@ -1,3 +1,11 @@
-pocket settings tab
-<br/>
-{{message}}
+<div ng-show="vm.pocketConnected" class="oAuth">
+  <img src="content/img/smiley.svg" />
+  <span>"Pile" is connected to pocket !</span>
+</div>
+
+<div class="include-connect">
+  <div class="connect" ng-show="!vm.pocketConnected" ng-click="vm.pocket.connect()">
+    <img class="connect-logo" src="content/img/pocket.svg" />
+    <span class="connect-text">connect to pocket</span>
+  </div>
+</div>

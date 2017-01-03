@@ -15,6 +15,6 @@ function settingsRouteProvider($locationProvider, $routeProvider) {
     })
     .when("/pocket", {
       templateUrl: "/app/settings/routes/pocket.html",
-      controller: "pocketSettingsCtrl"
+      controller: "pocketSettingsCtrl as vm"
     });
 };

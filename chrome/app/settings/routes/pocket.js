@@ -1,5 +1,11 @@
-app.controller('pocketSettingsCtrl', ['$scope', pocketSettingsCtrl]);
+app.controller('pocketSettingsCtrl', ['pocketListService', pocketSettingsCtrl]);
 
-function pocketSettingsCtrl($scope) {
-  $scope.message = "pocket controller working!"
+function pocketSettingsCtrl(pocketListService) {
+  const vm = this;
+
+  vm.pocket = pocketListService;
+  
+  vm.pocketConnected = angular.isDefined(localStorage.pocket_code)
+    && angular.isDefined(localStorage.pocket_token);
+
 };
