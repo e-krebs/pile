@@ -7,11 +7,11 @@ function settingsRouteProvider($locationProvider, $routeProvider) {
   $routeProvider
     .when("/", {
       templateUrl: "/app/settings/routes/main.html",
-      controller: "mainCtrl"
+      controller: "mainCtrl as vm"
     })
     .when("/main", {
       templateUrl: "/app/settings/routes/main.html",
-      controller: "mainCtrl"
+      controller: "mainCtrl as vm"
     })
     .when("/pocket", {
       templateUrl: "/app/settings/routes/pocket.html",

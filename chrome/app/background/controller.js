@@ -38,8 +38,9 @@ function backgroundController($q, commonService, pocketOAuth, fileService, artic
   });
 
   // create the alarm
-  chrome.alarms.create("pocket_refresh", { periodInMinutes: 10 });
-  console.info('pocket_refresh alarm set');
+  const alarmPeriod = angular.isDefined(localStorage.alarmPeriod) ? localStorage.alarmPeriod : 10;
+  chrome.alarms.create("pocket_refresh", { periodInMinutes: alarmPeriod });
+  console.info(`pocket_refresh alarm set to ${alarmPeriod} minutes`);
 
   //trigger it at launch
   refreshPocketList();

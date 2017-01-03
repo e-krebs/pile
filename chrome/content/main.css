@@ -4,10 +4,15 @@ body {
 	font-size: 16px;
 	line-height: 16px;
 	white-space: nowrap;
-	color: rgba(0, 0, 0, 0.5);
+  --font-color: rgba(0, 0, 0, 0.5);
+  color: var(--font-color);
   --snacbar-animation-duration: 0.2s;
   --tab-icon-animation-duration: 0.1s;
   --checkbox-color: #9E9E9E;
+}
+
+.left {
+  text-align: left !important;
 }
 
 .tab-icon:hover,
@@ -81,7 +86,8 @@ body {
 
 .connect,
 .empty,
-.oAuth {
+.oAuth,
+.center {
 	text-align: center;
 	margin: 38px auto;
   padding: 12px;
@@ -89,11 +95,18 @@ body {
   border-radius: 2px;
 }
 
+.center {
+  margin: 38px 12px;
+  padding: 0;
+}
+
 .empty > *,
 .connect > *,
-.oAuth > * {
+.oAuth > *,
+.center > * {
 	vertical-align: middle;
 }
+
 
 .connect-logo {
 	width: 24px;
@@ -235,4 +248,20 @@ input[type='checkbox']:checked + label > span:before{
     border-color: var(--checkbox-color);
     transform: translate3d(0,-.5em,0) rotate(45deg);
   }
+}
+/* input number */
+input[type='number'],
+input[type='number']:focus,
+input[type='number']:enabled:focus {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  color: var(--font-color);
+  font-size: 18px;
+  margin-bottom: -5px;
+  width: 40px;
+  border-radius: 0;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
 }
