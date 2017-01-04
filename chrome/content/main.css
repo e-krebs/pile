@@ -11,6 +11,10 @@ body {
   --checkbox-color: #9E9E9E;
 }
 
+.ng-hide {
+  display: none !important;
+}
+
 .left {
   text-align: left !important;
 }
@@ -39,7 +43,8 @@ body {
 /* individual tabs */
 .tab-content[ng-view],
 #main-tab:checked ~ #main-tab-content,
-#pocket-tab:checked ~ #pocket-tab-content {
+#pocket-tab:checked ~ #pocket-tab-content,
+#instapaper-tab:checked ~ #instapaper-tab-content {
   display: block;
 }
 #main-tab:checked ~ label[for=main-tab] {
@@ -49,6 +54,11 @@ body {
 
 #pocket-tab:checked ~ label[for=pocket-tab] {
   border-bottom: 2px #EF4056 solid;
+  opacity: 1;
+}
+
+#instapaper-tab:checked ~ label[for=instapaper-tab] {
+  border-bottom: 2px black solid;
   opacity: 1;
 }
 
@@ -182,7 +192,7 @@ input[type='checkbox'] {
 
 input[type='checkbox'] + label{
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   color: var(--checkbox-color);
   transition: color 250ms cubic-bezier(.4,.0,.23,1);

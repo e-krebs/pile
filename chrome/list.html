@@ -16,31 +16,23 @@
 
   <div class="tabs">
 
-    <input type="radio" id="pocket-tab" name="tabs" checked>
-    <label for="pocket-tab" class="tab-icon">
+    <input type="radio" id="pocket-tab" name="tabs" ng-model="vm.selectedTab" value="pocket" ng-show="vm.pocketEnabled">
+    <label for="pocket-tab" class="tab-icon" ng-show="vm.pocketEnabled">
         <img src="content/img/pocket.svg" />
+    </label>
+
+    <input type="radio" id="instapaper-tab" name="tabs" ng-model="vm.selectedTab" value="instapaper" ng-show="vm.instapaperEnabled">
+    <label for="instapaper-tab" class="tab-icon" ng-show="vm.instapaperEnabled">
+        <img src="content/img/instapaper.svg" />
     </label>
 
     <a class="tab-icon settings" ng-click="vm.openSettings();">
       <img src="content/img/settings.svg" />
     </a>
 
-    <div class="tab-content" id="pocket-tab-content">
+    <div class="tab-content" id="pocket-tab-content" ng-include="'app/list/pocket/tab.html'"></div>
 
-      <!-- connect to pocket -->
-      <div ng-include="'app/list/pocket/connect.html'" class="include-connect"></div>
-
-      <!-- nothing to read -->
-      <div ng-include="'app/list/pocket/empty.html'"></div>
-
-      <!-- list of pocket articles -->
-      <article ng-repeat="article in vm.pocket.articles | filter: {visible: true} | orderBy : 'order' track by article.id" ng-class="{'expanded': article.expanded}"
-        id="article.id" icon="article.icon" url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite"
-        expanded="article.expanded" color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
-        color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)"
-        on-un-favorite="vm.pocket.unfavorite(id)" on-expand="vm.pocket.expand(id)">
-      </article>
-    </div>
+    <div class="tab-content" id="instapaper-tab-content" ng-include="'app/list/instapaper/tab.html'"></div>
 
   </div>
 
@@ -57,8 +49,10 @@
   <script type="text/javascript" src="app/articleService.js"></script>
   <script type="text/javascript" src="app/fileService.js"></script>
   <script type="text/javascript" src="app/oAuth/pocketService.js"></script>
+  <script type="text/javascript" src="app/oAuth/instapaperService.js"></script>
   <script type="text/javascript" src="app/commonService.js"></script>
   <script type="text/javascript" src="app/list/pocket/service.js"></script>
+  <script type="text/javascript" src="app/list/instapaper/service.js"></script>
   <script type="text/javascript" src="app/components/avatar/avatar.js"></script>
   <script type="text/javascript" src="app/components/article/article.js"></script>
   <script type="text/javascript" src="app/list/controller.js"></script>

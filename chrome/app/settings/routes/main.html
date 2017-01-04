@@ -1,8 +1,16 @@
-<div class="center">
-  <input type="checkbox" id="pocketEnabled" checked disabled />
+<div class="center left">
+  <input type="checkbox" id="pocketEnabled" ng-model="vm.pocketEnabled" ng-change="vm.pocketEnable()" />
   <label for="pocketEnabled">
     <span></span>
     enable pocket
+  </label>
+</div>
+
+<div class="center left">
+  <input type="checkbox" id="instapaperEnabled" ng-model="vm.instapaperEnabled" ng-change="vm.instapaperEnable()" />
+  <label for="instapaperEnabled">
+    <span></span>
+    enable instapaper
   </label>
 </div>
 

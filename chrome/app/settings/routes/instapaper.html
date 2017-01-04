@@ -1,0 +1,11 @@
+<div ng-show="vm.instapaperConnected" class="center">
+  <img src="content/img/smiley.svg" />
+  <span>"Pile" is connected to instapaper !</span>
+</div>
+
+<div class="include-connect">
+  <div class="connect" ng-show="!vm.instapaperConnected" ng-click="vm.instapaper.connect()">
+    <img class="connect-logo" src="content/img/instapaper.svg" />
+    <span class="connect-text">connect to instapaper</span>
+  </div>
+</div>

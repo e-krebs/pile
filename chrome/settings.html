@@ -16,13 +16,18 @@
   <div class="tabs">
 
     <input type="radio" id="main-tab" name="tabs" checked />
-    <label for="main-tab" class="tab-icon" ng-click="vm.route('main')">
+    <label for="main-tab" class="tab-icon" ng-click="vm.route('')">
         <img src="content/img/settings.svg" />
     </label>
 
-    <input type="radio" id="pocket-tab" name="tabs" />
-    <label for="pocket-tab" class="tab-icon" ng-click="vm.route('pocket')">
+    <input type="radio" id="pocket-tab" name="tabs" ng-show="vm.pocketEnabled" />
+    <label for="pocket-tab" class="tab-icon" ng-click="vm.route('pocket')" ng-show="vm.pocketEnabled">
         <img src="content/img/pocket.svg" />
+    </label>
+
+    <input type="radio" id="instapaper-tab" name="tabs" ng-show="vm.instapaperEnabled" />
+    <label for="instapaper-tab" class="tab-icon" ng-click="vm.route('instapaper')" ng-show="vm.instapaperEnabled">
+        <img src="content/img/instapaper.svg" />
     </label>
 
     <div ng-view class="tab-content"></div>
@@ -49,5 +54,6 @@
   <script type="text/javascript" src="app/settings/controller.js"></script>
   <script type="text/javascript" src="app/settings/routes/main.js"></script>
   <script type="text/javascript" src="app/settings/routes/pocket.js"></script>
+  <script type="text/javascript" src="app/settings/routes/instapaper.js"></script>
   <script type="text/javascript" src="app/config.js"></script>
 </body>

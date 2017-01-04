@@ -1,0 +1,15 @@
+<!-- connect to instapaper -->
+<div ng-include="'app/list/instapaper/connect.html'" class="include-connect"></div>
+
+<!-- nothing to read -->
+<div ng-include="'app/list/instapaper/empty.html'"></div>
+
+<!-- list of instapaper articles -->
+<div>
+  <article ng-repeat="article in vm.instapaper.articles | orderBy : 'order' track by article.id" id="article.id" icon="article.icon"
+    url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite" expanded="article.expanded"
+    color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
+    color-accent-bg="article.colors.accent_bg" on-archive="vm.instapaper.archive(id)" on-delete="vm.instapaper.delete(id)"
+    on-favorite="vm.instapaper.favorite(id)" on-un-favorite="vm.instapaper.unfavorite(id)" on-expand="vm.instapaper.expand(id)">
+  </article>
+</div>
