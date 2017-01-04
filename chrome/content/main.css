@@ -32,6 +32,10 @@ body {
   margin-top: -1px;
   background-color: white;
 }
+.settings .tab-content {
+  height: 400px;
+  overflow-y: auto;
+}
 /* individual tabs */
 .tab-content[ng-view],
 #main-tab:checked ~ #main-tab-content,
