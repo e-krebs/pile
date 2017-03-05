@@ -11,7 +11,8 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
     favorite: pocketFavorite, // function
     init: init, // init function
     request: pocketRequest, // function
-    unfavorite: pocketUnfavorite // function
+    unfavorite: pocketUnfavorite, // function
+    openAndArchive: pocketOpenAndArchive
   };
 
   return vm;
@@ -59,6 +60,14 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
         showSnack('an error occured while archiving');
         console.error('pocketArchive', error);
       });
+  }
+
+  function pocketOpenAndArchive(item_id) {
+    const article = vm.articles.filter(x => x.id == item_id)[0];
+    pocketOAuth.archive(item_id)
+      .then(response => removeFromList(response, item_id))
+      .then(() => browser.tabs.create({ url: article.url }));
+    //TODO : refresh counter
   }
 
   function pocketDelete(item_id) {

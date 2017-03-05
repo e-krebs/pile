@@ -18,7 +18,8 @@ app.component('article', {
     onDelete: '&',
     onFavorite: '&',
     onUnFavorite: '&',
-    onExpand: '&'
+    onExpand: '&',
+    onOpenAndArchive: '&'
   },
 
   controller: class ArticleController {

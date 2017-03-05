@@ -37,7 +37,7 @@
       <article ng-repeat="article in vm.pocket.articles | filter: {visible: true} | orderBy : 'order' track by article.id" ng-class="{'expanded': article.expanded}"
         id="article.id" icon="article.icon" url="article.url" hostname="article.hostname" page-title="article.title" favorite="article.favorite"
         expanded="article.expanded" color-primary="article.colors.primary" color-primary-bg="article.colors.primary_bg" color-accent="article.colors.accent"
-        color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)"
+        color-accent-bg="article.colors.accent_bg" on-archive="vm.pocket.archive(id)" on-delete="vm.pocket.delete(id)" on-favorite="vm.pocket.favorite(id)" on-open-and-archive="vm.pocket.openAndArchive(id)"
         on-un-favorite="vm.pocket.unfavorite(id)" on-expand="vm.pocket.expand(id)">
       </article>
     </div>

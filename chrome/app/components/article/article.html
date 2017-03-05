@@ -6,9 +6,10 @@
   ng-class="{'expanded': $ctrl.expanded}"
   ng-style="{'background-color': $ctrl.expanded ? $ctrl.colorPrimaryBg : rgba(0, 0, 0, 0)}">
 
-  <avatar avatar-id="$ctrl.id" logo="$ctrl.icon" action="'archive'"
-    on-action="$ctrl.onArchive({ id: $ctrl.id})" background-color="$ctrl.colorPrimary"
-    border-color="$ctrl.colorAccentBg"></avatar>
+  <avatar avatar-id="$ctrl.id" logo="$ctrl.icon" action="'open_in_new'"
+    action-title="'archive and open'" border-color="$ctrl.colorAccentBg"
+    on-action="$ctrl.onOpenAndArchive({ id: $ctrl.id})"
+    background-color="$ctrl.colorPrimary"></avatar>
 
   <a ng-href="{{$ctrl.url}}" target="_blank"
     ng-attr-title="{{$ctrl.hostname}} &ndash; {{$ctrl.pageTitle}}">
