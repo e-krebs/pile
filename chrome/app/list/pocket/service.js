@@ -67,7 +67,6 @@ function pocketListService($q, commonService, pocketOAuth, fileService, articleS
     pocketOAuth.archive(item_id)
       .then(response => removeFromList(response, item_id))
       .then(() => browser.tabs.create({ url: article.url }));
-    //TODO : refresh counter
   }
 
   function pocketDelete(item_id) {
