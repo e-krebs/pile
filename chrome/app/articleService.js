@@ -5,11 +5,11 @@ function ArticleService($q, $http, vibrantService, fileService) {
 	
 	function article(data) {
 		const promise = $q.defer();
-		const url = data.resolved_url && data.resolved_url !== null && data.resolved_url !== '' ? data.resolved_url : data.given_url;
+		const url = data.given_url && data.given_url !== null && data.given_url !== '' ? data.given_url : data.resolved_url;
 		const articleData = {
 			id: data.item_id,
 			order: data.sort_id,
-			title: data.resolved_title && data.resolved_title !== null && data.resolved_title !== '' ? data.resolved_title : (data.given_title && data.given_title !== null && data.given_title !== '') ? data.given_title : url,
+			title: data.given_title && data.given_title !== null && data.given_title !== '' ? data.given_title : (data.resolved_title && data.resolved_title !== null && data.resolved_title !== '') ? data.resolved_title : url,
 			url: url,
 			hostname: new URL(url).hostname,
       favorite: (data.favorite == 1),
