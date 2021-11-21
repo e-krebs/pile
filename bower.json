@@ -1,9 +1,0 @@
-{
-  "name": "read-me",
-  "dependencies": {
-    "angular": "angular#^1.6.0",
-    "angular-animate": "^1.6.0",
-    "vibrant": "vibrant#1.0",
-    "material-design-icons-iconfont": "material-design-icons-iconfont#^3.0.3"
-  }
-}
