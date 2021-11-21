@@ -1,36 +1,42 @@
 # Pile
-[![bitHound Overall Score](https://www.bithound.io/github/e-krebs/pile/badges/score.svg)](https://www.bithound.io/github/e-krebs/pile)
 
 > pile is a material design-ish chrome extension that show your [pocket](https://getpocket.com) list
 
 ![example](img/pile.png)
 ![example2](img/pile-opened.png)
 
-> the icons color are dynamicaly computed thx to the [`vibrant.js`][1] library
+> the icons color are dynamicaly computed thx to the [`node-vibrant`][1] library
 >
-> /!\ it is working, however, it is still a work in progress /!\
+> ⚠️ it is working, however, it is still a work in progress ⚠️
 
-
-## Install
-
-### From the chrome web store
+# Install
+## From the chrome web store
 
 [install from the chrome web store](https://chrome.google.com/webstore/detail/injagampgkalbbmhpemnfknoeghfenif)
 
-### Your own version
+## Your own version
+First create a copy of `src/env.sample.json` into a new `src/env.json` file.
 
 In order to have your own version, you must "create a new app" in the [pocket developer API](https://getpocket.com/developer/apps/).
 
-Then, add the consumer key provided by pocket in the `/chrome/app/config.js` file by replacing the `XXXXX-XXXXXXXXXXX` chain.
+Then, add the consumer key provided by pocket in the newly created `src/env.json` file by replacing the `XXXXX-XXXXXXXXXXX` chain.
 
-Finally, import the `/chrome` folder into `chrome://extensions` in your browser
+Then, you either:
+- (dev) run `yarn start`
+  - then import the `/dist` folder into `chrome://extensions` in your browser
+- (prod) run `yarn build`
+  - then import the `/dist/webext-prod` folder into `chrome://extensions` in your browser
+  - it also generates a `pile.zip` file that you can upload to the chome web store
 
+# Libraries
+This project is built using:
+- [typescript](https://www.typescriptlang.org/)
+- [react](https://reactjs.org/)
+- [tailwindcss](https://tailwindcss.com/)
+- [node-vibrant](https://github.com/vibrant-colors/node-vibrant)
+- [mui](https://mui.com/)
+- [feather icons](https://feathericons.com/)
+- [parcel.js](https://parceljs.org/)
+- and plenty other tools and libraries that you can find in the **package.json**
 
-## Libraries
-
-- [angular.js (1.5.8)](https://github.com/angular/angular.js)
-- [vibrant.js (1.0)][1]
-- [material design icons (3.0.1)](https://github.com/google/material-design-icons)
-- [material design icons iconfont (3.0.2)](https://github.com/jossef/material-design-icons-iconfont)
-
-[1]: https://github.com/jariz/vibrant.js
+[1]: https://github.com/vibrant-colors/node-vibrant

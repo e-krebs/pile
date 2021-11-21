@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    width: 499px;
+    min-height: 499px;
+    @apply text-gray-500 text-base;
+  }
+
+  /* @mui/material > Checkbox */
+  .MuiCheckbox-root input.PrivateSwitchBase-input {
+    @apply hidden;
+  }
+
+  /* @mui/material > TextField */
+  .MuiTextField-root input.MuiOutlinedInput-input,
+  .MuiTextField-root.Mui-focused input.MuiOutlinedInput-input {
+    @apply border-0 border-b border-gray-200 rounded-none !important;
+    @apply text-gray-500 !important;
+  }
+  .MuiTextField-root fieldset.MuiOutlinedInput-notchedOutline,
+    .MuiTextField-root.Mui-focused fieldset.MuiOutlinedInput-notchedOutline {
+    @apply border-0 !important;
+  }
+}
