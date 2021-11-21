@@ -65,5 +65,9 @@
     "helpers": "./src/helpers",
     "services": "./src/services",
     "utils": "./src/utils"
+  },
+  "resolutions": {
+    "json-schema": ">= 0.4.0",
+    "nth-check": ">= 2.0.1"
   }
 }
