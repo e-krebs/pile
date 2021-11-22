@@ -9,7 +9,7 @@
     "zip": "bestzip pile.zip dist/webext-prod/*",
     "clean": "rimraf .parcel-cache dist",
     "lint": "eslint --ext .ts,.tsx src",
-    "ci": "yarn lint && yarn build"
+    "setup-ci": "cp ./src/env.sample.json ./src/env.json"
   },
   "targets": {
     "webext-dev": {

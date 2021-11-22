@@ -11,6 +11,7 @@ jobs:
         with:
           node-version: '16'
       - run: yarn --frozen-lockfile
+      - run: yarn setup-ci
       - run: yarn lint
       - run: yarn build
       - run: yarn zip
