@@ -89,6 +89,16 @@ const deleteFile = async (url: string[]): Promise<true> => {
   });
 };
 
+export const deleteFolder = async (path: string[]): Promise<true> => {
+  const [directory] = await getFileFromPath([...path, '']);
+  return new Promise<true>((resolve, reject) => {
+    directory.removeRecursively(
+      () => { resolve(true); },
+      () => reject
+    );
+  });
+};
+
 export const deleteJson = async (key: string): Promise<true> => {
   const path = getJsonKey(key);
   return await deleteFile([path]);
