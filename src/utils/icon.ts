@@ -1,6 +1,6 @@
 import Vibrant from 'node-vibrant';
 
-import { readFile, readJson, writeBlob, writeJson } from 'utils/files';
+import { readFile, readJson, writeBlob, writeJson, deleteFolder } from 'utils/files';
 import { getBlob } from 'utils/get';
 import { BlobInfo, Response } from 'utils/typings';
 import { Palette, resolvePalette } from './palette';
@@ -69,3 +69,5 @@ export const getIcon = async (
     return;
   }
 };
+
+export const cleanIcons = async (): Promise<true> => await deleteFolder([iconFolder]);
