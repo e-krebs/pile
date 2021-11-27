@@ -19,3 +19,5 @@ chrome.alarms.create(refreshInterval, {
   periodInMinutes: localStorage[refreshInterval] ?? defaultRefreshInterval
 });
 chrome.alarms.onAlarm.addListener(alarmListener);
+
+forceGetPocket();
