@@ -9,5 +9,5 @@ export const getBlob = async ({ url }: GetParams): Promise<Response<BlobInfo>> =
   if (!response.ok) return { ok: false };
   const blob = (await response.blob());
   const blobUrl = URL.createObjectURL(blob);
-  return { ok: true, result: { blob, blobUrl } };
+  return { ok: true, result: { blob, blobPath: [blobUrl] } };
 };

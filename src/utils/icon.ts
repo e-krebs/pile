@@ -30,7 +30,7 @@ export interface IconAndPalette {
   palette: Palette;
 }
 
-const getPalette = async (url: string, palettePath: string): Promise<IconAndPalette> => {
+const getPalette = async (url: string, palettePath: string[]): Promise<IconAndPalette> => {
   let palette = await readJson<Palette>(palettePath);
   if (palette) return { url, palette };
 
@@ -49,8 +49,8 @@ export const getIcon = async (
   hostname: string,
   fallback: string | null = null
 ): Promise<IconAndPalette | undefined> => {
-  const imageName = `${hostname}.png`;
-  const paletteName = `${hostname}_palette.json`;
+  const imageName = [`${hostname}.png`];
+  const paletteName = [`${hostname}_palette.json`];
 
   try {
     let imageUrl = await readFile(imageName);
@@ -59,7 +59,7 @@ export const getIcon = async (
     const res = await getIconBlob(hostname, fallback);
     if (!res.ok) return;
 
-    imageUrl = await writeBlob({ ...res.result, blobUrl: imageName });
+    imageUrl = await writeBlob({ blob: res.result.blob, blobPath: imageName });
     if (imageUrl === null) return;
 
     return getPalette(imageUrl, paletteName);
