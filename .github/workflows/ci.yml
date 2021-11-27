@@ -1,6 +1,9 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    type: [opened, reopened]
 
 jobs:
   build-and-lint:
