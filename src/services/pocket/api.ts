@@ -87,7 +87,7 @@ const rawGet = async (force: boolean): Promise<JsonCache<PocketItem>> => {
   if (!isConnected()) throw Error('not connected to pocket');
 
   const key = getJsonKey(queryKeys.get);
-  let list = await readJson<JsonCache<PocketItem>>(key);
+  let list = await readJson<JsonCache<PocketItem>>([key]);
   if (!force && list && !isCacheExpired(list)) return list;
 
   const response = await post<PocketList>({
@@ -100,7 +100,7 @@ const rawGet = async (force: boolean): Promise<JsonCache<PocketItem>> => {
   const data: PocketItem[]  = Object.values(response.result.list)
     .sort((a, b) => a.time_updated < b.time_updated ? 1 : -1);
   list = { timestamp: getTimestamp(), data };
-  await writeJson<JsonCache<PocketItem>>(key, list);
+  await writeJson<JsonCache<PocketItem>>([key], list);
 
   chrome.browserAction.setBadgeBackgroundColor({ color });
   chrome.browserAction.setBadgeText({ text: list.data.length.toString() });
