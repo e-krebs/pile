@@ -1,7 +1,10 @@
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { ChangeEventHandler, FC } from 'react';
+import { Trash2 } from 'react-feather';
 
 import { vars, defaultVars } from 'helpers/vars';
+import { cleanIcons } from 'utils/icon';
+import { Button } from 'components/Button';
 
 export const SharedSettings: FC = () => {
   const { refreshInterval } = vars;
@@ -15,7 +18,7 @@ export const SharedSettings: FC = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="grid grid-cols-1 auto-rows-fr gap-2">
       <FormControlLabel
         control={<Checkbox defaultChecked={true} disabled={true} />}
         label="Enable Pocket."
@@ -31,6 +34,9 @@ export const SharedSettings: FC = () => {
           className="w-10"
           onChange={updateRefreshInterval}
         />
+      </div>
+      <div className="flex">
+        <Button startIcon={Trash2} onClick={cleanIcons}>Clear icons data</Button>
       </div>
     </div>
   );
