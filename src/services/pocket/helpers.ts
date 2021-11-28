@@ -1,25 +1,34 @@
 import { getEnvVar } from 'helpers/env';
+import {
+  getLocalStorageValue as get,
+  setLocalStorageValue as set
+} from 'helpers/localstorage';
 
-export const isConnected = (): boolean =>
-  Boolean(localStorage.pocketCode)
-  && Boolean(localStorage.pocketToken)
-  && Boolean(localStorage.pocketUsername);
+type Keys = 'code' | 'token' | 'username';
+const localStorageKeys: Record<Keys, string> = {
+  code: 'pocketCode',
+  token: 'pocketToken',
+  username: 'pocketUsername'
+};
+
+const getKeys = (): Keys[] => Object.keys(localStorageKeys) as Keys[];
+
+export const isConnected = (): boolean => getKeys()
+  .map((key) => Boolean(get(localStorageKeys, key)))
+  .reduce((a, b) => a && b);
 
 export const getPocketKey = (): string | undefined => getEnvVar('pocketKey');
 export const getPocketRedirectUri = (): string =>
   chrome.extension.getURL('services/pocket/oauth.html');
 
-export const getPocketCode = (): string | undefined => localStorage.pocketCode;
-export const setPocketCode = (code: string): void => {
-  localStorage.pocketCode = code;
-};
+export const getPocketCode = () => get(localStorageKeys, 'code');
+export const setPocketCode = (code: string) =>
+  set(localStorageKeys, 'code', code);
 
-export const getPocketToken = (): string | undefined => localStorage.pocketToken;
-export const setPocketToken = (token: string): void => {
-  localStorage.pocketToken = token;
-};
+export const getPocketToken = () => get(localStorageKeys, 'token');
+export const setPocketToken = (token: string) =>
+  set(localStorageKeys, 'token', token);
 
-export const getPocketUsername = (): string | undefined => localStorage.pocketUsername;
-export const setPocketUsername = (username: string): void => {
-  localStorage.pocketUsername = username;
-};
+export const getPocketUsername = () => get(localStorageKeys, 'username');
+export const setPocketUsername = (username: string) =>
+  set(localStorageKeys, 'username', username);

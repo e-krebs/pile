@@ -88,19 +88,20 @@ const rawGet = async (force: boolean): Promise<JsonCache<PocketItem>> => {
 
   const key = getJsonKey(queryKeys.get);
   let list = await readJson<JsonCache<PocketItem>>([key]);
-  if (!force && list && !isCacheExpired(list)) return list;
 
-  const response = await post<PocketList>({
-    url: 'https://getpocket.com/v3/get',
-    headers,
-    params: { consumer_key: getPocketKey(), access_token: getPocketToken(), sort: 'newest' }
-  });
-  if (!response.ok) throw Error('couldn\'t get pocket list');
+  if (force || !list || isCacheExpired(list)) {
+    const response = await post<PocketList>({
+      url: 'https://getpocket.com/v3/get',
+      headers,
+      params: { consumer_key: getPocketKey(), access_token: getPocketToken(), sort: 'newest' }
+    });
+    if (!response.ok) throw Error('couldn\'t get pocket list');
 
-  const data: PocketItem[]  = Object.values(response.result.list)
-    .sort((a, b) => a.time_updated < b.time_updated ? 1 : -1);
-  list = { timestamp: getTimestamp(), data };
-  await writeJson<JsonCache<PocketItem>>([key], list);
+    const data: PocketItem[] = Object.values(response.result.list)
+      .sort((a, b) => a.time_updated < b.time_updated ? 1 : -1);
+    list = { timestamp: getTimestamp(), data };
+    await writeJson<JsonCache<PocketItem>>([key], list);
+  }
 
   chrome.browserAction.setBadgeBackgroundColor({ color });
   chrome.browserAction.setBadgeText({ text: list.data.length.toString() });
