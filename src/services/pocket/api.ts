@@ -1,4 +1,5 @@
 import {
+  deleteAllKeys,
   getPocketCode,
   getPocketKey,
   getPocketRedirectUri,
@@ -10,7 +11,7 @@ import {
 } from './helpers';
 import { post } from 'utils/post';
 import { PocketAuthorize, PocketItem, PocketList, PocketRequest, PocketSend } from './apiTyping';
-import { getJsonKey, readJson, writeJson } from 'utils/files';
+import { deleteJson, getJsonKey, readJson, writeJson } from 'utils/files';
 import { getTimestamp, isCacheExpired, JsonCache } from 'utils/dataCache';
 import { color } from 'helpers/vars';
 
@@ -43,6 +44,12 @@ export const connect = async (): Promise<boolean> => {
   });
 
   return true;
+};
+
+export const disconnect = async () => {
+  deleteAllKeys();
+  await deleteJson(getJsonKey(queryKeys.get));
+  chrome.browserAction.setBadgeText({});
 };
 
 export const authorize = async (): Promise<boolean> => {

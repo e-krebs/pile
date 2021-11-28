@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useAsyncEffect } from 'use-async-effect';
 
-import { authorize } from './api';
+import { authorize, get } from './api';
 import 'content/tailwind.css';
 import { Footer } from 'components/Footer';
 import { Connected } from './Connected';
@@ -17,6 +17,9 @@ const Component: FC = () => {
   useAsyncEffect(async () => {
     const ok = await authorize();
     setState(ok ? 'success' : 'failed');
+    if (ok) {
+      await get();
+    }
   }, []);
 
   return (
