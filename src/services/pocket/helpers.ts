@@ -1,7 +1,8 @@
 import { getEnvVar } from 'helpers/env';
 import {
   getLocalStorageValue as get,
-  setLocalStorageValue as set
+  setLocalStorageValue as set,
+  deleteLocalStorageValue as del
 } from 'helpers/localstorage';
 
 type Keys = 'code' | 'token' | 'username';
@@ -16,6 +17,8 @@ const getKeys = (): Keys[] => Object.keys(localStorageKeys) as Keys[];
 export const isConnected = (): boolean => getKeys()
   .map((key) => Boolean(get(localStorageKeys, key)))
   .reduce((a, b) => a && b);
+
+export const deleteAllKeys = () => getKeys().forEach((key) => del(localStorageKeys, key));
 
 export const getPocketKey = (): string | undefined => getEnvVar('pocketKey');
 export const getPocketRedirectUri = (): string =>
