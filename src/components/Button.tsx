@@ -5,7 +5,7 @@ import { Loader } from 'react-feather';
 interface IProps {
   disabled?: boolean;
   startIcon?: FC;
-  onClick: () => Promise<unknown>;
+  onClick: () => Promise<unknown> | unknown;
 }
 
 const waitFn = (duration = 500): Promise<void> => {
