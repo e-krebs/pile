@@ -10,3 +10,9 @@ export const setLocalStorageValue = <T extends string>(
   value: string,
 ): void =>
   localStorage.setItem(dict[key], value);
+
+export const deleteLocalStorageValue = <T extends string>(
+  dict: Record<T, string>,
+  key: T
+): void =>
+  localStorage.removeItem(dict[key]);
