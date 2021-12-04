@@ -56,7 +56,7 @@ export const List: FC = () => {
     e.preventDefault();
     setSearchOpen(true);
   });
-  useHotkeys('Escape', () => { setSearchOpen(false); }, { enableOnTags: ['INPUT'] });
+  useHotkeys('Escape', () => { setSearchOpen(false); onSearch(); }, { enableOnTags: ['INPUT'] });
 
   return (
     <>
