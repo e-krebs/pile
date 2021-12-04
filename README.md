@@ -30,10 +30,16 @@ Then, you either:
 
 # Release
 To trigger a release:
-- update the version in both `package.json` & `src/manifest.json`
 - generate a new tag following the pattern `v*.*.*`
-- the **cd** Github action should automagically generate a new release with both changelog and zip file
-- you can now upload that zip to the chrome web store, and update the changelog there
+```sh
+# on main
+git tag v*.*.*
+git push origin v*.*.*
+```` 
+- the **cd** Github action should automagically:
+  - commit and push a `v*.*.*` commit
+  - generate a new release with both **changelog** and **zip file**
+- you can now upload that zip file to the **chrome web store**, and update the changelog there
 
 # Libraries
 This project is built using:
