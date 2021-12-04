@@ -14,25 +14,25 @@ jobs:
           node-version: '16'
       - name: get semantic release info
         id: semantic_release_info
-        run: echo ::set-env name=new_release_version::$(echo ${GITHUB_REF:11})
+        run: echo new_release_version=${GITHUB_REF:11} >> $GITHUB_ENV
       - name: update package.json version
         uses: jossef/action-set-json-field@v1
         with:
           file: package.json
           field: version
-          value: ${{ steps.semantic_release_info.outputs.new_release_version }}
+          value: ${{ env.new_release_version }}
       - name: update manifest.json version
         uses: jossef/action-set-json-field@v1
         with:
           file: src/manifest.json
           field: version
-          value: ${{ steps.semantic_release_info.outputs.new_release_version }}
+          value: ${{ env.new_release_version }}
       - name: commit
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github action"
           git add -A
-          git commit -m v${{ steps.semantic_release_info.outputs.new_release_version }}
+          git commit -m v${{ env.new_release_version }}
       - name: push
         uses: ad-m/github-push-action@master
         with:
