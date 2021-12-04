@@ -51,7 +51,7 @@ jobs:
       - run: yarn zip
       - name: changelog
         id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@2.7.1
+        uses: mikepenz/release-changelog-builder-action@v2.7.1
         with:
           failOnError: true
         env:
