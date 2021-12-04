@@ -1,0 +1,31 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: yarn --frozen-lockfile
+      - run: yarn setup-ci
+      - name: update env.json pocketKey
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: src/env.json
+          field: pocketKey
+          value: '${{ secrets.POCKET_KEY }}'
+      - run: yarn build
+      - run: yarn zip
+      - name: upload
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/webext-prod/pile.zip
+          tag: ${{ github.ref }}

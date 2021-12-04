@@ -26,7 +26,7 @@ Then, you either:
   - then import the `/dist` folder into `chrome://extensions` in your browser
 - (prod) run `yarn build`
   - then import the `/dist/webext-prod` folder into `chrome://extensions` in your browser
-  - it also generates a `pile.zip` file (in that folder) that you can upload to the chrome web store
+  - by then running `yarn zip`, you can also generates a `pile.zip` file (in that folder) that you can upload to the chrome web store
 
 # Libraries
 This project is built using:
