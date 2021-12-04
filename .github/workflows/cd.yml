@@ -36,6 +36,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
       - run: yarn --frozen-lockfile
       - run: yarn setup-ci
       - name: update env.json pocketKey
