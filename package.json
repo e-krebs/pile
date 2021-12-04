@@ -21,7 +21,7 @@
     "webext-prod": {}
   },
   "release": {
-    "branches": ["main"]
+    "branches": ["refs/tags/v*"]
   },
   "dependencies": {
     "@mui/material": "^5.1.1",
