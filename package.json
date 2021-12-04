@@ -20,9 +20,6 @@
     },
     "webext-prod": {}
   },
-  "release": {
-    "branches": ["main"]
-  },
   "dependencies": {
     "@mui/material": "^5.1.1",
     "classnames": "^2.3.1",
