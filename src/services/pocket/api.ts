@@ -90,24 +90,40 @@ export const deleteItem = async (item_id: string): Promise<boolean> =>
 export const archiveItem = async (item_id: string): Promise<boolean> =>
   await action(item_id, 'archive');
 
-const rawGet = async (force: boolean): Promise<JsonCache<PocketItem>> => {
+type GetType = 'default' | 'force' | 'nocache';
+
+type GetParams = {
+  type: Exclude<GetType, 'nocache'>;
+} | {
+  type: 'nocache';
+  search: string;
+}
+
+const rawGet = async (param: GetParams): Promise<JsonCache<PocketItem>> => {
   if (!isConnected()) throw Error('not connected to pocket');
 
   const key = getJsonKey(queryKeys.get);
   let list = await readJson<JsonCache<PocketItem>>([key]);
 
-  if (force || !list || isCacheExpired(list)) {
+  if (param.type !== 'default' || !list || isCacheExpired(list)) {
     const response = await post<PocketList>({
       url: 'https://getpocket.com/v3/get',
       headers,
-      params: { consumer_key: getPocketKey(), access_token: getPocketToken(), sort: 'newest' }
+      params: {
+        consumer_key: getPocketKey(),
+        access_token: getPocketToken(),
+        sort: 'newest',
+        search: param.type === 'nocache' ? param.search : undefined,
+      }
     });
     if (!response.ok) throw Error('couldn\'t get pocket list');
 
     const data: PocketItem[] = Object.values(response.result.list)
       .sort((a, b) => a.time_updated < b.time_updated ? 1 : -1);
     list = { timestamp: getTimestamp(), data };
-    await writeJson<JsonCache<PocketItem>>([key], list);
+    if (param.type !== 'nocache') {
+      await writeJson<JsonCache<PocketItem>>([key], list);
+    }
   }
 
   chrome.browserAction.setBadgeBackgroundColor({ color });
@@ -116,5 +132,6 @@ const rawGet = async (force: boolean): Promise<JsonCache<PocketItem>> => {
   return list;
 };
 
-export const get = async () => rawGet(false);
-export const forceGet = async () => rawGet(true);
+export const get = async () => rawGet({ type: 'default' });
+export const forceGet = async () => rawGet({ type: 'force' });
+export const search = async (search: string) => rawGet({ type: 'nocache', search });

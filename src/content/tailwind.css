@@ -9,6 +9,10 @@
     @apply text-gray-500 text-base;
   }
 
+  a {
+    @apply outline-none;
+  }
+
   /* @mui/material > Checkbox */
   .MuiCheckbox-root input.PrivateSwitchBase-input {
     @apply hidden;

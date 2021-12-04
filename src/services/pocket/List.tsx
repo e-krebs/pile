@@ -1,22 +1,32 @@
 import cx from 'classnames';
-import { FC, useMemo, useState } from 'react';
-import { Loader, RefreshCw } from 'react-feather';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Loader, RefreshCw, Search } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
+import { Icon } from 'components/Icon';
 import { clearCache } from 'utils/dataCache';
-import { get, queryKeys } from './api';
+import { get, queryKeys, search } from './api';
 import { PocketItem } from './apiTyping';
 import { Item } from './Item';
+import { SearchInput } from 'components/SearchInput';
 
 export const List: FC = () => {
   const queryClient = useQueryClient();
+  const [list, setList] = useState<PocketItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [itemOpen, setItemOpen] = useState<number | null>(null);
+  const [searchOpen, setSearchOpen] = useState<boolean>(false);
+  const [itemOpen, setItemOpen] = useState<string | null>(null);
+  const searchInput = useRef<HTMLInputElement>(null);
   const { data } = useQuery(queryKeys.get, get);
 
-  const list: PocketItem[] | null = useMemo(() => data?.data ?? null, [data]);
+  const initialList = useMemo(() => data?.data ?? [], [data]);
+  useEffect(() => {
+    setList(initialList);
+    setIsLoading(false);
+  }, [initialList]);
 
   const formattedTimestamp: string | null = useMemo(() =>
     data?.timestamp === undefined
@@ -24,40 +34,78 @@ export const List: FC = () => {
       : formatDistanceToNow(data.timestamp, { addSuffix: true }),
     [data]);
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     setIsRefreshing(true);
     await clearCache(queryKeys.get, queryClient);
     setIsRefreshing(false);
+  }, [queryClient]);
+
+  const onSearch = async (value?: string) => {
+    if (!value) {
+      setList(initialList);
+    } else {
+      setIsLoading(true);
+      const searchResult = await search(value);
+      setList(searchResult.data);
+      setIsLoading(false);
+    }
   };
 
   useHotkeys('r', () => { refresh(); });
+  useHotkeys('s', (e) => {
+    e.preventDefault();
+    setSearchOpen(true);
+  });
+  useHotkeys('Escape', () => { setSearchOpen(false); onSearch(); }, { enableOnTags: ['INPUT'] });
 
   return (
     <>
       {formattedTimestamp != null && (
-        <div className="flex justify-center text-xs" title="press <r> to refresh">
-          <span className="ml-auto">{isRefreshing ? '...' : formattedTimestamp}</span>
-          <RefreshCw
+        <div className="flex items-center justify-center text-xs">
+          <Icon
+            icon={Search}
+            title={searchOpen ? 'Close search (or press <esc>)' : 'Open search (or press <s>)'}
+            className="ml-2 p-1 w-8 h-8 cursor-pointer"
+            onClick={() => setSearchOpen(!searchOpen)}
+          />
+          {searchOpen && <SearchInput onSearch={onSearch} className="flex-grow" />}
+          {!searchOpen && (
+            <span className="flex-grow text-center" title="press <r> to Refresh">
+              {isRefreshing ? '...' : formattedTimestamp}
+            </span>
+          )}
+          <Icon
+            icon={RefreshCw}
+            title="Refresh (or press <r>)"
             className={cx(
-              'ml-auto mr-4 w-4 h-4 self-end cursor-pointer',
-              isRefreshing && 'animate-spin'
+              'mr-4 w-4 h-4',
+              isRefreshing && 'animate-spin',
+              searchOpen ? 'cursor-not-allowed' : 'cursor-pointer'
             )}
-            onClick={refresh}
+            onClick={searchOpen ? () => { } : refresh}
           />
         </div>
       )}
       <div className="pt-2 space-y-px">
-        {list === null && (
+        {isLoading && (
           <div className="flex items-center justify-center pb-2">
             <Loader className="animate-spin w-10 h-10" />
           </div>
         )}
-        {list != null && list.map((item, index) => (
+        {!isLoading && list.length <= 0 && (
+          <div className="flex justify-center items-center py-6">
+            {searchInput.current?.value
+              ? `No result for "${searchInput.current.value}".`
+              : 'No items in your pocket list.'
+            }
+          </div>
+        )}
+        {!isLoading && list.length > 0 && list.map((item) => (
           <Item
             item={item}
             key={item.resolved_id}
-            isOpen={index === itemOpen}
-            setIsOpen={(value: boolean) => setItemOpen(value ? index : null)}
+            isOpen={item.resolved_id === itemOpen}
+            setIsOpen={(value: boolean) => setItemOpen(value ? item.resolved_id : null)}
           />
         ))}
       </div>
