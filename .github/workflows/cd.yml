@@ -31,7 +31,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "github action"
           git add -A
-          git commit -m v${{ env.new_release_version }}
+          git commit -m "v${{ env.new_release_version }}
+          
+          
+          skip-checks: true"
       - name: push
         uses: ad-m/github-push-action@master
         with:
