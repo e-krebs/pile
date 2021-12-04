@@ -2,8 +2,10 @@ name: CI
 
 on:
   push:
+    branches:
+      - '**'
     tags-ignore:
-      - "v*.*.*"
+      - 'v*.*.*'
 
 jobs:
   build-and-lint:

@@ -3,7 +3,7 @@ name: publish
 on:
   push:
     tags:
-      - "v*.*.*"
+      - 'v*.*.*'
 
 jobs:
   publish:
@@ -20,7 +20,7 @@ jobs:
         with:
           file: src/env.json
           field: pocketKey
-          value: "${{ secrets.POCKET_KEY }}"
+          value: '${{ secrets.POCKET_KEY }}'
       - run: yarn build
       - run: yarn zip
       - name: upload
