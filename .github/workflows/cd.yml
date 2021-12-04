@@ -1,0 +1,62 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: get semantic release info
+        run: echo new_release_version=${GITHUB_REF:11} >> $GITHUB_ENV
+      - name: update package.json version
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: package.json
+          field: version
+          value: ${{ env.new_release_version }}
+      - name: update manifest.json version
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: src/manifest.json
+          field: version
+          value: ${{ env.new_release_version }}
+      - name: commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "github action"
+          git add -A
+          git commit -m v${{ env.new_release_version }}
+      - name: push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+      - run: yarn --frozen-lockfile
+      - run: yarn setup-ci
+      - name: update env.json pocketKey
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: src/env.json
+          field: pocketKey
+          value: "${{ secrets.POCKET_KEY }}"
+      - run: yarn build
+      - run: yarn zip
+      - name: changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v2.7.1
+        with:
+          failOnError: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: release
+        uses: softprops/action-gh-release@v1
+        with:
+          fail_on_unmatched_files: true
+          body: ${{steps.build_changelog.outputs.changelog}}
+          files: dist/webext-prod/pile.zip
