@@ -14,17 +14,17 @@ jobs:
           node-version: '16'
       - name: get semantic release info
         id: semantic_release_info
-        uses: jossef/action-semantic-release-info@master
+        uses: jossef/action-semantic-release-info@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: update package.json version
-        uses: jossef/action-set-json-field@master
+        uses: jossef/action-set-json-field@v1
         with:
           file: package.json
           field: version
           value: ${{ steps.semantic_release_info.outputs.git_tag }}
       - name: update manifest.json version
-        uses: jossef/action-set-json-field@master
+        uses: jossef/action-set-json-field@v1
         with:
           file: src/manifest.json
           field: version
@@ -42,7 +42,7 @@ jobs:
       - run: yarn --frozen-lockfile
       - run: yarn setup-ci
       - name: update env.json pocketKey
-        uses: jossef/action-set-json-field@master
+        uses: jossef/action-set-json-field@v1
         with:
           file: src.env.json
           field: pocketKey
@@ -51,13 +51,13 @@ jobs:
       - run: yarn zip
       - name: changelog
         id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@develop
+        uses: mikepenz/release-changelog-builder-action@2.7.1
         with:
           failOnError: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: release
-        uses: softprops/action-gh-release@master
+        uses: softprops/action-gh-release@v1
         with:
           fail_on_unmatched_files: true
           body: ${{steps.build_changelog.outputs.changelog}}
