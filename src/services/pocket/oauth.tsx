@@ -2,10 +2,11 @@ import { FC, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useAsyncEffect } from 'use-async-effect';
 
-import { authorize, get } from './api';
+import { get } from './apiGet';
 import 'content/tailwind.css';
 import { Footer } from 'components/Footer';
 import { Connected } from './Connected';
+import { authorize } from './apiAuthorize';
 
 const root = document.getElementById('root');
 

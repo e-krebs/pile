@@ -1,6 +1,6 @@
 import { FC, useCallback, useState } from 'react';
 
-import { connect } from './api';
+import { connect } from './apiConnect';
 import { Icon } from './Icon';
 
 export const ConnectButton: FC = () => {
@@ -24,4 +24,3 @@ export const ConnectButton: FC = () => {
     </div>
   );
 };
- 
