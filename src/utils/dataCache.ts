@@ -9,10 +9,15 @@ export interface JsonArrayCache<T> {
   data: T[];
 }
 
+export interface JsonCache<T> {
+  timestamp: number;
+  data: T;
+}
+
 export const getTimestamp = (): number => new Date().getTime();
 
 export const isCacheExpired = <T>(
-  cache: JsonCache<T>,
+  cache: JsonCache<T> | JsonArrayCache<T>,
   duration = cacheDurationMs
 ): boolean => (getTimestamp() - cache.timestamp) > duration;
 
