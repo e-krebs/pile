@@ -2,7 +2,7 @@ import Vibrant from 'node-vibrant';
 
 import { readFile, readJson, writeBlob, writeJson, deleteFolder } from 'utils/files';
 import { getBlob } from 'utils/get';
-import { BlobInfo, Response } from 'utils/typings';
+import type { BlobInfo, Path, Response } from 'utils/typings';
 import { Palette, resolvePalette } from './palette';
 
 const iconFolder = 'icons';
@@ -32,7 +32,7 @@ export interface IconAndPalette {
   palette: Palette;
 }
 
-const getPalette = async (url: string, palettePath: string[]): Promise<IconAndPalette> => {
+const getPalette = async (url: string, palettePath: Path): Promise<IconAndPalette> => {
   let palette = await readJson<Palette>(palettePath);
   if (palette) return { url, palette };
 
@@ -51,8 +51,8 @@ export const getIcon = async (
   hostname: string,
   fallback: string | null = null
 ): Promise<IconAndPalette | undefined> => {
-  const imageName = [iconFolder, `${hostname}.png`];
-  const paletteName = [iconFolder, `${hostname}_palette.json`];
+  const imageName: Path = [iconFolder, `${hostname}.png`];
+  const paletteName: Path = [iconFolder, `${hostname}_palette.json`];
 
   try {
     let imageUrl = await readFile(imageName);

@@ -1,8 +1,10 @@
+import type { Path } from 'utils/typings';
+
 let fsRoot: FileSystemDirectoryEntry | null = null;
 
 const rootFolder = 'storage';
 
-export const getFileUrl = async (path: string[]): Promise<string> => {
+export const getFileUrl = async (path: Path): Promise<string> => {
   const fsRoot = await getFilesystem();
   return fsRoot.toURL() + `${rootFolder}/` + path.join('/');
 };
@@ -36,7 +38,7 @@ const getFolder = async (
 };
 
 export const getFileFromPath = async (
-  paths: string[]
+  paths: Path
 ): Promise<[FileSystemDirectoryEntry, string]> => {
   let folder = await getFilesystem();
   const folders = [rootFolder, ...paths.slice(0, -1)];
