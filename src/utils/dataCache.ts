@@ -4,7 +4,7 @@ import { deleteJson } from './files';
 
 export const cacheDurationMs = 5 * 60 * 1000;
 
-export interface JsonCache<T> {
+export interface JsonArrayCache<T> {
   timestamp: number;
   data: T[];
 }
