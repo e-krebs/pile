@@ -4,7 +4,7 @@ import type { PocketItem } from './item';
 import { getJsonKey, readJson, writeJson } from 'utils/files';
 import { getTimestamp, isCacheExpired, JsonArrayCache } from 'utils/dataCache';
 import { color } from 'helpers/vars';
-import { getQueryKeys, headers } from './const';
+import { getQueryKey, headers } from './const';
 
 interface PocketList {
   list: Record<number, PocketItem>
@@ -22,7 +22,7 @@ type GetParams = {
 const rawGet = async (param: GetParams): Promise<JsonArrayCache<PocketItem>> => {
   if (!isConnected()) throw Error('not connected to pocket');
 
-  const key = getJsonKey(getQueryKeys);
+  const key = getJsonKey(getQueryKey);
   let list = await readJson<JsonArrayCache<PocketItem>>([key]);
 
   if (param.type !== 'default' || !list || isCacheExpired(list)) {

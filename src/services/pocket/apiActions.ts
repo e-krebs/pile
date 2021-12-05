@@ -20,8 +20,6 @@ const action = async (item_id: string, action: 'delete' | 'archive'): Promise<bo
   return response.result.action_results[0];
 };
 
-export const deleteItem = async (item_id: string): Promise<boolean> =>
-  await action(item_id, 'delete');
+export const deleteItem = async (id: string): Promise<boolean> => await action(id, 'delete');
 
-export const archiveItem = async (item_id: string): Promise<boolean> =>
-  await action(item_id, 'archive');
+export const archiveItem = async (id: string): Promise<boolean> => await action(id, 'archive');

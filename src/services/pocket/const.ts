@@ -1,5 +1,5 @@
 export const name = 'pocket';
-export const getQueryKeys = 'pocketList';
+export const getQueryKey = 'pocketList';
 
 export type LocalStorageKeys = 'code' | 'token' | 'username';
 export const localStorageKeyCodes: Record<LocalStorageKeys, string> = {
