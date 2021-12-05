@@ -126,8 +126,10 @@ const rawGet = async (param: GetParams): Promise<JsonCache<PocketItem>> => {
     }
   }
 
-  chrome.browserAction.setBadgeBackgroundColor({ color });
-  chrome.browserAction.setBadgeText({ text: list.data.length.toString() });
+  if (param.type !== 'search') {
+    chrome.browserAction.setBadgeBackgroundColor({ color });
+    chrome.browserAction.setBadgeText({ text: list.data.length.toString() });
+  }
 
   return list;
 };
