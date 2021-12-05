@@ -6,6 +6,7 @@ import { services, ServiceNames } from 'services';
 import type { Service } from 'utils/services';
 import { Connected } from 'components/Connected';
 import { setBadge } from 'utils/badge';
+import { ServiceContext } from 'hooks';
 
 type OAuthState = 'inprogress' | 'failed' | 'success';
 
@@ -31,22 +32,26 @@ export const Page: FC<PageProps> = ({ serviceName }) => {
     }
   }, []);
 
-  return service === null ? null : (
-    <div>
-      <div className="flex justify-center p-3 my-10 text-lg">
-        {state === 'inprogress' && (
-          <div>
-            Trying to get {service.name}'s authorization...
+  return (
+    <ServiceContext.Provider value={service}>
+      {service !== null && (
+        <div>
+          <div className="flex justify-center p-3 my-10 text-lg">
+            {state === 'inprogress' && (
+              <div>
+                Trying to get {service.name}'s authorization...
+              </div>
+            )}
+            {state === 'failed' && (
+              <div>
+                Please authorize "Pile" in {service.name} in order to work.
+              </div>
+            )}
+            {state === 'success' && <Connected />}
           </div>
-        )}
-        {state === 'failed' && (
-          <div>
-            Please authorize "Pile" in {service.name} in order to work.
-          </div>
-        )}
-        {state === 'success' && <Connected service={service} />}
-      </div>
-      <Footer />
-    </div>
+          <Footer />
+        </div>
+      )}
+    </ServiceContext.Provider>
   );
 };

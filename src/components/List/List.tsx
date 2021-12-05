@@ -10,15 +10,11 @@ import { ListItem } from 'utils/typings';
 import { Icon } from 'components/Icon';
 import { SearchInput } from 'components/SearchInput';
 import { Item } from './Item';
-import { ListContext } from './ListContext';
 import { setBadge } from 'utils/badge';
-import { Service } from 'utils/services';
+import { useService } from 'hooks';
 
-export interface ListProps {
-  service: Service;
-}
-
-export const List: FC<ListProps> = ({ service }) => {
+export const List: FC = () => {
+  const service = useService();
   const queryClient = useQueryClient();
   const [list, setList] = useState<ListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -76,13 +72,7 @@ export const List: FC<ListProps> = ({ service }) => {
   );
 
   return (
-    <ListContext.Provider
-      value={{
-        getQueryKey: service.getQueryKey,
-        archiveItem: service.archiveItem,
-        deleteItem: service.deleteItem,
-      }}
-    >
+    <>
       {formattedTimestamp != null && (
         <div className="flex items-center justify-center text-xs">
           <Icon
@@ -132,6 +122,6 @@ export const List: FC<ListProps> = ({ service }) => {
           />
         ))}
       </div>
-    </ListContext.Provider>
+    </>
   );
 };

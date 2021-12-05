@@ -5,13 +5,10 @@ import { setBadge } from 'utils/badge';
 import { Button } from './Button';
 import { Connected } from './Connected';
 import { ConnectButton } from './ConnectButton';
-import { Service } from 'utils/services';
+import { useService } from 'hooks';
 
-interface ConnectionStatusProps {
-  service: Service;
-}
-
-export const ConnectionStatus: FC<ConnectionStatusProps> = ({ service }) => {
+export const ConnectionStatus: FC = () => {
+  const service = useService();
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
@@ -26,10 +23,10 @@ export const ConnectionStatus: FC<ConnectionStatusProps> = ({ service }) => {
 
   return connected ? (
     <div className="flex flex-col items-center space-y-3">
-      <Connected service={service} />
+      <Connected />
       <Button startIcon={Power} onClick={onClick}>Disconnect</Button>
     </div>
   ) : (
-    <ConnectButton service={service} />
+    <ConnectButton />
   );
 };

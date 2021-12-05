@@ -3,13 +3,13 @@ import { Trash2 } from 'react-feather';
 import { useQueryClient } from 'react-query';
 
 import { Action } from 'components/Action';
-import { useListContext } from 'components/List';
+import { useService } from 'hooks';
 import { clearCache } from 'utils/dataCache';
 import { useItemContext } from './ItemContext';
 
 export const DeleteAction: FC = () => {
   const queryClient = useQueryClient();
-  const { getQueryKey, deleteItem } = useListContext();
+  const { getQueryKey, deleteItem } = useService();
   const { rgb, id } = useItemContext();
   const [deleteLoading, setDeleteLoading] = useState(false);
 

@@ -3,7 +3,7 @@ import { Loader, Image } from 'react-feather';
 import { useQueryClient } from 'react-query';
 
 import { getRgba } from 'utils/palette';
-import { useListContext } from 'components/List';
+import { useService } from 'hooks';
 import { useItemContext } from './ItemContext';
 import { clearCache } from 'utils/dataCache';
 
@@ -11,7 +11,7 @@ type IconState = 'loading' | 'icon' | 'default';
 
 export const MainIcon: FC = () => {
   const queryClient = useQueryClient();
-  const { getQueryKey, archiveItem } = useListContext();
+  const { getQueryKey, archiveItem } = useService();
   const { rgb, id, url, iconUrl } = useItemContext();
   const [iconLoading, setIconLoading] = useState(false);
 

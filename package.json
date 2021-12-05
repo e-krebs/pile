@@ -64,6 +64,7 @@
     "content": "./src/content",
     "env.json": "./src/env.json",
     "helpers": "./src/helpers",
+    "hooks": "./src/hooks",
     "services": "./src/services",
     "utils": "./src/utils"
   },

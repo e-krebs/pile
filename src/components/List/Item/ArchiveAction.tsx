@@ -3,13 +3,13 @@ import { Archive } from 'react-feather';
 import { useQueryClient } from 'react-query';
 
 import { Action } from 'components/Action';
-import { useListContext } from 'components/List';
+import { useService } from 'hooks';
 import { clearCache } from 'utils/dataCache';
 import { useItemContext } from './ItemContext';
 
 export const ArchiveAction: FC = () => {
   const queryClient = useQueryClient();
-  const { getQueryKey, archiveItem } = useListContext();
+  const { getQueryKey, archiveItem } = useService();
   const { rgb, id } = useItemContext();
   const [archiveLoading, setArchiveLoading] = useState(false);
 

@@ -1,12 +1,9 @@
 import { FC, useCallback, useState } from 'react';
 
-import { Service } from 'utils/services';
+import { useService } from 'hooks';
 
-interface ConnectButtonProps {
-  service: Service;
-}
-
-export const ConnectButton: FC<ConnectButtonProps> = ({ service}) => {
+export const ConnectButton: FC = () => {
+  const service = useService();
   const { Icon } = service;
   const [loading, setLoading] = useState(false);
 

@@ -1,6 +1,8 @@
 import { FC, useMemo, useState } from 'react';
 
-import { SharedTabProps, Tab } from './Tab';
+import { Service } from 'utils/services';
+import { ServiceContext } from 'hooks';
+import { isService, SharedTabProps, Tab } from './Tab';
 
 export type TabProps = SharedTabProps & { content: FC };
 
@@ -11,13 +13,17 @@ export interface TabsProps {
 
 export const Tabs: FC<TabsProps> = ({ tabs, children, tabIndex = 0 }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(tabIndex);
+  const service: Service | null = useMemo(
+    () => tabs[selectedIndex].service,
+    [selectedIndex, tabs]
+  );
   const Content = useMemo(
     () => tabs[selectedIndex].content,
     [selectedIndex, tabs]
   );
 
   return (
-    <>
+    <ServiceContext.Provider value={service}>
       <div className="flex px-2 mb-2 space-x-2 border-b border-gray-200 bg-gray-50">
         {tabs.map(
           ({ content, ...tab }, index) =>
@@ -34,6 +40,6 @@ export const Tabs: FC<TabsProps> = ({ tabs, children, tabIndex = 0 }) => {
       <div className="px-2 py-2">
         <Content />
       </div>
-    </>
+    </ServiceContext.Provider>
   );
 };
