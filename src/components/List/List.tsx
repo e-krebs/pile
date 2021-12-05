@@ -5,27 +5,20 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-import { clearCache, JsonArrayCache } from 'utils/dataCache';
+import { clearCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
 import { Icon } from 'components/Icon';
 import { SearchInput } from 'components/SearchInput';
 import { Item } from './Item';
 import { ListContext } from './ListContext';
 import { setBadge } from 'utils/badge';
-import { ServiceNames } from 'services';
+import { Service } from 'utils/services';
 
 export interface ListProps {
-  name: ServiceNames;
-  getQueryKey: string;
-  get: () => Promise<JsonArrayCache<ListItem>>;
-  search: (search: string) => Promise<JsonArrayCache<ListItem>>;
-  archiveItem: (id: string) => Promise<boolean>;
-  deleteItem: (id: string) => Promise<boolean>;
+  service: Service;
 }
 
-export const List: FC<ListProps> = (
-  { name, getQueryKey, get, search, archiveItem, deleteItem }
-) => {
+export const List: FC<ListProps> = ({ service }) => {
   const queryClient = useQueryClient();
   const [list, setList] = useState<ListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -33,11 +26,14 @@ export const List: FC<ListProps> = (
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [itemOpen, setItemOpen] = useState<string | null>(null);
   const searchInput = useRef<HTMLInputElement>(null);
-  const { data } = useQuery(getQueryKey, async () => {
-    const list = await get();
-    setBadge(name, list.data.length);
-    return list;
-  });
+  const { data } = useQuery(
+    service.getQueryKey,
+    async () => {
+      const list = await service.get();
+      setBadge(service.name, list.data.length);
+      return list;
+    }
+  );
 
   const initialList = useMemo(() => data?.data ?? [], [data]);
   useEffect(() => {
@@ -53,16 +49,16 @@ export const List: FC<ListProps> = (
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
-    await clearCache(getQueryKey, queryClient);
+    await clearCache(service.getQueryKey, queryClient);
     setIsRefreshing(false);
-  }, [getQueryKey, queryClient]);
+  }, [service, queryClient]);
 
   const onSearch = async (value?: string) => {
     if (!value) {
       setList(initialList);
     } else {
       setIsLoading(true);
-      const searchResult = await search(value);
+      const searchResult = await service.search(value);
       setList(searchResult.data);
       setIsLoading(false);
     }
@@ -80,7 +76,13 @@ export const List: FC<ListProps> = (
   );
 
   return (
-    <ListContext.Provider value={{ getQueryKey, archiveItem, deleteItem }}>
+    <ListContext.Provider
+      value={{
+        getQueryKey: service.getQueryKey,
+        archiveItem: service.archiveItem,
+        deleteItem: service.deleteItem,
+      }}
+    >
       {formattedTimestamp != null && (
         <div className="flex items-center justify-center text-xs">
           <Icon

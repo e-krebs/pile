@@ -8,20 +8,13 @@ import { getServices, Service } from 'utils/services';
 
 const services = getServices();
 
-const serviceToTab = (
-  { name, borderClassName, Icon, connect, disconnect, isConnected }: Service
-): TabProps => {
-  const content = () => (
-    <ConnectionStatus
-      name={name}
-      Icon={Icon}
-      connect={connect}
-      disconnect={disconnect}
-      isConnected={isConnected}
-    />
-  );
-
-  return { borderClassName, Icon: Icon, content };
+const serviceToTab = (service: Service): TabProps => {
+  const content = () => <ConnectionStatus service={service} />;
+  return {
+    borderClassName: service.borderClassName,
+    Icon: service.Icon,
+    content
+  };
 };
 
 export const Page: FC = () => (

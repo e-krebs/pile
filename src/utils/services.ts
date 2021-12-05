@@ -16,7 +16,7 @@ export interface Service {
   isConnected: () => boolean;
   archiveItem: (id: string) => Promise<boolean>;
   deleteItem: (id: string) => Promise<boolean>;
-  Icon: FC;
+  Icon: FC<{ className?: string }>;
   borderClassName: string;
 }
 

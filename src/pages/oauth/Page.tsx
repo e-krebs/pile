@@ -44,7 +44,7 @@ export const Page: FC<PageProps> = ({ serviceName }) => {
             Please authorize "Pile" in {service.name} in order to work.
           </div>
         )}
-        {state === 'success' && <Connected name={service.name} />}
+        {state === 'success' && <Connected service={service} />}
       </div>
       <Footer />
     </div>

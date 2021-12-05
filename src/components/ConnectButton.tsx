@@ -1,18 +1,20 @@
 import { FC, useCallback, useState } from 'react';
 
+import { Service } from 'utils/services';
+
 interface ConnectButtonProps {
-  connect: () => void;
-  Icon: FC<{ className?: string }>;
+  service: Service;
 }
 
-export const ConnectButton: FC<ConnectButtonProps> = ({ connect, Icon }) => {
+export const ConnectButton: FC<ConnectButtonProps> = ({ service}) => {
+  const { Icon } = service;
   const [loading, setLoading] = useState(false);
 
   const onClick = useCallback(async () => {
     setLoading(true);
-    await connect();
+    await service.connect();
     setLoading(false);
-  }, [connect]);
+  }, [service]);
 
   return (
     <div className="flex justify-center py-10 text-lg">

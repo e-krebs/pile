@@ -13,43 +13,15 @@ import { cacheDurationMs } from 'utils/dataCache';
 
 const services = getServices();
 
-const serviceToTab = (
-  {
-    name,
-    getQueryKey,
-    borderClassName,
-    get,
-    search,
-    connect,
-    disconnect,
-    isConnected,
-    archiveItem,
-    deleteItem,
-    Icon,
-  }: Service
-): TabProps => {
-  const content = () => isConnected()
-    ? (
-      <List
-        name={name}
-        getQueryKey={getQueryKey}
-        get={get}
-        search={search}
-        archiveItem={archiveItem}
-        deleteItem={deleteItem}
-      />
-    )
-    : (
-      <ConnectionStatus
-        name={name}
-        Icon={Icon}
-        connect={connect}
-        disconnect={disconnect}
-        isConnected={isConnected}
-      />
-    );
-
-  return { borderClassName, Icon: Icon, content };
+const serviceToTab = (service: Service): TabProps => {
+  const content = () => service.isConnected()
+    ? <List service={service} />
+    : <ConnectionStatus service={service} />;
+  return {
+    borderClassName: service.borderClassName,
+    Icon: service.Icon,
+    content
+  };
 };
 
 const queryClient = new QueryClient({
