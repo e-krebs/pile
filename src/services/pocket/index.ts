@@ -3,8 +3,7 @@ import { name, getQueryKey } from './const';
 import { forceGet, get, search } from './get';
 import { authorize } from './authorize';
 import { connect } from './connect';
-import { disconnect } from './disconnect';
-import { isConnected } from './helpers';
+import { deleteAllKeys, isConnected } from './helpers';
 import { archiveItem, deleteItem } from './actions';
 import { Icon } from './Icon';
 
@@ -18,7 +17,7 @@ export const pocket: Service = {
   search,
   authorize,
   connect,
-  disconnect,
+  disconnect: deleteAllKeys,
   isConnected,
   archiveItem,
   deleteItem,

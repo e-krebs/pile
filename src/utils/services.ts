@@ -12,7 +12,7 @@ export interface Service {
   search: (search: string) => Promise<JsonArrayCache<ListItem>>;
   authorize: () => Promise<boolean>;
   connect: () => Promise<boolean>;
-  disconnect: () => Promise<void>;
+  disconnect: () => void;
   isConnected: () => boolean;
   archiveItem: (id: string) => Promise<boolean>;
   deleteItem: (id: string) => Promise<boolean>;
