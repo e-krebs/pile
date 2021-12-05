@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 import type { RGB } from 'utils/palette';
 
 interface Item {
-  itemId: string;
+  id: string;
   url: string;
   title: string;
   iconUrl?: string;
