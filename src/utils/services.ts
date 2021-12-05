@@ -9,9 +9,10 @@ export interface ServiceType<T> {
   get: () => Promise<JsonArrayCache<T>>;
   search: (search: string) => Promise<JsonArrayCache<T>>;
   authorize: () => Promise<boolean>;
+  connect: () => Promise<boolean>;
+  disconnect: () => Promise<void>;
   isConnected: () => boolean;
   Icon: FC;
-  ConnectionStatus: FC;
   List: FC;
   borderClassName: string;
 }

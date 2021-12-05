@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import 'content/tailwind.css';
+import { ConnectionStatus } from 'components/ConnectionStatus';
 import { Footer } from 'components/Footer';
 import { Tabs, Tab, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
@@ -12,12 +13,20 @@ import { cacheDurationMs } from 'utils/dataCache';
 const services = getServices();
 
 const serviceToTab = (
-  { borderClassName, isConnected, Icon, List, ConnectionStatus }: ServiceType<unknown>
-): TabProps => ({
-  borderClassName,
-  icon: Icon,
-  content: isConnected() ? List : ConnectionStatus,
-});
+  { name, borderClassName, connect, disconnect, isConnected, Icon, List }: ServiceType<unknown>
+): TabProps => {
+  const content = isConnected() ? List: () => (
+    <ConnectionStatus
+      name={name}
+      Icon={Icon}
+      connect={connect}
+      disconnect={disconnect}
+      isConnected={isConnected}
+    />
+  );
+
+  return { borderClassName, icon: Icon, content };
+};
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: cacheDurationMs } }
