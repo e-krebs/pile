@@ -3,7 +3,6 @@ import { post } from 'utils/post';
 import { ListItem } from 'utils/typings';
 import { getJsonKey, readJson, writeJson } from 'utils/files';
 import { getTimestamp, isCacheExpired, JsonArrayCache } from 'utils/dataCache';
-import { color } from 'helpers/vars';
 import { getQueryKey, headers } from './const';
 import { itemToListItem, PocketItem } from './item';
 
@@ -45,11 +44,6 @@ const rawGet = async (param: GetParams): Promise<JsonArrayCache<ListItem>> => {
     if (param.type !== 'search') {
       await writeJson<JsonArrayCache<ListItem>>([key], list);
     }
-  }
-
-  if (param.type !== 'search') {
-    chrome.browserAction.setBadgeBackgroundColor({ color });
-    chrome.browserAction.setBadgeText({ text: list.data.length.toString() });
   }
 
   return list;

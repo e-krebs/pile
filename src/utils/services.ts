@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 
-import { services } from 'services';
+import { ServiceNames, services } from 'services';
 import type { JsonArrayCache } from './dataCache';
 import { ListItem } from './typings';
 
 export interface Service {
-  name: string;
+  name: ServiceNames;
   getQueryKey: string;
   forceGet: () => Promise<JsonArrayCache<ListItem>>;
   get: () => Promise<JsonArrayCache<ListItem>>;

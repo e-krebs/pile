@@ -11,8 +11,11 @@ import { Icon } from 'components/Icon';
 import { SearchInput } from 'components/SearchInput';
 import { Item } from './Item';
 import { ListContext } from './ListContext';
+import { setBadge } from 'utils/badge';
+import { ServiceNames } from 'services';
 
 export interface ListProps {
+  name: ServiceNames;
   getQueryKey: string;
   get: () => Promise<JsonArrayCache<ListItem>>;
   search: (search: string) => Promise<JsonArrayCache<ListItem>>;
@@ -21,7 +24,7 @@ export interface ListProps {
 }
 
 export const List: FC<ListProps> = (
-  { getQueryKey, get, search, archiveItem, deleteItem }
+  { name, getQueryKey, get, search, archiveItem, deleteItem }
 ) => {
   const queryClient = useQueryClient();
   const [list, setList] = useState<ListItem[]>([]);
@@ -30,7 +33,11 @@ export const List: FC<ListProps> = (
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [itemOpen, setItemOpen] = useState<string | null>(null);
   const searchInput = useRef<HTMLInputElement>(null);
-  const { data } = useQuery(getQueryKey, get);
+  const { data } = useQuery(getQueryKey, async () => {
+    const list = await get();
+    setBadge(name, list.data.length);
+    return list;
+  });
 
   const initialList = useMemo(() => data?.data ?? [], [data]);
   useEffect(() => {

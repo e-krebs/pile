@@ -5,6 +5,7 @@ import { Footer } from 'components/Footer';
 import { services, ServiceNames } from 'services';
 import type { Service } from 'utils/services';
 import { Connected } from 'components/Connected';
+import { setBadge } from 'utils/badge';
 
 type OAuthState = 'inprogress' | 'failed' | 'success';
 
@@ -25,7 +26,8 @@ export const Page: FC<PageProps> = ({ serviceName }) => {
     const ok = await service.authorize();
     setState(ok ? 'success' : 'failed');
     if (ok) {
-      await service.get();
+      const list = await service.get();
+      setBadge(service.name, list.data.length);
     }
   }, []);
 

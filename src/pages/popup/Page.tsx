@@ -29,13 +29,16 @@ const serviceToTab = (
   }: Service
 ): TabProps => {
   const content = () => isConnected()
-    ? <List
-      getQueryKey={getQueryKey}
-      get={get}
-      search={search}
-      archiveItem={archiveItem}
-      deleteItem={deleteItem}
-    />
+    ? (
+      <List
+        name={name}
+        getQueryKey={getQueryKey}
+        get={get}
+        search={search}
+        archiveItem={archiveItem}
+        deleteItem={deleteItem}
+      />
+    )
     : (
       <ConnectionStatus
         name={name}

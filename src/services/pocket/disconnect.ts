@@ -5,5 +5,4 @@ import { deleteAllKeys } from './helpers';
 export const disconnect = async () => {
   deleteAllKeys();
   await deleteJson(getJsonKey(getQueryKey));
-  chrome.browserAction.setBadgeText({});
 };
