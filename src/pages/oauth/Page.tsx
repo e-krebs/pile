@@ -2,7 +2,7 @@ import { FC, useMemo, useState } from 'react';
 import { useAsyncEffect } from 'use-async-effect';
 
 import { Footer } from 'components/Footer';
-import { services, ServiceNames } from 'services';
+import { services, ServiceNames, ServiceItems } from 'services';
 import type { ServiceType } from 'utils/services';
 import { Connected } from 'components/Connected';
 
@@ -13,7 +13,7 @@ interface PageProps {
 }
 
 export const Page: FC<PageProps> = ({ serviceName }) => {
-  const service: ServiceType<unknown> | null = useMemo(() => {
+  const service: ServiceType<ServiceItems> | null = useMemo(() => {
     if (!serviceName || !services.hasOwnProperty(serviceName)) return null;
     return services[serviceName as ServiceNames];
   }, [serviceName]);
