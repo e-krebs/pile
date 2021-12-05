@@ -1,5 +1,6 @@
 import { vars, defaultVars } from 'helpers/vars';
 import { setBadge } from 'utils/badge';
+import { forceGet } from 'utils/get';
 import { getServices } from 'utils/services';
 
 const { refreshInterval } = vars;
@@ -11,7 +12,7 @@ const alarmListener = async (alarm: chrome.alarms.Alarm) => {
   switch (alarm.name) {
     case refreshInterval:
       for (const service of services) {
-        const list = await service.forceGet();
+        const list = await forceGet(service);
         setBadge(service.name, list.data.length);
       }
       break;
@@ -29,7 +30,7 @@ chrome.alarms.onAlarm.addListener(alarmListener);
 (async () => {
   await Promise.all([
     services.map(async (service) => {
-      const list = await service.forceGet();
+      const list = await forceGet(service);
       setBadge(service.name, list.data.length);
     })
   ]);

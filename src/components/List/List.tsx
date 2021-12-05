@@ -12,6 +12,7 @@ import { SearchInput } from 'components/SearchInput';
 import { Item } from './Item';
 import { setBadge } from 'utils/badge';
 import { useService } from 'hooks';
+import { get, search } from 'utils/get';
 
 export const List: FC = () => {
   const service = useService();
@@ -25,7 +26,7 @@ export const List: FC = () => {
   const { data } = useQuery(
     service.getQueryKey,
     async () => {
-      const list = await service.get();
+      const list = await get(service);
       setBadge(service.name, list.data.length);
       return list;
     }
@@ -54,7 +55,7 @@ export const List: FC = () => {
       setList(initialList);
     } else {
       setIsLoading(true);
-      const searchResult = await service.search(value);
+      const searchResult = await search(value, service);
       setList(searchResult.data);
       setIsLoading(false);
     }
