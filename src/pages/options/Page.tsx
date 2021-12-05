@@ -8,21 +8,17 @@ import { getServices, Service } from 'utils/services';
 
 const services = getServices();
 
-const serviceToTab = (service: Service): TabProps => {
-  const content = () => <ConnectionStatus service={service} />;
-  return {
-    borderClassName: service.borderClassName,
-    Icon: service.Icon,
-    content
-  };
-};
+const serviceToTab = (service: Service): TabProps => ({
+  content: ConnectionStatus,
+  service
+});
 
 export const Page: FC = () => (
   <Tabs tabs={[
     {
       borderClassName: 'border-gray-500',
       Icon: OptionsIcon,
-      content: SharedSettings
+      content: SharedSettings,
     },
     ...services.map(serviceToTab),
   ]} />

@@ -14,7 +14,10 @@ export interface TabsProps {
 export const Tabs: FC<TabsProps> = ({ tabs, children, tabIndex = 0 }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(tabIndex);
   const service: Service | null = useMemo(
-    () => tabs[selectedIndex].service,
+    () => {
+      const props = tabs[selectedIndex];
+      return isService(props) ? props.service : null;
+    },
     [selectedIndex, tabs]
   );
   const Content = useMemo(
