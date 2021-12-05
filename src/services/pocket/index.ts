@@ -7,11 +7,10 @@ import { disconnect } from './apiDisconnect';
 import { isConnected } from './helpers';
 import { archiveItem, deleteItem } from './apiActions';
 import { Icon } from './Icon';
-import { itemToListItem, PocketItem } from './item';
 
 export type PocketServiceName = 'pocket';
 
-export const pocket: ServiceType<PocketItem> = {
+export const pocket: ServiceType = {
   name,
   getQueryKey,
   forceGet,
@@ -25,7 +24,4 @@ export const pocket: ServiceType<PocketItem> = {
   deleteItem,
   Icon,
   borderClassName: 'border-pocket',
-  itemToListItem,
 };
-
-export type { PocketItem } from './item';

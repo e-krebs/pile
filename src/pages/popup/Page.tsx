@@ -3,14 +3,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import 'content/tailwind.css';
-import { List as RawList, ListProps } from 'components/List';
+import { List } from 'components/List';
 import { ConnectionStatus } from 'components/ConnectionStatus';
 import { Footer } from 'components/Footer';
 import { Tabs, Tab, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
 import { getServices, ServiceType } from 'utils/services';
 import { cacheDurationMs } from 'utils/dataCache';
-import { ServiceItems } from 'services';
 
 const services = getServices();
 
@@ -27,19 +26,16 @@ const serviceToTab = (
     archiveItem,
     deleteItem,
     Icon,
-    itemToListItem,
-  }: ServiceType<ServiceItems>
+  }: ServiceType
 ): TabProps => {
-  const List = RawList as FC<ListProps<ServiceItems>>;
-  const content: FC = () => isConnected()
+  const content = () => isConnected()
     ? <List
-        getQueryKey={getQueryKey}
-        get={get}
-        search={search}
-        archiveItem={archiveItem}
-        deleteItem={deleteItem}
-        itemToListItem={itemToListItem}
-      />
+      getQueryKey={getQueryKey}
+      get={get}
+      search={search}
+      archiveItem={archiveItem}
+      deleteItem={deleteItem}
+    />
     : (
       <ConnectionStatus
         name={name}

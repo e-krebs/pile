@@ -12,20 +12,19 @@ import { SearchInput } from 'components/SearchInput';
 import { Item } from './Item';
 import { ListContext } from './ListContext';
 
-export interface ListProps<T = unknown> {
+export interface ListProps {
   getQueryKey: string;
-  get: () => Promise<JsonArrayCache<T>>;
-  search: (search: string) => Promise<JsonArrayCache<T>>;
-  itemToListItem: (item: T) => ListItem;
+  get: () => Promise<JsonArrayCache<ListItem>>;
+  search: (search: string) => Promise<JsonArrayCache<ListItem>>;
   archiveItem: (id: string) => Promise<boolean>;
   deleteItem: (id: string) => Promise<boolean>;
 }
 
-export const List: FC<ListProps> = <T,>(
-  { getQueryKey, get, search, itemToListItem, archiveItem, deleteItem }: ListProps<T>
+export const List: FC<ListProps> = (
+  { getQueryKey, get, search, archiveItem, deleteItem }
 ) => {
   const queryClient = useQueryClient();
-  const [list, setList] = useState<T[]>([]);
+  const [list, setList] = useState<ListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
@@ -115,17 +114,14 @@ export const List: FC<ListProps> = <T,>(
             }
           </div>
         )}
-        {!isLoading && list.length > 0 && list.map((pocketItem) => {
-          const item = itemToListItem(pocketItem);
-          return (
-            <Item
-              item={item}
-              key={item.id}
-              isOpen={item.id === itemOpen}
-              setIsOpen={(value: boolean) => setItemOpen(value ? item.id : null)}
-            />
-          );
-        })}
+        {!isLoading && list.length > 0 && list.map((item) => (
+          <Item
+            item={item}
+            key={item.id}
+            isOpen={item.id === itemOpen}
+            setIsOpen={(value: boolean) => setItemOpen(value ? item.id : null)}
+          />
+        ))}
       </div>
     </ListContext.Provider>
   );

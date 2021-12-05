@@ -1,10 +1,11 @@
 import { getPocketKey, getPocketToken, isConnected } from './helpers';
 import { post } from 'utils/post';
-import type { PocketItem } from './item';
+import { ListItem } from 'utils/typings';
 import { getJsonKey, readJson, writeJson } from 'utils/files';
 import { getTimestamp, isCacheExpired, JsonArrayCache } from 'utils/dataCache';
 import { color } from 'helpers/vars';
 import { getQueryKey, headers } from './const';
+import { itemToListItem, PocketItem } from './item';
 
 interface PocketList {
   list: Record<number, PocketItem>
@@ -19,11 +20,11 @@ type GetParams = {
   search: string;
 }
 
-const rawGet = async (param: GetParams): Promise<JsonArrayCache<PocketItem>> => {
+const rawGet = async (param: GetParams): Promise<JsonArrayCache<ListItem>> => {
   if (!isConnected()) throw Error('not connected to pocket');
 
   const key = getJsonKey(getQueryKey);
-  let list = await readJson<JsonArrayCache<PocketItem>>([key]);
+  let list = await readJson<JsonArrayCache<ListItem>>([key]);
 
   if (param.type !== 'default' || !list || isCacheExpired(list)) {
     const response = await post<PocketList>({
@@ -40,9 +41,9 @@ const rawGet = async (param: GetParams): Promise<JsonArrayCache<PocketItem>> => 
 
     const data: PocketItem[] = Object.values(response.result.list)
       .sort((a, b) => a.time_updated < b.time_updated ? 1 : -1);
-    list = { timestamp: getTimestamp(), data };
+    list = { timestamp: getTimestamp(), data: data.map(itemToListItem) };
     if (param.type !== 'search') {
-      await writeJson<JsonArrayCache<PocketItem>>([key], list);
+      await writeJson<JsonArrayCache<ListItem>>([key], list);
     }
   }
 
