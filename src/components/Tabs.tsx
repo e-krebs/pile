@@ -1,8 +1,16 @@
 import { FC, useMemo, useState } from 'react';
 import cx from 'classnames';
 
-interface TabsProps {
-  tabs: (Omit<TabProps, 'active' | 'onClick'> & { content: FC })[]
+interface SharedTabProps {
+  borderClassName?: string;
+  icon: FC;
+  rounded?: 'full' | 't-md';
+}
+
+export type TabProps = SharedTabProps & { content: FC };
+
+export interface TabsProps {
+  tabs: TabProps[]
   tabIndex?: number;
 }
 
@@ -35,15 +43,12 @@ export const Tabs: FC<TabsProps> = ({ tabs, children, tabIndex = 0 }) => {
   );
 };
 
-interface TabProps {
+type IProps = SharedTabProps & {
   active?: boolean;
-  borderClassName?: string;
-  icon: FC;
   onClick: () => void;
-  rounded?: 'full' | 't-md';
 }
 
-export const Tab: FC<TabProps> = ({
+export const Tab: FC<IProps> = ({
   active = false,
   borderClassName: color,
   icon: Icon,
