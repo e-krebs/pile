@@ -1,13 +1,17 @@
 import { vars, defaultVars } from 'helpers/vars';
-import { forceGet as forceGetPocket } from 'services/pocket/api';
+import { getServices } from 'utils/services';
 
 const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
 
+const services = getServices();
+
 const alarmListener = async (alarm: chrome.alarms.Alarm) => {
   switch (alarm.name) {
     case refreshInterval:
-      await forceGetPocket();
+      for (const service of services) {
+        await service.forceGet();
+      }
       break;
     default:
       console.warn('alarm', new Date(), alarm);
@@ -20,4 +24,6 @@ chrome.alarms.create(refreshInterval, {
 });
 chrome.alarms.onAlarm.addListener(alarmListener);
 
-forceGetPocket();
+for (const service of services) {
+  await service.forceGet();
+}
