@@ -1,4 +1,4 @@
-import { BlobInfo, Response } from './typings';
+import type { BlobInfo, Response } from './typings';
 
 interface GetParams {
   url: string;

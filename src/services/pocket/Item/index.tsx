@@ -4,7 +4,7 @@ import useAsyncEffect from 'use-async-effect';
 import { getIcon, IconAndPalette } from 'utils/icon';
 import { defaultRgb } from 'utils/palette';
 import { isEmpty } from 'utils/string';
-import { PocketItem } from 'services/pocket/apiTyping';
+import type { PocketItem } from 'services/pocket/apiTyping';
 import { ItemContext } from './ItemContext';
 import { ItemComponent } from './ItemComponent';
 

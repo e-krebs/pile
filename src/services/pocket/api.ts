@@ -10,9 +10,15 @@ import {
   setPocketUsername
 } from './helpers';
 import { post } from 'utils/post';
-import { PocketAuthorize, PocketItem, PocketList, PocketRequest, PocketSend } from './apiTyping';
+import type {
+  PocketAuthorize,
+  PocketItem,
+  PocketList,
+  PocketRequest,
+  PocketSend
+} from './apiTyping';
 import { deleteJson, getJsonKey, readJson, writeJson } from 'utils/files';
-import { getTimestamp, isCacheExpired, JsonCache } from 'utils/dataCache';
+import { getTimestamp, isCacheExpired, JsonArrayCache } from 'utils/dataCache';
 import { color } from 'helpers/vars';
 
 const headers: Record<string, string> = {
@@ -99,11 +105,11 @@ type GetParams = {
   search: string;
 }
 
-const rawGet = async (param: GetParams): Promise<JsonCache<PocketItem>> => {
+const rawGet = async (param: GetParams): Promise<JsonArrayCache<PocketItem>> => {
   if (!isConnected()) throw Error('not connected to pocket');
 
   const key = getJsonKey(queryKeys.get);
-  let list = await readJson<JsonCache<PocketItem>>([key]);
+  let list = await readJson<JsonArrayCache<PocketItem>>([key]);
 
   if (param.type !== 'default' || !list || isCacheExpired(list)) {
     const response = await post<PocketList>({
@@ -122,7 +128,7 @@ const rawGet = async (param: GetParams): Promise<JsonCache<PocketItem>> => {
       .sort((a, b) => a.time_updated < b.time_updated ? 1 : -1);
     list = { timestamp: getTimestamp(), data };
     if (param.type !== 'search') {
-      await writeJson<JsonCache<PocketItem>>([key], list);
+      await writeJson<JsonArrayCache<PocketItem>>([key], list);
     }
   }
 

@@ -1,4 +1,4 @@
-import { BlobInfo } from 'utils/typings';
+import type { BlobInfo, Path } from 'utils/typings';
 import { getFileFromPath, getFileUrl } from './helpers';
 
 // @ts-expect-error webkit specific varian
@@ -6,7 +6,7 @@ window.resolveLocalFileSystemURL = window.webkitResolveLocalFileSystemURL;
 
 export const getJsonKey = (key: string) => `${key}.json`;
 
-export const readFile = async (path: string[]): Promise<string | null> => {
+export const readFile = async (path: Path): Promise<string | null> => {
   const url = await getFileUrl(path);
   return new Promise((resolve) => {
     window.resolveLocalFileSystemURL(
@@ -17,7 +17,7 @@ export const readFile = async (path: string[]): Promise<string | null> => {
   });
 };
 
-export const readJson = async <T>(path: string[]): Promise<T | null> => {
+export const readJson = async <T>(path: Path): Promise<T | null> => {
   const url = await getFileUrl(path);
   return new Promise((resolve) => {
     window.resolveLocalFileSystemURL(
@@ -69,13 +69,13 @@ export const writeBlob = async (blobinfo: BlobInfo): Promise<string | null> => {
   });
 };
 
-export const writeJson = async <T = unknown>(path: string[], json: T): Promise<string | null> => {
+export const writeJson = async <T = unknown>(path: Path, json: T): Promise<string | null> => {
   const data = JSON.stringify(json);
   const blob = new Blob([data], { type: 'application/json' });
   return await writeBlob({ blob, blobPath: path });
 };
 
-const deleteFile = async (url: string[]): Promise<true> => {
+const deleteFile = async (url: Path): Promise<true> => {
   const [directory, file] = await getFileFromPath(url);
   return new Promise<true>((resolve, reject) => {
     directory.getFile(
@@ -89,7 +89,7 @@ const deleteFile = async (url: string[]): Promise<true> => {
   });
 };
 
-export const deleteFolder = async (path: string[]): Promise<true> => {
+export const deleteFolder = async (path: Path): Promise<true> => {
   const [directory] = await getFileFromPath([...path, '']);
   return new Promise<true>((resolve, reject) => {
     directory.removeRecursively(

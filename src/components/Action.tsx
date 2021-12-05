@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Icon as FeatherIcon, Loader } from 'react-feather';
 
 import { getRgba, RGB } from 'utils/palette';

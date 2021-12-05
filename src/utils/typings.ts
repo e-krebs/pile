@@ -7,5 +7,7 @@ export type Response<T> = {
 
 export interface BlobInfo {
   blob: Blob;
-  blobPath: string[];
+  blobPath: Path;
 }
+
+export type Path = [string, ...string[]];

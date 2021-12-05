@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
-import { ChangeEventHandler, FC } from 'react';
+import type { ChangeEventHandler, FC } from 'react';
 import { Trash2 } from 'react-feather';
 
 import { vars, defaultVars } from 'helpers/vars';

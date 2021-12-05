@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { isConnected } from './helpers';
 import { ConnectButton } from './ConnectButton';

@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { getRgba } from 'utils/palette';
 import { Link } from 'components/Link';

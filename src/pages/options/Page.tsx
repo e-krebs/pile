@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Tabs } from 'components/Tabs';
 import { Icon as PocketIcon } from 'services/pocket/Icon';

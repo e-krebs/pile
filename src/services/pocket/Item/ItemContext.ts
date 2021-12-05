@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { RGB } from 'utils/palette';
+import type { RGB } from 'utils/palette';
 
 interface Item {
   itemId: string;

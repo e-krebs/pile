@@ -1,4 +1,4 @@
-import { Response } from './typings';
+import type { Response } from './typings';
 
 interface PostParams {
   url: string;

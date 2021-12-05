@@ -8,7 +8,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { Icon } from 'components/Icon';
 import { clearCache } from 'utils/dataCache';
 import { get, queryKeys, search } from './api';
-import { PocketItem } from './apiTyping';
+import type { PocketItem } from './apiTyping';
 import { Item } from './Item';
 import { SearchInput } from 'components/SearchInput';
 
