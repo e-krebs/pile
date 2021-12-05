@@ -24,6 +24,8 @@ chrome.alarms.create(refreshInterval, {
 });
 chrome.alarms.onAlarm.addListener(alarmListener);
 
-for (const service of services) {
-  await service.forceGet();
-}
+(async () => {
+  await Promise.all([
+    services.map(async (service) => await service.forceGet)
+  ]);
+})();
