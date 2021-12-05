@@ -1,24 +1,27 @@
 import type { FC } from 'react';
 
-import { Tabs } from 'components/Tabs';
-import { Icon as PocketIcon } from 'services/pocket/Icon';
-import { PocketStatus } from 'services/pocket/PocketStatus';
+import { Tabs, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
 import { SharedSettings } from './SharedSettings';
+import { getServices, ServiceType } from 'utils/services';
 
-export const Page: FC = () => {
-  return (
-    <Tabs tabs={[
-      {
-        borderClassName: 'border-gray-500',
-        icon: OptionsIcon,
-        content: SharedSettings
-      },
-      {
-        borderClassName: 'border-pocket',
-        icon: PocketIcon,
-        content: PocketStatus
-      }
-    ]} />
-  );
-};
+const services = getServices();
+
+const serviceToTab = (
+  { borderClassName, Icon, ConnectionStatus }: ServiceType<unknown>
+): TabProps => ({
+  borderClassName,
+  icon: Icon,
+  content: ConnectionStatus,
+});
+
+export const Page: FC = () => (
+  <Tabs tabs={[
+    {
+      borderClassName: 'border-gray-500',
+      icon: OptionsIcon,
+      content: SharedSettings
+    },
+    ...services.map(serviceToTab),
+  ]} />
+);
