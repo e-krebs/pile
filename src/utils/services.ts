@@ -4,7 +4,7 @@ import { services } from 'services';
 import type { JsonArrayCache } from './dataCache';
 import { ListItem } from './typings';
 
-export interface ServiceType {
+export interface Service {
   name: string;
   getQueryKey: string;
   forceGet: () => Promise<JsonArrayCache<ListItem>>;
@@ -21,7 +21,7 @@ export interface ServiceType {
 }
 
 export const getServices = () => {
-  return Object.values(services) as ServiceType[];
+  return Object.values(services) as Service[];
 };
 
 export const getServiceOauthUrl = (name: string) =>

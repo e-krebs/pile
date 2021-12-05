@@ -4,12 +4,12 @@ import { ConnectionStatus } from 'components/ConnectionStatus';
 import { Tabs, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
 import { SharedSettings } from './SharedSettings';
-import { getServices, ServiceType } from 'utils/services';
+import { getServices, Service } from 'utils/services';
 
 const services = getServices();
 
 const serviceToTab = (
-  { name, borderClassName, Icon, connect, disconnect, isConnected }: ServiceType
+  { name, borderClassName, Icon, connect, disconnect, isConnected }: Service
 ): TabProps => {
   const content = () => (
     <ConnectionStatus

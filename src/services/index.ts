@@ -1,8 +1,8 @@
-import { ServiceType } from 'utils/services';
+import { Service } from 'utils/services';
 import { pocket, PocketServiceName } from './pocket';
 
 export type ServiceNames = PocketServiceName;
 
-export const services: Record<ServiceNames, ServiceType> = {
+export const services: Record<ServiceNames, Service> = {
   pocket,
 };

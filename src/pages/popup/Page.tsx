@@ -8,7 +8,7 @@ import { ConnectionStatus } from 'components/ConnectionStatus';
 import { Footer } from 'components/Footer';
 import { Tabs, Tab, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
-import { getServices, ServiceType } from 'utils/services';
+import { getServices, Service } from 'utils/services';
 import { cacheDurationMs } from 'utils/dataCache';
 
 const services = getServices();
@@ -26,7 +26,7 @@ const serviceToTab = (
     archiveItem,
     deleteItem,
     Icon,
-  }: ServiceType
+  }: Service
 ): TabProps => {
   const content = () => isConnected()
     ? <List

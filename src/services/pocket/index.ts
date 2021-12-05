@@ -1,4 +1,4 @@
-import type { ServiceType } from 'utils/services';
+import type { Service } from 'utils/services';
 import { name, getQueryKey } from './const';
 import { forceGet, get, search } from './apiGet';
 import { authorize } from './apiAuthorize';
@@ -10,7 +10,7 @@ import { Icon } from './Icon';
 
 export type PocketServiceName = 'pocket';
 
-export const pocket: ServiceType = {
+export const pocket: Service = {
   name,
   getQueryKey,
   forceGet,
