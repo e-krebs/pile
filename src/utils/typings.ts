@@ -11,3 +11,10 @@ export interface BlobInfo {
 }
 
 export type Path = [string, ...string[]];
+
+export interface ListItem {
+  id: string;
+  title: string;
+  url: string;
+  logo?: string
+}
