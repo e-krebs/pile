@@ -4,7 +4,8 @@ import {
   setLocalStorageValue as set,
   deleteLocalStorageValue as del
 } from 'helpers/localstorage';
-import { LocalStorageKeys, localStorageKeyCodes } from './const';
+import { getServiceOauthUrl } from 'utils/services';
+import { name, LocalStorageKeys, localStorageKeyCodes } from './const';
 
 const getKeys = (): LocalStorageKeys[] => Object.keys(localStorageKeyCodes) as LocalStorageKeys[];
 
@@ -15,8 +16,7 @@ export const isConnected = (): boolean => getKeys()
 export const deleteAllKeys = () => getKeys().forEach((key) => del(localStorageKeyCodes, key));
 
 export const getPocketKey = (): string | undefined => getEnvVar('pocketKey');
-export const getPocketRedirectUri = (): string =>
-  chrome.extension.getURL('services/pocket/oauth.html');
+export const getPocketRedirectUri = (): string => getServiceOauthUrl(name);
 
 export const getPocketCode = () => get(localStorageKeyCodes, 'code');
 export const setPocketCode = (code: string) =>

@@ -19,3 +19,6 @@ export interface ServiceType<T> {
 export const getServices = () => {
   return Object.values(services) as ServiceType<ServiceItems>[];
 };
+
+export const getServiceOauthUrl = (name: string) =>
+  chrome.extension.getURL(`pages/oauth/${name}.html`);
