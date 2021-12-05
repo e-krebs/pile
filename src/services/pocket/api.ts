@@ -90,12 +90,12 @@ export const deleteItem = async (item_id: string): Promise<boolean> =>
 export const archiveItem = async (item_id: string): Promise<boolean> =>
   await action(item_id, 'archive');
 
-type GetType = 'default' | 'force' | 'nocache';
+type GetType = 'default' | 'force' | 'search';
 
 type GetParams = {
-  type: Exclude<GetType, 'nocache'>;
+  type: Exclude<GetType, 'search'>;
 } | {
-  type: 'nocache';
+  type: 'search';
   search: string;
 }
 
@@ -113,7 +113,7 @@ const rawGet = async (param: GetParams): Promise<JsonCache<PocketItem>> => {
         consumer_key: getPocketKey(),
         access_token: getPocketToken(),
         sort: 'newest',
-        search: param.type === 'nocache' ? param.search : undefined,
+        search: param.type === 'search' ? param.search : undefined,
       }
     });
     if (!response.ok) throw Error('couldn\'t get pocket list');
@@ -121,7 +121,7 @@ const rawGet = async (param: GetParams): Promise<JsonCache<PocketItem>> => {
     const data: PocketItem[] = Object.values(response.result.list)
       .sort((a, b) => a.time_updated < b.time_updated ? 1 : -1);
     list = { timestamp: getTimestamp(), data };
-    if (param.type !== 'nocache') {
+    if (param.type !== 'search') {
       await writeJson<JsonCache<PocketItem>>([key], list);
     }
   }
@@ -134,4 +134,4 @@ const rawGet = async (param: GetParams): Promise<JsonCache<PocketItem>> => {
 
 export const get = async () => rawGet({ type: 'default' });
 export const forceGet = async () => rawGet({ type: 'force' });
-export const search = async (search: string) => rawGet({ type: 'nocache', search });
+export const search = async (search: string) => rawGet({ type: 'search', search });
