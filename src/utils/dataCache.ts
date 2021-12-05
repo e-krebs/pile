@@ -2,7 +2,7 @@ import type { QueryClient } from 'react-query';
 
 import { deleteJson } from './files';
 
-export const cacheDurationMs = 5 * 60 * 1000;
+export const cacheDurationMs = 5 * 60 * 1000; // 5 minutes
 
 export interface JsonArrayCache<T> {
   timestamp: number;

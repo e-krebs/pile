@@ -1,21 +1,22 @@
 import { FC, useCallback, useState } from 'react';
 
-import { connect } from './api';
-import { Icon } from './Icon';
+import { useService } from 'hooks';
 
 export const ConnectButton: FC = () => {
+  const service = useService();
+  const { Icon } = service;
   const [loading, setLoading] = useState(false);
 
   const onClick = useCallback(async () => {
     setLoading(true);
-    await connect();
+    await service.connect();
     setLoading(false);
-  }, []);
+  }, [service]);
 
   return (
     <div className="flex justify-center py-10 text-lg">
       <div
-        onClick={loading ? () => {} : onClick}
+        onClick={loading ? () => { } : onClick}
         className="flex items-center rounded-md justify-center p-3 cursor-pointer hover:bg-gray-200"
       >
         <Icon className="mr-2" />
@@ -24,4 +25,3 @@ export const ConnectButton: FC = () => {
     </div>
   );
 };
- 

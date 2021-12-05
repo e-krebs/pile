@@ -3,7 +3,7 @@ import { Loader, Image } from 'react-feather';
 import { useQueryClient } from 'react-query';
 
 import { getRgba } from 'utils/palette';
-import { archiveItem, queryKeys } from 'services/pocket/api';
+import { useService } from 'hooks';
 import { useItemContext } from './ItemContext';
 import { clearCache } from 'utils/dataCache';
 
@@ -11,7 +11,8 @@ type IconState = 'loading' | 'icon' | 'default';
 
 export const MainIcon: FC = () => {
   const queryClient = useQueryClient();
-  const { rgb, itemId, url, iconUrl } = useItemContext();
+  const { getQueryKey, archiveItem } = useService();
+  const { rgb, id, url, iconUrl } = useItemContext();
   const [iconLoading, setIconLoading] = useState(false);
 
   const iconState: IconState = useMemo(() => {
@@ -21,10 +22,10 @@ export const MainIcon: FC = () => {
 
   const onArchiveAndOpen = async () => {
     setIconLoading(true);
-    const ok = await archiveItem(itemId);
+    const ok = await archiveItem(id);
     if (ok) {
-      chrome.tabs.create({ url: url });
-      await clearCache(queryKeys.get, queryClient);
+      chrome.tabs.create({ url });
+      await clearCache(getQueryKey, queryClient);
     }
     setIconLoading(false);
   };

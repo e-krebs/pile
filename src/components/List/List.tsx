@@ -5,22 +5,32 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-import { Icon } from 'components/Icon';
 import { clearCache } from 'utils/dataCache';
-import { get, queryKeys, search } from './api';
-import type { PocketItem } from './apiTyping';
-import { Item } from './Item';
+import { ListItem } from 'utils/typings';
+import { Icon } from 'components/Icon';
 import { SearchInput } from 'components/SearchInput';
+import { Item } from './Item';
+import { setBadge } from 'utils/badge';
+import { useService } from 'hooks';
+import { get, search } from 'utils/get';
 
 export const List: FC = () => {
+  const service = useService();
   const queryClient = useQueryClient();
-  const [list, setList] = useState<PocketItem[]>([]);
+  const [list, setList] = useState<ListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [itemOpen, setItemOpen] = useState<string | null>(null);
   const searchInput = useRef<HTMLInputElement>(null);
-  const { data } = useQuery(queryKeys.get, get);
+  const { data } = useQuery(
+    service.getQueryKey,
+    async () => {
+      const list = await get(service);
+      setBadge(service.name, list.data.length);
+      return list;
+    }
+  );
 
   const initialList = useMemo(() => data?.data ?? [], [data]);
   useEffect(() => {
@@ -36,27 +46,31 @@ export const List: FC = () => {
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
-    await clearCache(queryKeys.get, queryClient);
+    await clearCache(service.getQueryKey, queryClient);
     setIsRefreshing(false);
-  }, [queryClient]);
+  }, [service, queryClient]);
 
   const onSearch = async (value?: string) => {
     if (!value) {
       setList(initialList);
     } else {
       setIsLoading(true);
-      const searchResult = await search(value);
+      const searchResult = await search(value, service);
       setList(searchResult.data);
       setIsLoading(false);
     }
   };
 
   useHotkeys('r', () => { refresh(); });
-  useHotkeys('s', (e) => {
-    e.preventDefault();
-    setSearchOpen(true);
-  });
-  useHotkeys('Escape', () => { setSearchOpen(false); onSearch(); }, { enableOnTags: ['INPUT'] });
+  useHotkeys(
+    's',
+    (e) => { e.preventDefault(); setSearchOpen(true); }
+  );
+  useHotkeys(
+    'Escape',
+    () => { setSearchOpen(false); onSearch(); },
+    { enableOnTags: ['INPUT'] }
+  );
 
   return (
     <>
@@ -103,9 +117,9 @@ export const List: FC = () => {
         {!isLoading && list.length > 0 && list.map((item) => (
           <Item
             item={item}
-            key={item.resolved_id}
-            isOpen={item.resolved_id === itemOpen}
-            setIsOpen={(value: boolean) => setItemOpen(value ? item.resolved_id : null)}
+            key={item.id}
+            isOpen={item.id === itemOpen}
+            setIsOpen={(value: boolean) => setItemOpen(value ? item.id : null)}
           />
         ))}
       </div>

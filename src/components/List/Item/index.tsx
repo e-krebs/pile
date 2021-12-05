@@ -3,31 +3,32 @@ import useAsyncEffect from 'use-async-effect';
 
 import { getIcon, IconAndPalette } from 'utils/icon';
 import { defaultRgb } from 'utils/palette';
-import { isEmpty } from 'utils/string';
-import type { PocketItem } from 'services/pocket/apiTyping';
+import { ListItem } from 'utils/typings';
 import { ItemContext } from './ItemContext';
 import { ItemComponent } from './ItemComponent';
 
 interface ItemProps {
-  item: PocketItem;
+  item: ListItem;
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
 }
 
-export const Item: FC<ItemProps> = ({ item, isOpen, setIsOpen }) => {
+export const Item: FC<ItemProps> = ({
+  item: { id, title, url, logo },
+  isOpen,
+  setIsOpen,
+}) => {
   const [icon, setIcon] = useState<IconAndPalette>();
-  const title = isEmpty(item.given_title) ? item.given_title : item.resolved_title;
-  const url = isEmpty(item.given_url) ? item.given_url : item.resolved_url;
 
   useAsyncEffect(async () => {
-    const iconAndPalette = await getIcon(new URL(url).hostname, item.domain_metadata?.logo);
+    const iconAndPalette = await getIcon(new URL(url).hostname, logo);
     setIcon(iconAndPalette);
-  }, [item]);
+  }, [logo]);
 
   return (
     <ItemContext.Provider
       value={{
-        itemId: item.item_id,
+        id,
         url,
         title,
         iconUrl: icon?.url,

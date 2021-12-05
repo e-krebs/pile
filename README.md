@@ -28,6 +28,8 @@ Then, you either:
   - then import the `/dist/webext-prod` folder into `chrome://extensions` in your browser
   - by then running `yarn zip`, you can also generates a `pile.zip` file (in that folder) that you can upload to the chrome web store
 
+# How to add a new Service to Pile
+[see the dedicated readme](./src/services/README.md)
 # Libraries
 This project is built using:
 - [typescript](https://www.typescriptlang.org/)
