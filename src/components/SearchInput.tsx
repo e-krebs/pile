@@ -14,7 +14,6 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
   const searchInput = useRef<HTMLInputElement>(null);
 
   const onChange = async () => {
-    console.log(searchInput.current?.value);
     await onSearch(searchInput.current?.value);
   };
 
