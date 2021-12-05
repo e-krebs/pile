@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 interface SharedTabProps {
   borderClassName?: string;
-  icon: FC;
+  Icon: FC;
   rounded?: 'full' | 't-md';
 }
 
@@ -51,7 +51,7 @@ type IProps = SharedTabProps & {
 export const Tab: FC<IProps> = ({
   active = false,
   borderClassName: color,
-  icon: Icon,
+  Icon,
   onClick,
   rounded = 't-md'
 }) => (

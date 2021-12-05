@@ -46,7 +46,7 @@ const serviceToTab = (
       />
     );
 
-  return { borderClassName, icon: Icon, content };
+  return { borderClassName, Icon: Icon, content };
 };
 
 const queryClient = new QueryClient({
@@ -59,7 +59,7 @@ export const Page: FC = () => (
       <Tab
         onClick={() => chrome.runtime.openOptionsPage()}
         active={false}
-        icon={OptionsIcon}
+        Icon={OptionsIcon}
         rounded="full"
       />
     </Tabs>

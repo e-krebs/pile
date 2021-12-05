@@ -21,14 +21,14 @@ const serviceToTab = (
     />
   );
 
-  return { borderClassName, icon: Icon, content };
+  return { borderClassName, Icon: Icon, content };
 };
 
 export const Page: FC = () => (
   <Tabs tabs={[
     {
       borderClassName: 'border-gray-500',
-      icon: OptionsIcon,
+      Icon: OptionsIcon,
       content: SharedSettings
     },
     ...services.map(serviceToTab),
