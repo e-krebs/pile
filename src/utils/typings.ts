@@ -9,3 +9,5 @@ export interface BlobInfo {
   blob: Blob;
   blobPath: string[];
 }
+
+export type Path = [string, ...string[]];
