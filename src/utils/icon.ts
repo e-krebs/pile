@@ -1,7 +1,7 @@
 import Vibrant from 'node-vibrant';
 
 import { readFile, readJson, writeBlob, writeJson, deleteFolder } from 'utils/files';
-import { getBlob } from 'utils/get';
+import { getBlob } from 'utils/getBlob';
 import type { BlobInfo, Path, Response } from 'utils/typings';
 import { getTimestamp, isCacheExpired, JsonCache } from './dataCache';
 import { Palette, resolvePalette } from './palette';
