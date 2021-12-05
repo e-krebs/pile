@@ -1,18 +1,19 @@
 import type { ServiceType } from 'utils/services';
-import { name } from './const';
+import { name, getQueryKey } from './const';
 import { forceGet, get, search } from './apiGet';
 import { authorize } from './apiAuthorize';
 import { connect } from './apiConnect';
 import { disconnect } from './apiDisconnect';
 import { isConnected } from './helpers';
+import { archiveItem, deleteItem } from './apiActions';
 import { Icon } from './Icon';
-import { List } from './List';
-import type { PocketItem } from './item';
+import { itemToListItem, PocketItem } from './item';
 
 export type PocketServiceName = 'pocket';
 
 export const pocket: ServiceType<PocketItem> = {
   name,
+  getQueryKey,
   forceGet,
   get,
   search,
@@ -20,9 +21,11 @@ export const pocket: ServiceType<PocketItem> = {
   connect,
   disconnect,
   isConnected,
+  archiveItem,
+  deleteItem,
   Icon,
-  List,
   borderClassName: 'border-pocket',
+  itemToListItem,
 };
 
 export type { PocketItem } from './item';
