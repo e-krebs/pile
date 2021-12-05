@@ -1,20 +1,24 @@
 import { FC, useEffect, useState } from 'react';
 import { Power } from 'react-feather';
 
-import { Button } from 'components/Button';
+import { Button } from './Button';
+import { Connected } from './Connected';
+import { ConnectButton } from './ConnectButton';
 
 interface ConnectionStatusProps {
+  name: string;
+  Icon: FC<{ className?: string }>;
+  connect: () => Promise<boolean>;
   disconnect: () => Promise<void>;
   isConnected: () => boolean;
-  ConnectButton: FC;
-  Connected: FC;
 }
 
 export const ConnectionStatus: FC<ConnectionStatusProps> = ({
+  name,
+  Icon,
+  connect,
   disconnect,
   isConnected,
-  ConnectButton,
-  Connected,
 }) => {
   const [connected, setConnected] = useState(false);
 
@@ -29,10 +33,10 @@ export const ConnectionStatus: FC<ConnectionStatusProps> = ({
 
   return connected ? (
     <div className="flex flex-col items-center space-y-3">
-      <Connected />
+      <Connected name={name} />
       <Button startIcon={Power} onClick={onClick}>Disconnect</Button>
     </div>
   ) : (
-    <ConnectButton />
+    <ConnectButton Icon={Icon} connect={connect} />
   );
 };

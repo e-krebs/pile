@@ -1,3 +1,4 @@
+export const name = 'pocket';
 export const getQueryKeys = 'pocketList';
 
 export type LocalStorageKeys = 'code' | 'token' | 'username';
