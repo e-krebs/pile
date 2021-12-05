@@ -10,7 +10,13 @@ import {
   setPocketUsername
 } from './helpers';
 import { post } from 'utils/post';
-import { PocketAuthorize, PocketItem, PocketList, PocketRequest, PocketSend } from './apiTyping';
+import type {
+  PocketAuthorize,
+  PocketItem,
+  PocketList,
+  PocketRequest,
+  PocketSend
+} from './apiTyping';
 import { deleteJson, getJsonKey, readJson, writeJson } from 'utils/files';
 import { getTimestamp, isCacheExpired, JsonCache } from 'utils/dataCache';
 import { color } from 'helpers/vars';

@@ -1,4 +1,4 @@
-import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
+import type { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 export type RGB = [number, number, number];
 export interface Palette {
