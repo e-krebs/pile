@@ -1,13 +1,12 @@
 import Vibrant from 'node-vibrant';
 
-import { readFile, readJson, writeBlob, writeJson, deleteFolder } from 'utils/files';
+import { readFile, readJson, writeBlob, writeJson, deleteFolder, deleteFile } from 'utils/files';
 import { getBlob } from 'utils/getBlob';
 import type { BlobInfo, Path, Response } from 'utils/typings';
 import { getTimestamp, isCacheExpired, JsonCache } from './dataCache';
 import { Palette, resolvePalette } from './palette';
 
 const iconFolder = 'icons';
-const noIconsFile: Path = [iconFolder, 'noIcons.json'];
 
 const getIconBlob = async (
   hostname: string,
@@ -51,34 +50,25 @@ const getPalette = async (url: string, palettePath: Path): Promise<IconAndPalett
 
 type ExcludedIcon = JsonCache<string>;
 
-const clearExcludedIcons = async (icons: ExcludedIcon[] = []): Promise<ExcludedIcon[]> => {
-  const cleared = [];
-  let updated = false;
-  for (const icon of icons) {
-    if (!isCacheExpired(icon)) {
-      cleared.push(icon);
-      updated = true;
-    }
-  }
-  if (updated) {
-    await writeJson(noIconsFile, cleared);
-  }
-  return cleared;
-};
+const getNoImageName = (hostname: string): Path => [iconFolder, `${hostname}.json`];
 
 const addExcludedIcon = async (hostname: string): Promise<void> => {
-  const excludedIcons = (await readJson<ExcludedIcon[]>(noIconsFile)) ?? [];
-  if (excludedIcons.map(icon => icon.data).includes(hostname)) return;
-  const newList = await clearExcludedIcons(excludedIcons);
-  await writeJson<ExcludedIcon[]>(
-    noIconsFile,
-    [...newList, { timestamp: getTimestamp(), data: hostname }]
-  );
+  const json: ExcludedIcon = {
+    timestamp: getTimestamp(),
+    data: hostname,
+  };
+  await writeJson(getNoImageName(hostname), json);
 };
 
-const getExcludedIcons = async (): Promise<string[]> => {
-  const excludedIcons = (await readJson<ExcludedIcon[]>(noIconsFile)) ?? [];
-  return (await clearExcludedIcons(excludedIcons)).map(icon => icon.data);
+const isExcludedIcon = async (hostname: string): Promise<boolean> => {
+  const path = getNoImageName(hostname);
+  const excludedIcon = await readJson<ExcludedIcon>(path);
+  if (!excludedIcon) return false;
+  if (isCacheExpired(excludedIcon)) {
+    await deleteFile(path);
+    return false;
+  }
+  return true;
 };
 
 export const getIcon = async (
@@ -88,10 +78,9 @@ export const getIcon = async (
   const imageName: Path = [iconFolder, `${hostname}.png`];
   const paletteName: Path = [iconFolder, `${hostname}_palette.json`];
 
-  const excludedIcons = await getExcludedIcons();
-  if (excludedIcons.includes(hostname)) return;
-
   try {
+    if (await isExcludedIcon(hostname)) return;
+
     let imageUrl = await readFile(imageName);
     if (imageUrl !== null) return getPalette(imageUrl, paletteName);
 
