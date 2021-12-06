@@ -75,7 +75,7 @@ export const writeJson = async <T = unknown>(path: Path, json: T): Promise<strin
   return await writeBlob({ blob, blobPath: path });
 };
 
-const deleteFile = async (url: Path): Promise<true> => {
+export const deleteFile = async (url: Path): Promise<true> => {
   const [directory, file] = await getFileFromPath(url);
   return new Promise<true>((resolve, reject) => {
     directory.getFile(
