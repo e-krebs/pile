@@ -32,7 +32,7 @@ const rawGet = async (
   return list;
 };
 
-export const get = async (service: Service) => rawGet({ type: 'default' }, service);
-export const forceGet = async (service: Service) => rawGet({ type: 'force' }, service);
+export const get = async (service: Service) => await rawGet({ type: 'default' }, service);
+export const forceGet = async (service: Service) => await rawGet({ type: 'force' }, service);
 export const search = async (search: string, service: Service) =>
-  rawGet({ type: 'search', search }, service);
+  await rawGet({ type: 'search', search }, service);
