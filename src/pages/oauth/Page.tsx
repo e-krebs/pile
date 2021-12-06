@@ -1,5 +1,4 @@
-import { FC, useMemo, useState } from 'react';
-import { useAsyncEffect } from 'use-async-effect';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import { Footer } from 'components/Footer';
 import { services, ServiceNames } from 'services';
@@ -23,15 +22,18 @@ export const Page: FC<PageProps> = ({ serviceName }) => {
 
   const [state, setState] = useState<OAuthState>('inprogress');
 
-  useAsyncEffect(async () => {
+  useEffect(() => {
     if (!service) return;
-    const ok = await service.authorize();
-    setState(ok ? 'success' : 'failed');
-    if (ok) {
-      const list = await get(service);
-      setBadge(service.name, list.data.length);
-    }
-  }, []);
+    const effect = async () => {
+      const ok = await service.authorize();
+      setState(ok ? 'success' : 'failed');
+      if (ok) {
+        const list = await get(service);
+        setBadge(service.name, list.data.length);
+      }
+    };
+    effect();
+  }, [service]);
 
   return (
     <ServiceContext.Provider value={service}>

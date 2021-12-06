@@ -1,5 +1,4 @@
-import { FC, useState } from 'react';
-import useAsyncEffect from 'use-async-effect';
+import { FC, useEffect, useState } from 'react';
 
 import { getIcon, IconAndPalette } from 'utils/icon';
 import { defaultRgb } from 'utils/palette';
@@ -20,10 +19,13 @@ export const Item: FC<ItemProps> = ({
 }) => {
   const [icon, setIcon] = useState<IconAndPalette>();
 
-  useAsyncEffect(async () => {
-    const iconAndPalette = await getIcon(new URL(url).hostname, logo);
-    setIcon(iconAndPalette);
-  }, [logo]);
+  useEffect(() => {
+    const effect = async () => {
+      const iconAndPalette = await getIcon(new URL(url).hostname, logo);
+      setIcon(iconAndPalette);
+    };
+    effect();
+  }, [logo, url]);
 
   return (
     <ItemContext.Provider
