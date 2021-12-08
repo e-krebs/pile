@@ -32,11 +32,12 @@ export const List: FC = () => {
     }
   );
 
-  const initialList = useMemo(() => data?.data ?? [], [data]);
   useEffect(() => {
-    setList(initialList);
-    setIsLoading(false);
-  }, [initialList]);
+    if (data?.data !== undefined) {
+      setList(data.data);
+      setIsLoading(false);
+    }
+  }, [data]);
 
   const formattedTimestamp: string | null = useMemo(() =>
     data?.timestamp === undefined
@@ -52,7 +53,7 @@ export const List: FC = () => {
 
   const onSearch = async (value?: string) => {
     if (!value) {
-      setList(initialList);
+      setList(data?.data ?? []);
     } else {
       setIsLoading(true);
       const searchResult = await search(value, service);
