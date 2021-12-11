@@ -13,6 +13,30 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+      - name: get semantic release info
+        run: echo new_release_version=${GITHUB_REF:11} >> $GITHUB_ENV
+      - name: get manifest version
+        id: manifest
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: 'src/manifest.json'
+          prop_path: 'version'
+      - name: check manifest version
+        if: ${{ steps.manifest.outputs.prop != env.new_release_version }}
+        run: |
+          echo "invalid manifest version, expected: ${env.new_release_version}, got: ${steps.manifest.outputs.prop}"
+          exit 1
+      - name: get package version
+        id: package
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: 'src/package.json'
+          prop_path: 'version'
+      - name: check package version
+        if: ${{ steps.package.outputs.prop != env.new_release_version }}
+        run: |
+          echo "invalid package version, expected: ${env.new_release_version}, got: ${steps.package.outputs.prop}"
+          exit 1
       - run: yarn --frozen-lockfile
       - run: yarn setup-ci
       - name: update env.json pocketKey
