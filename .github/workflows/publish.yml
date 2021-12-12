@@ -24,7 +24,7 @@ jobs:
       - name: check manifest version
         if: ${{ steps.manifest.outputs.prop != env.new_release_version }}
         run: |
-          echo "invalid manifest version, expected: ${env.new_release_version}, got: ${steps.manifest.outputs.prop}"
+          echo "invalid manifest version, expected: ${{env.new_release_version}}, got: ${{steps.manifest.outputs.prop}}"
           exit 1
       - name: get package version
         id: package
@@ -35,7 +35,7 @@ jobs:
       - name: check package version
         if: ${{ steps.package.outputs.prop != env.new_release_version }}
         run: |
-          echo "invalid package version, expected: ${env.new_release_version}, got: ${steps.package.outputs.prop}"
+          echo "invalid package version, expected: ${{env.new_release_version}}, got: ${{steps.package.outputs.prop}}"
           exit 1
       - run: yarn --frozen-lockfile
       - run: yarn setup-ci
