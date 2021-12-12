@@ -1,5 +1,5 @@
 # TODO list
-- [ ] when running the **publish** workflow, check that following version number are matching:
+- [x] when running the **publish** workflow, check that following version number are matching:
   - from the `tag` created with the release
   - from `src/manifest.json`
   - from `package.json`
