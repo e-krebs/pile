@@ -3,4 +3,4 @@
   - from the `tag` created with the release
   - from `src/manifest.json`
   - from `package.json`
-- [ ] better handling of reject/error (at least `console.error` the error)
+- [x] better handling of reject/error (at least `console.error` the error)
