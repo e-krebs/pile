@@ -1,3 +1,4 @@
+import { logAndReject } from 'utils/logAndReject';
 import type { Path } from 'utils/typings';
 
 let fsRoot: FileSystemDirectoryEntry | null = null;
@@ -19,7 +20,7 @@ const getFilesystem = async (): Promise<FileSystemDirectoryEntry> => {
         fsRoot = localFs.root;
         resolve(fsRoot);
       },
-      (err) => { reject(err); });
+      (error) => { logAndReject(error, 'getFilesystem', reject); });
   });
 };
 
@@ -32,7 +33,7 @@ const getFolder = async (
       path,
       { create: true },
       (directory) => resolve(directory),
-      () => reject,
+      (error) => { logAndReject(error, `getFolder ${path}`, reject); },
     );
   });
 };
