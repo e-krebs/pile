@@ -1,7 +1,8 @@
+import { logAndReject } from 'utils/logAndReject';
 import type { BlobInfo, Path } from 'utils/typings';
 import { getFileFromPath, getFileUrl } from './helpers';
 
-// @ts-expect-error webkit specific varian
+// @ts-expect-error webkit specific variant
 window.resolveLocalFileSystemURL = window.webkitResolveLocalFileSystemURL;
 
 export const getJsonKey = (key: string) => `${key}.json`;
@@ -52,7 +53,7 @@ export const writeBlob = async (blobinfo: BlobInfo): Promise<string | null> => {
       { create: true, exclusive: false },
       (file) => {
         if (!file.isFile) {
-          reject(null);
+          resolve(null);
         } else {
           // Create a FileWriter object for our FileEntry, and write our blob.
           file.createWriter(
@@ -60,11 +61,11 @@ export const writeBlob = async (blobinfo: BlobInfo): Promise<string | null> => {
               writer.onwriteend = () => { resolve(url); };
               writer.write(blob);
             },
-            () => reject
+            (error) => { logAndReject(error, 'writeBlob.createWriter', reject); }
           );
         }
       },
-      () => reject
+      (error) => { logAndReject(error, 'writeBlob.getFile', reject); }
     );
   });
 };
@@ -82,7 +83,10 @@ export const deleteFile = async (url: Path): Promise<true> => {
       file,
       { create: false },
       (file) => {
-        file.remove(() => { resolve(true); }, () => reject);
+        file.remove(
+          () => { resolve(true); },
+          (error) => { logAndReject(error, 'deleteFile', reject); }
+        );
       },
       () => { resolve(true); /* file doesn't exist */ }
     );
@@ -94,7 +98,7 @@ export const deleteFolder = async (path: Path): Promise<true> => {
   return new Promise<true>((resolve, reject) => {
     directory.removeRecursively(
       () => { resolve(true); },
-      () => reject
+      (error) => { logAndReject(error, 'deleteFolder', reject); }
     );
   });
 };
