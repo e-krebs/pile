@@ -26,7 +26,7 @@ export const ItemComponent: FC = () => {
         <div className="flex px-2 space-x-6 items-start">
           <MainIcon />
           <Link
-            className={cx('flex-grow pt-0.5 hover:text-inherit', !isOpen && 'truncate')}
+            className={cx('grow pt-0.5 hover:text-inherit', !isOpen && 'truncate')}
             url={url}
             title={`${url} – ${title}`}
           >
@@ -40,10 +40,10 @@ export const ItemComponent: FC = () => {
             isOpen ? 'h-10 visible' : 'h-0 invisible'
           )}
         >
-          <div className="flex-grow" />
+          <div className="grow" />
           <DeleteAction />
           <ArchiveAction />
-          <div className="w-8 h-8 flex-shrink-0" />
+          <div className="w-8 h-8 shrink-0" />
         </div>
       </div>
     </div>

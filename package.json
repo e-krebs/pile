@@ -21,16 +21,16 @@
     "webext-prod": {}
   },
   "dependencies": {
-    "@mui/material": "^5.2.2",
+    "@mui/material": "^5.2.3",
     "classnames": "^2.3.1",
     "date-fns": "^2.27.0",
     "lodash": "^4.17.21",
-    "node-vibrant": "3.1.6",
+    "node-vibrant": "^3.1.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
     "react-hotkeys-hook": "^3.4.4",
-    "react-query": "^3.34.0"
+    "react-query": "^3.34.2"
   },
   "devDependencies": {
     "@emotion/react": "^11.7.0",
@@ -39,12 +39,12 @@
     "@parcel/transformer-svg-react": "^2.0.1",
     "@parcel/validator-eslint": "^2.0.1",
     "@parcel/validator-typescript": "^2.0.1",
-    "@types/chrome": "^0.0.166",
-    "@types/node": "^16.11.11",
+    "@types/chrome": "^0.0.170",
+    "@types/node": "^16.11.12",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.5.0",
-    "@typescript-eslint/parser": "^5.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
     "autoprefixer": "^10.4.0",
     "bestzip": "^2.2.0",
     "eslint": "^7.1.0",
@@ -55,8 +55,8 @@
     "parcel": "^2.0.1",
     "postcss": "^8.4.4",
     "rimraf": "^3.0.2",
-    "tailwindcss": "^2.2.19",
-    "typescript": "^4.5.2"
+    "tailwindcss": "^3.0.1",
+    "typescript": "^4.5.3"
   },
   "alias": {
     "components": "./src/components",

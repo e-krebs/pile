@@ -18,7 +18,7 @@ export const Action: FC<ActionProps> = ({ icon, rgb, title, onClick, loading }) 
   return (
     <div
       className={cx(
-        'flex-shrink-0 cursor-pointer',
+        'shrink-0 cursor-pointer',
         'flex items-center justify-center w-10 h-10',
         'rounded-full hover:bg-gray-100'
       )}

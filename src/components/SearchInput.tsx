@@ -35,7 +35,7 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
         ref={searchInput}
         type="text"
         placeholder="Search"
-        className={'flex-grow bg-transparent outline-none'}
+        className={'grow bg-transparent outline-none'}
         autoFocus={true}
         onChange={debounce(onChange, 300)}
       />

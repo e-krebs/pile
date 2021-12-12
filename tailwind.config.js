@@ -1,9 +1,6 @@
 module.exports = {
-  mode: "jit",
-  purge: {
-    content: ["./src/**/*.html", "./src/**/*.ts", "./src/**/*.tsx"],
-    safelist: ["MuiCheckbox-root", "MuiTextField-root"],
-  },
+  content: ["./src/**/*.html", "./src/**/*.ts", "./src/**/*.tsx"],
+  safelist: ["MuiCheckbox-root", "MuiTextField-root"],
   theme: {
     extend: {
       colors: {
@@ -18,6 +15,5 @@ module.exports = {
       }
     },
   },
-  variants: {},
   plugins: [],
 };
