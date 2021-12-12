@@ -52,7 +52,7 @@ export const writeBlob = async (blobinfo: BlobInfo): Promise<string | null> => {
       { create: true, exclusive: false },
       (file) => {
         if (!file.isFile) {
-          reject(null);
+          resolve(null);
         } else {
           // Create a FileWriter object for our FileEntry, and write our blob.
           file.createWriter(
