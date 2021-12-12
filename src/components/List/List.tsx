@@ -83,9 +83,9 @@ export const List: FC = () => {
             className="ml-2 p-1 w-8 h-8 cursor-pointer"
             onClick={() => setSearchOpen(!searchOpen)}
           />
-          {searchOpen && <SearchInput onSearch={onSearch} className="flex-grow" />}
+          {searchOpen && <SearchInput onSearch={onSearch} className="grow" />}
           {!searchOpen && (
-            <span className="flex-grow text-center" title="press <r> to Refresh">
+            <span className="grow text-center" title="press <r> to Refresh">
               {isRefreshing ? '...' : formattedTimestamp}
             </span>
           )}

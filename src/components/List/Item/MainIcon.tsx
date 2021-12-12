@@ -32,7 +32,7 @@ export const MainIcon: FC = () => {
 
   return (
     <div
-      className="flex-shrink-0 rounded-full"
+      className="shrink-0 rounded-full"
       style={{ backgroundColor: getRgba(rgb, 0.05) }}
     >
       <div

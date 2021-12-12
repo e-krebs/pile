@@ -37,7 +37,7 @@ export const Tabs: FC<TabsProps> = ({ tabs, children, tabIndex = 0 }) => {
               onClick={() => setSelectedIndex(index)}
             />
         )}
-        <div className="flex-grow" />
+        <div className="grow" />
         {children}
       </div>
       <div className="px-2 py-2">

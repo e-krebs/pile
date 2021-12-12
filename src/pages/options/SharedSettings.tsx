@@ -24,7 +24,7 @@ export const SharedSettings: FC = () => {
         label="Enable Pocket."
       />
       <div className="flex items-baseline space-x-2">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           background refresh interval (in minutes):
         </div>
         <TextField
