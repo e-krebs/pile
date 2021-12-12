@@ -1,7 +1,7 @@
 import type { BlobInfo, Path } from 'utils/typings';
 import { getFileFromPath, getFileUrl } from './helpers';
 
-// @ts-expect-error webkit specific varian
+// @ts-expect-error webkit specific variant
 window.resolveLocalFileSystemURL = window.webkitResolveLocalFileSystemURL;
 
 export const getJsonKey = (key: string) => `${key}.json`;
