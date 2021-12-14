@@ -37,6 +37,10 @@ jobs:
         run: |
           echo "invalid package version, expected: ${{env.new_release_version}}, got: ${{steps.package.outputs.prop}}"
           exit 1
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
       - run: yarn --frozen-lockfile
       - run: yarn setup-ci
       - name: update env.json pocketKey
