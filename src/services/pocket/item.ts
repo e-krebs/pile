@@ -19,7 +19,7 @@ export interface PocketItem {
 }
 
 export const itemToListItem = (item: PocketItem): ListItem => ({
-  id: item.resolved_id,
+  id: item.item_id,
   title: isEmpty(item.given_title) ? item.given_title : item.resolved_title,
   url: isEmpty(item.given_url) ? item.given_url : item.resolved_url,
   logo: item.domain_metadata?.logo,
