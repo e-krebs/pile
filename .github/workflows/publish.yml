@@ -30,7 +30,7 @@ jobs:
         id: package
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: 'src/package.json'
+          path: 'package.json'
           prop_path: 'version'
       - name: check package version
         if: ${{ steps.package.outputs.prop != env.new_release_version }}
