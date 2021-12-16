@@ -22,6 +22,7 @@ export const List: FC = () => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [itemOpen, setItemOpen] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const searchInput = useRef<HTMLInputElement>(null);
   const { data } = useQuery(
     service.getQueryKey,
@@ -33,11 +34,21 @@ export const List: FC = () => {
   );
 
   useEffect(() => {
-    if (data?.data !== undefined) {
-      setList(data.data);
-      setIsLoading(false);
-    }
-  }, [data]);
+    const updateList = async () => {
+      if (searchTerm != null) {
+        setIsLoading(true);
+        const searchResult = await search(searchTerm, service);
+        setList(searchResult.data);
+        setIsLoading(false);
+      } else if (data?.data !== undefined) {
+        setList(data.data);
+        setIsLoading(false);
+      }
+    };
+    updateList();
+  // removing searchTerm from the list 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, service]);
 
   const formattedTimestamp: string | null = useMemo(() =>
     data?.timestamp === undefined
@@ -53,9 +64,11 @@ export const List: FC = () => {
 
   const onSearch = async (value?: string) => {
     if (!value) {
+      setSearchTerm(null);
       setList(data?.data ?? []);
     } else {
       setIsLoading(true);
+      setSearchTerm(value);
       const searchResult = await search(value, service);
       setList(searchResult.data);
       setIsLoading(false);
