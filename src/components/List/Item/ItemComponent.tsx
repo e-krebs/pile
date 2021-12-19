@@ -23,15 +23,19 @@ export const ItemComponent: FC = () => {
           isOpen ? 'bg-inherit' : 'bg-white'
         )}
       >
-        <div className="flex px-2 space-x-6 items-start">
+        <div className="flex px-2 space-x-4 items-start">
           <MainIcon />
-          <Link
-            className={cx('grow pt-0.5 hover:text-inherit', !isOpen && 'truncate')}
-            url={url}
-            title={`${url} – ${title}`}
+          <div
+            className={cx('grow flex items-baseline space-x-2 overflow-auto')}
           >
-            {title}
-          </Link>
+            <Link
+              className={cx('grow pt-0.5 hover:text-inherit', !isOpen && 'truncate')}
+              url={url}
+              title={`${url} – ${title}`}
+            >
+              {title}
+            </Link>
+          </div>
           <Chevron />
         </div>
         <div
