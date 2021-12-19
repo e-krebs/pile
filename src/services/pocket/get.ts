@@ -18,6 +18,7 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
       access_token: getPocketToken(),
       sort: 'newest',
       search: param.type === 'search' ? param.search : undefined,
+      detailType: 'complete',
     }
   });
 
