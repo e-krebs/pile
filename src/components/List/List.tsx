@@ -82,7 +82,7 @@ export const List: FC = () => {
   );
   useHotkeys(
     'Escape',
-    () => { setSearchOpen(false); onSearch(); },
+    (e) => { e.preventDefault(); setSearchOpen(false); onSearch(); },
     { enableOnTags: ['INPUT'] }
   );
 
@@ -106,7 +106,7 @@ export const List: FC = () => {
             icon={RefreshCw}
             title="Refresh (or press <r>)"
             className={cx(
-              'mr-4 w-4 h-4',
+              'mr-2 w-4 h-4',
               isRefreshing && 'animate-spin',
               searchOpen ? 'cursor-not-allowed' : 'cursor-pointer'
             )}
