@@ -82,7 +82,7 @@ export const List: FC = () => {
   );
   useHotkeys(
     'Escape',
-    () => { setSearchOpen(false); onSearch(); },
+    (e) => { e.preventDefault(); setSearchOpen(false); onSearch(); },
     { enableOnTags: ['INPUT'] }
   );
 
