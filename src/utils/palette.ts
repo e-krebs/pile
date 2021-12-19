@@ -12,7 +12,7 @@ export interface Palette {
 
 export const defaultRgb: RGB = [1, 1, 1];
 
-export const getRgba = ([r, g, b]: RGB, a: number): string =>
+export const getRgba = ([r, g, b]: RGB, a = 1): string =>
   `rgba(${r}, ${g}, ${b}, ${a})`;
 
 export const resolvePalette = (input: VibrantPalette): Palette => {

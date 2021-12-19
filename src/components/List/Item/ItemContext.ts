@@ -8,6 +8,7 @@ interface Item {
   title: string;
   iconUrl?: string;
   rgb: RGB;
+  tags: string[];
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
 }

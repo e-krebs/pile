@@ -14,7 +14,7 @@ export const Chevron: FC = () => {
 
   return (
     <Chevron
-      className="w-8 h-8 p-2 shrink-0 cursor-pointer"
+      className="w-8 h-8 !ml-0 p-2 shrink-0 cursor-pointer"
       onClick={toggleOpen}
     />
   );

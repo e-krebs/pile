@@ -16,6 +16,7 @@ export interface PocketItem {
   resolved_url: string;
   time_added: string;
   time_updated: string;
+  tags?: Record<string, Record<string, unknown>>
 }
 
 export const itemToListItem = (item: PocketItem): ListItem => ({
@@ -23,4 +24,5 @@ export const itemToListItem = (item: PocketItem): ListItem => ({
   title: isEmpty(item.given_title) ? item.given_title : item.resolved_title,
   url: isEmpty(item.given_url) ? item.given_url : item.resolved_url,
   logo: item.domain_metadata?.logo,
+  tags: item.tags ? Object.keys(item.tags).sort() : [],
 });

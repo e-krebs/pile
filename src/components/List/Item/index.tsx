@@ -13,7 +13,7 @@ interface ItemProps {
 }
 
 export const Item: FC<ItemProps> = ({
-  item: { id, title, url, logo },
+  item: { id, title, url, logo, tags },
   isOpen,
   setIsOpen,
 }) => {
@@ -35,6 +35,7 @@ export const Item: FC<ItemProps> = ({
         title,
         iconUrl: icon?.url,
         rgb: icon?.palette.vibrant ?? defaultRgb,
+        tags,
         isOpen,
         setIsOpen,
       }}
