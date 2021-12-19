@@ -24,7 +24,7 @@ export const ItemComponent: FC = () => {
           isOpen ? 'bg-inherit' : 'bg-white'
         )}
       >
-        <div className="flex px-2 space-x-4 items-start">
+        <div className="flex pl-2 space-x-4 items-start">
           <MainIcon />
           <div
             className={cx('grow flex items-baseline space-x-2 overflow-auto')}
