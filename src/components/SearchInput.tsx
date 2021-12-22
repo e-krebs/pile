@@ -7,20 +7,20 @@ import { Icon } from './Icon';
 
 interface IProps {
   className?: string;
-  onSearch: (value?: string) => Promise<void>;
+  onSearch: (value?: string) => void;
 }
 
 export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
   const searchInput = useRef<HTMLInputElement>(null);
 
-  const onChange = async () => {
-    await onSearch(searchInput.current?.value);
+  const onChange = () => {
+    onSearch(searchInput.current?.value);
   };
 
-  const clear = async () => {
+  const clear = () => {
     if (!searchInput.current) return;
     searchInput.current.value = '';
-    await onSearch();
+    onSearch();
   };
 
   return (

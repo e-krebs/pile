@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Loader, RefreshCw, Search } from 'react-feather';
+import { Loader, RefreshCw } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
@@ -9,12 +9,13 @@ import uniq from 'lodash/uniq';
 import { clearCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
 import { Icon } from 'components/Icon';
-import { SearchInput } from 'components/SearchInput';
 import { Item } from './Item';
 import { setBadge } from 'utils/badge';
 import { useService } from 'hooks';
-import { get, search } from 'utils/get';
+import { filterTag, get, search } from 'utils/get';
 import { ListContext } from './ListContext';
+import { TagFilter } from './TagFilter';
+import { SearchFilter } from './SearchFilter';
 
 export const List: FC = () => {
   const service = useService();
@@ -23,9 +24,11 @@ export const List: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
+  const [tagOpen, setTagOpen] = useState<boolean>(false);
   const [itemOpen, setItemOpen] = useState<string | null>(null);
   const [addTagsItemOpen, setAddTagsItemOpen] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
+  const [tag, setTag] = useState<string | null | undefined>();
   const searchInput = useRef<HTMLInputElement>(null);
   const { data } = useQuery(
     service.getQueryKey,
@@ -45,20 +48,23 @@ export const List: FC = () => {
 
   useEffect(() => {
     const updateList = async () => {
-      if (searchTerm != null) {
+      if (tag !== undefined) {
+        setIsLoading(true);
+        const tagResult = await filterTag(tag, service);
+        setList(tagResult.data);
+        setIsLoading(false);
+      } else if (searchTerm != null) {
         setIsLoading(true);
         const searchResult = await search(searchTerm, service);
         setList(searchResult.data);
         setIsLoading(false);
-      } else if (data?.data !== undefined) {
-        setList(data.data);
+      } else {
+        setList(data?.data ?? []);
         setIsLoading(false);
       }
     };
     updateList();
-  // removing searchTerm from the list 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, service]);
+  }, [data, tag, service, searchTerm]);
 
   const formattedTimestamp: string | null = useMemo(() =>
     data?.timestamp === undefined
@@ -72,51 +78,58 @@ export const List: FC = () => {
     setIsRefreshing(false);
   }, [service, queryClient]);
 
-  const onSearch = async (value?: string) => {
-    if (!value) {
-      setSearchTerm(null);
-      setList(data?.data ?? []);
+  const openSearch = (open: boolean) => {
+    if (open) {
+      setTag(undefined);
+      setTagOpen(false);
+      setSearchOpen(true);
     } else {
-      setIsLoading(true);
-      setSearchTerm(value);
-      const searchResult = await search(value, service);
-      setList(searchResult.data);
-      setIsLoading(false);
+      setSearchOpen(false);
+    }
+  };
+
+  const openTag = (value: boolean) => {
+    if (value) {
+      setSearchTerm(null);
+      setSearchOpen(false);
+      setTagOpen(true);
+    } else {
+      setTagOpen(false);
     }
   };
 
   useHotkeys('r', () => { refresh(); });
-  useHotkeys(
-    's',
-    (e) => { e.preventDefault(); setSearchOpen(true); }
-  );
-  useHotkeys(
-    'Escape',
-    (e) => { e.preventDefault(); setSearchOpen(false); onSearch(); },
-    { enableOnTags: ['INPUT'] }
-  );
 
   return (
-    <ListContext.Provider value={{ allTags, setItemOpen, setAddTagsItemOpen }}>
+    <ListContext.Provider
+      value={{
+        allTags,
+        tag,
+        setTag,
+        setItemOpen,
+        searchTerm,
+        setSearchTerm,
+        setAddTagsItemOpen,
+        isLoading,
+        setIsLoading
+      }}
+    >
       {formattedTimestamp != null && (
         <div className="flex items-center justify-center text-xs">
-          <Icon
-            icon={Search}
-            title={searchOpen ? 'Close search (or press <esc>)' : 'Open search (or press <s>)'}
-            className="ml-2 p-1 w-8 h-8 cursor-pointer"
-            onClick={() => setSearchOpen(!searchOpen)}
-          />
-          {searchOpen && <SearchInput onSearch={onSearch} className="grow" />}
-          {!searchOpen && (
+          <SearchFilter
+            searchOpen={searchOpen}
+            openSearch={openSearch}
+          >
             <span className="grow text-center" title="press <r> to Refresh">
               {isRefreshing ? '...' : formattedTimestamp}
             </span>
-          )}
+          </SearchFilter>
+          <TagFilter tagOpen={tagOpen} openTag={openTag} />
           <Icon
             icon={RefreshCw}
             title="Refresh (or press <r>)"
             className={cx(
-              'mr-2 w-4 h-4',
+              'mx-2 w-4 h-4',
               isRefreshing && 'animate-spin',
               searchOpen ? 'cursor-not-allowed' : 'cursor-pointer'
             )}
