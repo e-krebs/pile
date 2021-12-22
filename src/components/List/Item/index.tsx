@@ -5,18 +5,20 @@ import { defaultRgb } from 'utils/palette';
 import { ListItem } from 'utils/typings';
 import { ItemContext } from './ItemContext';
 import { ItemComponent } from './ItemComponent';
+import { useListContext } from '../ListContext';
 
 interface ItemProps {
   item: ListItem;
   isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  isAddTagsOpen: boolean;
 }
 
 export const Item: FC<ItemProps> = ({
   item: { id, title, url, logo, tags },
   isOpen,
-  setIsOpen,
+  isAddTagsOpen,
 }) => {
+  const { setItemOpen, setAddTagsItemOpen } = useListContext();
   const [icon, setIcon] = useState<IconAndPalette>();
 
   useEffect(() => {
@@ -37,7 +39,9 @@ export const Item: FC<ItemProps> = ({
         rgb: icon?.palette.vibrant ?? defaultRgb,
         tags,
         isOpen,
-        setIsOpen,
+        setIsOpen: (value: boolean) => setItemOpen(value ? id : null),
+        isAddTagsOpen,
+        setIsAddTagsOpen: (value: boolean) => setAddTagsItemOpen(value ? id : null),
       }}
     >
       <ItemComponent />
