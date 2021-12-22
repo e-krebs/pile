@@ -86,6 +86,7 @@ export const List: FC = () => {
     } else {
       setSearchOpen(false);
     }
+    setAddTagsItemOpen(null);
   };
 
   const openTag = (value: boolean) => {
@@ -96,6 +97,7 @@ export const List: FC = () => {
     } else {
       setTagOpen(false);
     }
+    setAddTagsItemOpen(null);
   };
 
   useHotkeys('r', () => { refresh(); });
