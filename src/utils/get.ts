@@ -10,6 +10,9 @@ export type GetParams = {
 } | {
   type: 'search';
   search: string;
+} | {
+  type: 'tag';
+  tag: string | null;
 }
 
 const rawGet = async (
@@ -24,7 +27,7 @@ const rawGet = async (
   if (param.type !== 'default' || !list || isCacheExpired(list)) {
     const data = await service.get(param);
     list = { timestamp: getTimestamp(), data };
-    if (param.type !== 'search') {
+    if (!['search', 'tag'].includes(param.type)) {
       await writeJson<JsonArrayCache<ListItem>>([key], list);
     }
   }
@@ -36,3 +39,5 @@ export const get = async (service: Service) => await rawGet({ type: 'default' },
 export const forceGet = async (service: Service) => await rawGet({ type: 'force' }, service);
 export const search = async (search: string, service: Service) =>
   await rawGet({ type: 'search', search }, service);
+export const filterTag = async (tag: string  | null, service: Service) =>
+  await rawGet({ type: 'tag', tag }, service);

@@ -3,7 +3,7 @@ import { useQueryClient } from 'react-query';
 
 import { clearCache } from 'utils/dataCache';
 import { useService } from 'hooks';
-import { Autocomplete } from 'components/Autocomplete';
+import { Autocomplete, Option } from 'components/Autocomplete';
 import { useListContext } from 'components/List/ListContext';
 import { useItemContext } from './ItemContext';
 import { useTagsContext } from './TagsContext';
@@ -15,7 +15,10 @@ export const TagAutocomplete: FC = () => {
   const { isLoading, setIsLoading } = useTagsContext();
   const queryClient = useQueryClient();
 
-  const options = useMemo(() => allTags.filter(tag => !tags.includes(tag)), [allTags, tags]);
+  const options: Option[] = useMemo(
+    () => allTags.filter(tag => !tags.includes(tag)).map(value => ({ value })),
+    [allTags, tags]
+  );
 
   const close = useCallback(
     () => { setIsAddTagsOpen(false); },
@@ -28,8 +31,9 @@ export const TagAutocomplete: FC = () => {
       if (ok) {
         await clearCache(getQueryKey, queryClient);
       }
+      close();
     },
-    [addTag, getQueryKey, id, queryClient]
+    [addTag, close, getQueryKey, id, queryClient]
   );
 
   return (

@@ -3,42 +3,59 @@ import { EventHandler, KeyboardEvent, FC, useState, useMemo } from 'react';
 
 import { TextInput, TextInputProps } from 'library/TextInput';
 
-interface IProps extends TextInputProps {
-  options: string[];
+export interface Option {
+  label?: string;
+  value: string;
+}
+
+type AutocompleteProps = TextInputProps & {
+  options: Option[];
   className?: string;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
   close: () => void;
+} & ({
   addValue: (value: string) => Promise<void>;
-}
+  addValueSync?: (value: string) => void;
+} | {
+  addValue?: (value: string) => Promise<void>;
+  addValueSync: (value: string) => void;
+})
 
-export const Autocomplete: FC<IProps> = ({
+export const Autocomplete: FC<AutocompleteProps> = ({
   options: allOptions,
   className,
   isLoading,
   setIsLoading,
   close,
   addValue,
+  addValueSync,
   ...textInputProps
 }) => {
   const [inputOption, onChange] = useState('');
   const [optionIndex, setOptionIndex] = useState<number | null>(null);
 
-  const options: string[] = useMemo(
-    () => allOptions.filter(option => !inputOption || option.includes(inputOption)).slice(0, 4),
+  const options: Option[] = useMemo(
+    () => allOptions
+      .filter(option => !inputOption || option.value.includes(inputOption))
+      .slice(0, 4),
     [allOptions, inputOption]
   );
 
-  const newOption = useMemo(
-    () => optionIndex === null ? inputOption : options[optionIndex],
+  const newOption: Option = useMemo(
+    () => optionIndex === null ? { value: inputOption } : options[optionIndex],
     [options, inputOption, optionIndex]
   );
 
   const add = async (option?: string) => {
     if (!option && !newOption) return;
     setIsLoading(true);
-    await addValue(option ?? newOption);
-    close();
+    if (addValueSync) {
+      addValueSync(option ?? newOption.value);
+    }
+    if (addValue) {
+      await addValue(option ?? newOption.value);
+    }
     setIsLoading(false);
   };
 
@@ -77,23 +94,23 @@ export const Autocomplete: FC<IProps> = ({
     >
       <TextInput
         {...textInputProps}
-        className='leading-5 px-1 rounded-sm'
+        className='leading-5 px-1 rounded-sm w-full'
         isDisabled={isLoading}
         onChange={onChange}
         onKeyDown={keyHandler}
         autoComplete="off"
-        value={newOption}
+        value={newOption.label ?? newOption.value}
       />
       {options.map((option, index) => (
         <li
-          key={option}
+          key={option.value}
           className={cx(
             'leading-5 px-1 rounded-sm truncate hover:bg-white cursor-pointer',
             index === optionIndex && 'bg-white'
           )}
-          onClick={() => add(option)}
+          onClick={() => add(option.value)}
         >
-          {option}
+          {option.label ?? option.value}
         </li>
       ))}
     </ul>
