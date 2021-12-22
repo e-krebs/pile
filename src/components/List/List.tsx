@@ -4,6 +4,7 @@ import { Loader, RefreshCw, Search } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import uniq from 'lodash/uniq';
 
 import { clearCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
@@ -13,6 +14,7 @@ import { Item } from './Item';
 import { setBadge } from 'utils/badge';
 import { useService } from 'hooks';
 import { get, search } from 'utils/get';
+import { ListContext } from './ListContext';
 
 export const List: FC = () => {
   const service = useService();
@@ -22,6 +24,7 @@ export const List: FC = () => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [itemOpen, setItemOpen] = useState<string | null>(null);
+  const [addTagsItemOpen, setAddTagsItemOpen] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const searchInput = useRef<HTMLInputElement>(null);
   const { data } = useQuery(
@@ -31,6 +34,13 @@ export const List: FC = () => {
       setBadge(service.name, list.data.length);
       return list;
     }
+  );
+
+  const allTags: string[] = useMemo(
+    () => data?.data
+      ? uniq(data.data.map(item => item.tags).flat()).sort()
+      : [],
+    [data]
   );
 
   useEffect(() => {
@@ -87,7 +97,7 @@ export const List: FC = () => {
   );
 
   return (
-    <>
+    <ListContext.Provider value={{ allTags, setItemOpen, setAddTagsItemOpen }}>
       {formattedTimestamp != null && (
         <div className="flex items-center justify-center text-xs">
           <Icon
@@ -133,10 +143,10 @@ export const List: FC = () => {
             item={item}
             key={item.id}
             isOpen={item.id === itemOpen}
-            setIsOpen={(value: boolean) => setItemOpen(value ? item.id : null)}
+            isAddTagsOpen={item.id === addTagsItemOpen}
           />
         ))}
       </div>
-    </>
+    </ListContext.Provider>
   );
 };

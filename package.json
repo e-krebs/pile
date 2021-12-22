@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@mui/material": "^5.2.3",
+    "@react-aria/textfield": "^3.5.0",
     "classnames": "^2.3.1",
     "date-fns": "^2.27.0",
     "lodash": "^4.17.21",
@@ -64,6 +65,7 @@
     "env.json": "./src/env.json",
     "helpers": "./src/helpers",
     "hooks": "./src/hooks",
+    "library": "./src/library",
     "services": "./src/services",
     "utils": "./src/utils"
   },

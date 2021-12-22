@@ -9,6 +9,8 @@ module.exports = {
       },
       transitionProperty: {
         'height': 'height',
+        'width': 'width',
+        'max-width': 'max-width',
       },
       backgroundImage: {
         'stripe-disabled': 'repeating-linear-gradient(-45deg, white, white 10px, #F3F4F6 10px, #F3F4F6 20px)',

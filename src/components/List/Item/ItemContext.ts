@@ -11,6 +11,8 @@ interface Item {
   tags: string[];
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  isAddTagsOpen: boolean;
+  setIsAddTagsOpen: (value: boolean) => void;
 }
 
 export const ItemContext = createContext<Item | null>(null);

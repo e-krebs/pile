@@ -6,14 +6,25 @@ interface PocketSend {
   action_results: boolean[];
 }
 
-const action = async (item_id: string, action: 'delete' | 'archive'): Promise<boolean> => {
+type PocketAction = 'delete' | 'archive' | 'tags_add' | 'tags_remove';
+interface PocketActionItem {
+  action: PocketAction;
+  item_id: string;
+  tags?: string;
+}
+
+const action = async (item_id: string, action: PocketAction, tags?: string[]): Promise<boolean> => {
+  const actionItem: PocketActionItem = { action, item_id };
+  if (tags && tags.length > 0 && action.startsWith('tag')) {
+    actionItem.tags = tags.join(',');
+  }
   const response = await post<PocketSend>({
     url: 'https://getpocket.com/v3/send',
     headers,
     params: {
       consumer_key: getPocketKey(),
       access_token: getPocketToken(),
-      actions: [{ action, item_id }]
+      actions: [actionItem]
     }
   });
   if (!response.ok) return false;
@@ -23,3 +34,9 @@ const action = async (item_id: string, action: 'delete' | 'archive'): Promise<bo
 export const deleteItem = async (id: string): Promise<boolean> => await action(id, 'delete');
 
 export const archiveItem = async (id: string): Promise<boolean> => await action(id, 'archive');
+
+export const addTag = async (id: string, tag: string): Promise<boolean> =>
+  await action(id, 'tags_add', [tag]);
+
+export const removeTag = async (id: string, tag: string): Promise<boolean> =>
+  await action(id, 'tags_remove', [tag]);
