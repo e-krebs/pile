@@ -2,8 +2,13 @@
 
 > pile is a material design-ish chrome extension that show your [pocket](https://getpocket.com) list
 
-![example](img/pile.png)
-![example2](img/pile-opened.png)
+| default view | item opened | adding tag |
+|-|-|-|
+| ![example](img/pile.png) | ![example2](img/pile-opened.png) | ![example3](img/pile-tags.png) |
+
+| search filter | tag filter |
+|-|-|
+| ![example4](img/pile-search-filter.png) | ![example5](img/pile-tag-filter.png) |
 
 the icons color are dynamicaly computed thx to the [`node-vibrant`][1] library
 
