@@ -4,7 +4,7 @@ import { get } from './get';
 import { authorize } from './authorize';
 import { connect } from './connect';
 import { deleteAllKeys, isConnected } from './helpers';
-import { archiveItem, deleteItem } from './actions';
+import { archiveItem, deleteItem, addTag, removeTag } from './actions';
 import { Icon } from './Icon';
 
 export type PocketServiceName = 'pocket';
@@ -19,6 +19,8 @@ export const pocket: Service = {
   isConnected,
   archiveItem,
   deleteItem,
+  addTag,
+  removeTag,
   Icon,
   borderClassName: 'border-pocket',
 };
