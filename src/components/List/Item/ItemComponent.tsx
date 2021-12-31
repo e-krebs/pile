@@ -21,7 +21,7 @@ export const ItemComponent: FC = () => {
       <div
         className={cx(
           'py-2 rounded-md hover:bg-inherit',
-          isOpen ? 'bg-inherit' : 'bg-white'
+          isOpen ? 'bg-inherit' : 'bg-white dark:bg-gray-900'
         )}
       >
         <div className="flex pl-2 space-x-4 items-start">

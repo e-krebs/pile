@@ -59,7 +59,8 @@ export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
         className={cx(
           'flex cursor-pointer py-1 space-x-2',
           hasTag ? 'px-2' : 'px-1',
-          hasTag && 'border rounded-lg bg-gray-100 border-gray-400 text-gray-500'
+          hasTag && 'border rounded-lg border-gray-400 text-gray-500 dark:text-gray-400',
+          hasTag && 'bg-gray-100 dark:bg-gray-800'
         )}
         onClick={hasTag ? () => onTag() : toggleTagOpen}
         title={tagOpen ? 'Close tag filter (or press <esc>)' : 'Filter by tag (or press <t>)'}

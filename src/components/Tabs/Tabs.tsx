@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { FC, useMemo, useState } from 'react';
 
 import { Service } from 'utils/services';
@@ -27,7 +28,12 @@ export const Tabs: FC<TabsProps> = ({ tabs, children, tabIndex = 0 }) => {
 
   return (
     <ServiceContext.Provider value={service}>
-      <div className="flex px-2 mb-2 space-x-2 border-b border-gray-200 bg-gray-50">
+      <div
+        className={cx(
+          'flex px-2 mb-2 space-x-2',
+          'border-b border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700'
+        )}
+      >
         {tabs.map(
           ({ content, ...tab }, index) =>
             <Tab
