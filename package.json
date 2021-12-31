@@ -21,8 +21,10 @@
     "webext-prod": {}
   },
   "dependencies": {
-    "@mui/material": "^5.2.3",
+    "@react-aria/checkbox": "^3.2.3",
     "@react-aria/textfield": "^3.5.0",
+    "@react-aria/visually-hidden": "^3.2.3",
+    "@react-stately/toggle": "^3.2.3",
     "classnames": "^2.3.1",
     "date-fns": "^2.27.0",
     "lodash": "^4.17.21",
