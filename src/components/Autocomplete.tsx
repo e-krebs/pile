@@ -75,6 +75,10 @@ export const Autocomplete: FC<AutocompleteProps> = ({
       case 'Enter':
         add();
         return;
+      case 'Backspace':
+        onChange(newOption.label ?? newOption.value);
+        newSelectedIndex = null;
+        break;
     }
     if (
       newSelectedIndex != null &&
