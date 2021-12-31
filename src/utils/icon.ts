@@ -17,6 +17,9 @@ const getIconBlob = async (
   });
   if (res.ok) return res;
 
+  res = await getBlob({ url: `https://logo.clearbit.com/${hostname}?size=32` });
+  if (res.ok) return res;
+
   res = await getBlob({ url: `https://img.readitlater.com/i/${hostname}/favicon.ico` });
   if (res.ok) return res;
 

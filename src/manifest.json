@@ -17,6 +17,7 @@
     "alarms",
     "https://getpocket.com/v3/*",
     "https://t0.gstatic.com/faviconV2/*",
+    "https://logo.clearbit.com/*",
     "https://img.readitlater.com/i/*"
   ],
   "background": {
