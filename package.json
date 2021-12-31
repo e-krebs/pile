@@ -1,10 +1,10 @@
 {
   "name": "pile",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "author": "Emmanuel Krebs <e-krebs@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel src/manifest.json --host localhost --target webext-dev",
+    "start": "parcel src/manifest.json --host localhost --target webext-dev --hmr-port 3000",
     "build": "yarn clean && parcel build src/manifest.json --target webext-prod",
     "zip": "cd dist/webext-prod && bestzip pile.zip *",
     "clean": "rimraf .parcel-cache dist pile.zip",

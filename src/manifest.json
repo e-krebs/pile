@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "pile",
   "description": "pile",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "icons": {
     "16": "./content/icons/icon-16.png",
     "48": "./content/icons/icon-48.png",
@@ -16,7 +16,8 @@
   "permissions": [
     "alarms",
     "https://getpocket.com/v3/*",
-    "https://www.google.com/s2/favicons/*",
+    "https://t0.gstatic.com/faviconV2/*",
+    "https://logo.clearbit.com/*",
     "https://img.readitlater.com/i/*"
   ],
   "background": {
