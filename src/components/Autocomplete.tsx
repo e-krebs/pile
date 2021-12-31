@@ -93,12 +93,12 @@ export const Autocomplete: FC<AutocompleteProps> = ({
     <ul
       className={cx(
         className,
-        'min-w-[25%] grid gap-y-px items-center border rounded-lg bg-gray-100 p-1',
+        'min-w-[25%] grid gap-y-px items-center border rounded-lg bg-gray-100 dark:bg-gray-800 p-1',
       )}
     >
       <TextInput
         {...textInputProps}
-        className='leading-5 px-1 rounded-sm w-full'
+        className='leading-5 px-1 rounded-sm w-full dark:bg-gray-900'
         isDisabled={isLoading}
         onChange={onChange}
         onKeyDown={keyHandler}
@@ -109,8 +109,9 @@ export const Autocomplete: FC<AutocompleteProps> = ({
         <li
           key={option.value}
           className={cx(
-            'leading-5 px-1 rounded-sm truncate hover:bg-white cursor-pointer',
-            index === optionIndex && 'bg-white'
+            'leading-5 px-1 rounded-sm truncate cursor-pointer',
+            'hover:bg-white hover:dark:bg-gray-900 ',
+            index === optionIndex && 'bg-white dark:bg-gray-900'
           )}
           onClick={() => add(option.value)}
         >

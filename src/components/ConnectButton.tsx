@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { FC, useCallback, useState } from 'react';
 
 import { useService } from 'hooks';
@@ -17,7 +18,10 @@ export const ConnectButton: FC = () => {
     <div className="flex justify-center py-10 text-lg">
       <div
         onClick={loading ? () => { } : onClick}
-        className="flex items-center rounded-md justify-center p-3 cursor-pointer hover:bg-gray-200"
+        className={cx(
+          'flex items-center rounded-md justify-center p-3 cursor-pointer',
+          'hover:bg-gray-200 hover:dark:bg-gray-700'
+        )}
       >
         <Icon className="mr-2" />
         <span>{loading ? 'connecting' : 'connect'} to pocket</span>

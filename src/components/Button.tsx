@@ -36,9 +36,10 @@ export const Button: FC<IProps> = ({
     <div
       onClick={innerDisabled ? () => { } : action}
       className={cx(
-        'flex space-x-2 p-2 rounded-md border border-gray-200',
-        innerDisabled && 'cursor-not-allowed bg-stripe-disabled',
-        !innerDisabled && 'cursor-pointer hover:bg-gray-200 hover:border-gray-500',
+        'flex space-x-2 p-2 rounded-md border border-gray-200 dark:border-gray-700',
+        innerDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
+        innerDisabled ? 'bg-stripe-disabled' : 'hover:bg-gray-200 hover:dark:bg-gray-700',
+        !innerDisabled && 'hover:border-gray-500 dark:hover:border-gray-400',
       )}
     >
       {Icon && <Icon className={cx(loading && 'animate-spin')} />}

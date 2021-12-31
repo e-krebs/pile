@@ -7,6 +7,7 @@
     width: 499px;
     min-height: 499px;
     @apply text-gray-500 text-base;
+    @apply dark:bg-gray-900 dark:text-gray-400 dark:fill-gray-400;
   }
 
   a {

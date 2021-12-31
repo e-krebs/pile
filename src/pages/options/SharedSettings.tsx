@@ -26,7 +26,7 @@ export const SharedSettings: FC = () => {
           label="background refresh interval (in minutes):"
           type="number"
           defaultValue={localStorage[refreshInterval] ?? defaultRefreshInterval}
-          className="w-10 !border-t-0 !border-x-0 !rounded-none"
+          className="w-10 !text-inherit bg-inherit !border-t-0 !border-x-0 !rounded-none"
           labelClassName="leading-7"
           flow='row'
           onChange={updateRefreshInterval}
