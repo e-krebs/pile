@@ -16,7 +16,7 @@
   "permissions": [
     "alarms",
     "https://getpocket.com/v3/*",
-    "https://www.google.com/s2/favicons/*",
+    "https://t0.gstatic.com/faviconV2/*",
     "https://img.readitlater.com/i/*"
   ],
   "background": {

@@ -13,7 +13,7 @@ const getIconBlob = async (
   fallback: string | null
 ): Promise<Response<BlobInfo>> => {
   let res = await getBlob({
-    url: `https://www.google.com/s2/favicons?domain=${hostname}&alt=404&size=32`
+    url: `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=${hostname}&size=32`
   });
   if (res.ok) return res;
 
