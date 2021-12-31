@@ -1,17 +1,18 @@
-import { Checkbox, FormControlLabel, TextField } from '@mui/material';
-import type { ChangeEventHandler, FC } from 'react';
+import type { FC } from 'react';
 import { Trash2 } from 'react-feather';
 
 import { vars, defaultVars } from 'helpers/vars';
 import { cleanIcons } from 'utils/icon';
 import { Button } from 'components/Button';
+import { TextInput } from 'library/TextInput';
+import { Checkbox } from 'library/Checkbox';
 
 export const SharedSettings: FC = () => {
   const { refreshInterval } = vars;
   const { refreshInterval: defaultRefreshInterval } = defaultVars;
 
-  const updateRefreshInterval: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const value = parseInt(e.currentTarget.value);
+  const updateRefreshInterval = (stringValue: string) => {
+    const value = parseInt(stringValue);
     if (typeof value === 'number' && !isNaN(value)) {
       localStorage[refreshInterval] = value;
     }
@@ -19,20 +20,17 @@ export const SharedSettings: FC = () => {
 
   return (
     <div className="grid grid-cols-1 auto-rows-fr gap-2">
-      <FormControlLabel
-        control={<Checkbox defaultChecked={true} disabled={true} />}
-        label="Enable Pocket."
-      />
+      <Checkbox label="Enable Pocket" defaultSelected={true} isDisabled={true} />
       <div className="flex items-baseline space-x-2">
-        <div className="shrink-0">
-          background refresh interval (in minutes):
-        </div>
-        <TextField
+        <TextInput
+          label="background refresh interval (in minutes):"
           type="number"
           defaultValue={localStorage[refreshInterval] ?? defaultRefreshInterval}
-          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-          className="w-10"
+          className="w-10 !border-t-0 !border-x-0 !rounded-none"
+          labelClassName="leading-7"
+          flow='row'
           onChange={updateRefreshInterval}
+          pattern='[0-9]*'
         />
       </div>
       <div className="flex">
