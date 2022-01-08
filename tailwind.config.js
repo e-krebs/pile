@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: ["./src/**/*.html", "./src/**/*.ts", "./src/**/*.tsx"],
   safelist: ["MuiCheckbox-root", "MuiTextField-root"],
@@ -5,7 +7,8 @@ module.exports = {
     extend: {
       colors: {
         'pocket': '#EF4056',
-        'inherit': 'inherit'
+        'inherit': 'inherit',
+        'gray': colors.zinc,
       },
       transitionProperty: {
         'height': 'height',
