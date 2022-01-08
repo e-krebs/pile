@@ -22,9 +22,10 @@ const alarmListener = async (alarm: chrome.alarms.Alarm) => {
   }
 };
 
-chrome.alarms.create(refreshInterval, {
-  periodInMinutes: localStorage[refreshInterval] ?? defaultRefreshInterval
-});
+let periodInMinutes: number = parseInt(localStorage[refreshInterval]);
+if (isNaN(periodInMinutes)) periodInMinutes = defaultRefreshInterval;
+chrome.alarms.create(refreshInterval, { periodInMinutes });
+
 chrome.alarms.onAlarm.addListener(alarmListener);
 
 (async () => {
