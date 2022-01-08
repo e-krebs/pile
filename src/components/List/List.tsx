@@ -60,7 +60,7 @@ export const List: FC = () => {
         setIsLoading(false);
       } else {
         setList(data?.data ?? []);
-        setIsLoading(false);
+        if (data?.data !== undefined) setIsLoading(false);
       }
     };
     updateList();
