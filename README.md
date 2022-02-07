@@ -1,6 +1,6 @@
 # Pile
 
-> pile is a material design-ish chrome extension that show your [pocket](https://getpocket.com) list
+> pile is a beautifully crafted chrome extension that show your [pocket](https://getpocket.com) list
 
 | default view | item opened | adding tag |
 |-|-|-|
@@ -11,10 +11,6 @@
 | ![example4](img/pile-search-filter.png) | ![example5](img/pile-tag-filter.png) |
 
 the icons color are dynamicaly computed thx to the [`node-vibrant`][1] library
-
-> ⚠️ it is working, however, it is still a work in progress ⚠️
->
-> [see TODO for known issues](./TODO.md)
 
 # Install
 ## From the chrome web store
