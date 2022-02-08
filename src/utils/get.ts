@@ -5,20 +5,20 @@ import { ListItem } from './typings';
 
 type GetType = 'default' | 'force' | 'search';
 
-export type GetParams = {
-  type: Exclude<GetType, 'search'>;
-} | {
-  type: 'search';
-  search: string;
-} | {
-  type: 'tag';
-  tag: string | null;
-}
+export type GetParams =
+  | {
+      type: Exclude<GetType, 'search'>;
+    }
+  | {
+      type: 'search';
+      search: string;
+    }
+  | {
+      type: 'tag';
+      tag: string | null;
+    };
 
-const rawGet = async (
-  param: GetParams,
-  service: Service
-): Promise<JsonArrayCache<ListItem>> => {
+const rawGet = async (param: GetParams, service: Service): Promise<JsonArrayCache<ListItem>> => {
   if (!service.isConnected()) throw Error('not connected to pocket');
 
   const key = getJsonKey(service.getQueryKey);
@@ -39,5 +39,5 @@ export const get = async (service: Service) => await rawGet({ type: 'default' },
 export const forceGet = async (service: Service) => await rawGet({ type: 'force' }, service);
 export const search = async (search: string, service: Service) =>
   await rawGet({ type: 'search', search }, service);
-export const filterTag = async (tag: string  | null, service: Service) =>
+export const filterTag = async (tag: string | null, service: Service) =>
   await rawGet({ type: 'tag', tag }, service);

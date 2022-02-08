@@ -16,7 +16,7 @@ export interface PocketItem {
   resolved_url: string;
   time_added: string;
   time_updated: string;
-  tags?: Record<string, Record<string, unknown>>
+  tags?: Record<string, Record<string, unknown>>;
 }
 
 export const itemToListItem = (item: PocketItem): ListItem => ({

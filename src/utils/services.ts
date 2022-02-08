@@ -24,5 +24,4 @@ export const getServices = () => {
   return Object.values(services) as Service[];
 };
 
-export const getServiceOauthUrl = (name: string) =>
-  chrome.extension.getURL(`pages/oauth/${name}.html`);
+export const getServiceOauthUrl = (name: string) => chrome.extension.getURL(`pages/oauth/${name}.html`);

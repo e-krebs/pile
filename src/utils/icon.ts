@@ -8,12 +8,9 @@ import { Palette, resolvePalette } from './palette';
 
 const iconFolder = 'icons';
 
-const getIconBlob = async (
-  hostname: string,
-  fallback: string | null
-): Promise<Response<BlobInfo>> => {
+const getIconBlob = async (hostname: string, fallback: string | null): Promise<Response<BlobInfo>> => {
   let res = await getBlob({
-    url: `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=${hostname}&size=32`
+    url: `https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=${hostname}&size=32`,
   });
   if (res.ok) return res;
 

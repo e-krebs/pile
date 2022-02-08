@@ -27,9 +27,9 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
     <div
       className={cx(
         className,
-        'flex items-center h-8 ml-4 mr-2 px-2 text-base leading-8',
-        'border border-gray-200 rounded-md'
-        )}
+        'ml-4 mr-2 flex h-8 items-center px-2 text-base leading-8',
+        'rounded-md border border-gray-200'
+      )}
     >
       <input
         ref={searchInput}
@@ -43,7 +43,7 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
         icon={XCircle}
         onClick={clear}
         title="Clear search"
-        className={cx('py-1 cursor-pointer', !searchInput.current?.value && 'hidden')}
+        className={cx('cursor-pointer py-1', !searchInput.current?.value && 'hidden')}
       />
     </div>
   );

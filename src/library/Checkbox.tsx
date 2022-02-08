@@ -17,15 +17,10 @@ export const Checkbox: FC<CheckboxProps> = ({ label, ...props }) => {
   const { inputProps } = useCheckbox({ ...props, 'aria-label': label }, state, ref);
   const { focusProps } = useFocusRing();
 
-  const CheckIcon: Icon = useMemo(() => state.isSelected ? CheckSquare : Square, [state]);
+  const CheckIcon: Icon = useMemo(() => (state.isSelected ? CheckSquare : Square), [state]);
 
   return (
-    <label
-      className={cx(
-        'flex items-center gap-x-2',
-        props.isDisabled && 'opacity-75'
-      )}
-    >
+    <label className={cx('flex items-center gap-x-2', props.isDisabled && 'opacity-75')}>
       <VisuallyHidden>
         <input {...inputProps} {...focusProps} aria-label={label} ref={ref} />
       </VisuallyHidden>

@@ -39,16 +39,10 @@ export const Page: FC<PageProps> = ({ serviceName }) => {
     <ServiceContext.Provider value={service}>
       {service !== null && (
         <div>
-          <div className="flex justify-center p-3 my-10 text-lg">
-            {state === 'inprogress' && (
-              <div>
-                Trying to get {service.name}'s authorization...
-              </div>
-            )}
+          <div className="my-10 flex justify-center p-3 text-lg">
+            {state === 'inprogress' && <div>Trying to get {service.name}'s authorization...</div>}
             {state === 'failed' && (
-              <div>
-                Please authorize "Pile" in {service.name} in order to work.
-              </div>
+              <div>Please authorize "Pile" in {service.name} in order to work.</div>
             )}
             {state === 'success' && <Connected />}
           </div>

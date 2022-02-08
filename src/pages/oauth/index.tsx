@@ -6,7 +6,4 @@ import 'content/tailwind.css';
 const root = document.getElementById('root');
 const service = root?.getAttribute('service');
 
-ReactDOM.render(
-  <Page serviceName={service} />,
-  root
-);
+ReactDOM.render(<Page serviceName={service} />, root);

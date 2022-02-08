@@ -14,21 +14,16 @@ export const ItemComponent: FC = () => {
   const { url, title, rgb, isOpen } = useItemContext();
 
   return (
-    <div
-      className="rounded-md"
-      style={{ backgroundColor: getRgba(rgb, 0.1) }}
-    >
+    <div className="rounded-md" style={{ backgroundColor: getRgba(rgb, 0.1) }}>
       <div
         className={cx(
-          'py-2 rounded-md hover:bg-inherit',
+          'rounded-md py-2 hover:bg-inherit',
           isOpen ? 'bg-inherit' : 'bg-white dark:bg-gray-900'
         )}
       >
-        <div className="flex pl-2 space-x-4 items-start">
+        <div className="flex items-start space-x-4 pl-2">
           <MainIcon />
-          <div
-            className={cx('grow flex items-baseline space-x-2 overflow-auto')}
-          >
+          <div className={cx('flex grow items-baseline space-x-2 overflow-auto')}>
             <Link
               className={cx('grow pt-0.5 hover:text-inherit', !isOpen && 'truncate')}
               url={url}
@@ -40,16 +35,11 @@ export const ItemComponent: FC = () => {
           </div>
           <Chevron />
         </div>
-        <div
-          className={cx(
-            'flex px-2 transition-height',
-            isOpen ? 'h-10 visible' : 'h-0 invisible'
-          )}
-        >
+        <div className={cx('flex px-2 transition-height', isOpen ? 'visible h-10' : 'invisible h-0')}>
           <div className="grow" />
           <DeleteAction />
           <ArchiveAction />
-          <div className="w-8 h-8 shrink-0" />
+          <div className="h-8 w-8 shrink-0" />
         </div>
       </div>
     </div>

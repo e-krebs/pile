@@ -24,8 +24,8 @@ const action = async (item_id: string, action: PocketAction, tags?: string[]): P
     params: {
       consumer_key: getPocketKey(),
       access_token: getPocketToken(),
-      actions: [actionItem]
-    }
+      actions: [actionItem],
+    },
   });
   if (!response.ok) return false;
   return response.result.action_results[0];

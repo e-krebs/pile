@@ -42,14 +42,17 @@ export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
     }
   };
 
-  useHotkeys(
-    't',
-    (e) => { e.preventDefault(); toggleTagOpen(); },
-  );
+  useHotkeys('t', (e) => {
+    e.preventDefault();
+    toggleTagOpen();
+  });
 
   useHotkeys(
     'Escape',
-    (e) => { e.preventDefault(); onTag(); },
+    (e) => {
+      e.preventDefault();
+      onTag();
+    },
     { enableOnTags: ['INPUT'] }
   );
 
@@ -57,33 +60,26 @@ export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
     <>
       <div
         className={cx(
-          'flex cursor-pointer py-1 space-x-2',
+          'flex cursor-pointer space-x-2 py-1',
           hasTag ? 'px-2' : 'px-1',
-          hasTag && 'border rounded-lg border-gray-400 text-gray-500 dark:text-gray-400',
+          hasTag && 'rounded-lg border border-gray-400 text-gray-500 dark:text-gray-400',
           hasTag && 'bg-gray-100 dark:bg-gray-800'
         )}
         onClick={hasTag ? () => onTag() : toggleTagOpen}
         title={tagOpen ? 'Close tag filter (or press <esc>)' : 'Filter by tag (or press <t>)'}
       >
-        <Icon
-          icon={Tag}
-          className="w-4 h-4 pt-[1px] cursor-pointer"
-        />
-        {hasTag && (
-          <div className="">
-            {tag ? tag : 'untagged'}
-          </div>
-        )}
+        <Icon icon={Tag} className="h-4 w-4 cursor-pointer pt-[1px]" />
+        {hasTag && <div className="">{tag ? tag : 'untagged'}</div>}
       </div>
       {tagOpen && (
-        <div className="relative min-w-[25%] h-6">
+        <div className="relative h-6 min-w-[25%]">
           <Autocomplete
             aria-label="tag filter"
             autoFocus
             options={[
               // { value: 'undefined' },
               { value: 'null', label: 'untagged' },
-              ...allTags.map(value => ({ value }))
+              ...allTags.map((value) => ({ value })),
             ]}
             className="absolute left-0 top-[-0.25rem] w-full shadow-xl"
             isLoading={isLoading}

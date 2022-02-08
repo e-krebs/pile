@@ -18,8 +18,8 @@ export const Tags: FC = () => {
 
   const color = useMemo(() => getRgba(rgb, 0.8), [rgb]);
   const borderColor = useMemo(() => getRgba(rgb, 0.6), [rgb]);
-  const TagIcon = useMemo(() => isLoading ? Loader : Tag, [isLoading]);
-  const Add = useMemo(() => isAddTagsOpen ? XCircle : Plus, [isAddTagsOpen]);
+  const TagIcon = useMemo(() => (isLoading ? Loader : Tag), [isLoading]);
+  const Add = useMemo(() => (isAddTagsOpen ? XCircle : Plus), [isAddTagsOpen]);
 
   const remove = async (tag: string) => {
     setIsLoading(true);
@@ -34,61 +34,61 @@ export const Tags: FC = () => {
     <TagsContext.Provider value={{ isLoading, setIsLoading }}>
       <div
         className={cx(
-          'group text-xs leading-4 rounded-lg cursor-default flex flex-col',
+          'group flex cursor-default flex-col rounded-lg text-xs leading-4',
           isAddTagsOpen ? 'max-w-[calc(50%+1rem)]' : 'max-w-[25%]',
-          'hover:max-w-[calc(50%+1rem)] transition-max-width'
+          'transition-max-width hover:max-w-[calc(50%+1rem)]'
         )}
         style={{ color, borderColor }}
       >
         <div
           className={cx(
-            'flex items-center px-2 py-1 border rounded-lg bg-gray-100 dark:bg-gray-800',
-            isOpen
-              ? 'border-inherit text-inherit'
-              : 'border-gray-400 text-gray-500 dark:text-gray-400'
+            'flex items-center rounded-lg border bg-gray-100 px-2 py-1 dark:bg-gray-800',
+            isOpen ? 'border-inherit text-inherit' : 'border-gray-400 text-gray-500 dark:text-gray-400'
           )}
         >
-          <TagIcon
-            className={cx('w-3 h-3 mt-[3px] mb-[2px] shrink-0', isLoading && 'animate-spin')}
-          />
+          <TagIcon className={cx('mt-[3px] mb-[2px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
 
           {tags.length > 0 && (
-            <div className="flex truncate mt-[-1px]">
-              {tags.map(tag => (
+            <div className="mt-[-1px] flex truncate">
+              {tags.map((tag) => (
                 <div
                   key={tag}
                   className={cx(
-                    'ml-1 pl-px flex items-center group',
+                    'group ml-1 flex items-center pl-px',
                     'border-b border-transparent',
-                    !isLoading && 'cursor-pointer border-dashed hover:border-inherit',
+                    !isLoading && 'cursor-pointer border-dashed hover:border-inherit'
                   )}
                   title={`remove tag [${tag}]`}
-                  onClick={() => isLoading ? {} : remove(tag)}
+                  onClick={() => (isLoading ? {} : remove(tag))}
                 >
                   <span>{tag}</span>
-                  <X className={cx(
-                    'group-hover:w-3 transition-width h-3 mb-[-3px]',
-                    isAddTagsOpen ? 'w-3' : 'w-0',
-                  )} />
+                  <X
+                    className={cx(
+                      'mb-[-3px] h-3 transition-width group-hover:w-3',
+                      isAddTagsOpen ? 'w-3' : 'w-0'
+                    )}
+                  />
                 </div>
               ))}
             </div>
           )}
 
           <div
-            className={cx('shrink-0 grow flex justify-end', !isLoading && 'cursor-pointer')}
+            className={cx('flex shrink-0 grow justify-end', !isLoading && 'cursor-pointer')}
             title={isAddTagsOpen ? 'close' : 'add tags'}
-            onClick={() => isLoading ? {} : setIsAddTagsOpen(!isAddTagsOpen)}
+            onClick={() => (isLoading ? {} : setIsAddTagsOpen(!isAddTagsOpen))}
           >
-            <Add className={cx(
-              isAddTagsOpen ? 'w-3' : 'w-0',
-              'group-hover:w-3 transition-width h-3 mb-[-1px] group-hover:ml-1'
-            )} />
+            <Add
+              className={cx(
+                isAddTagsOpen ? 'w-3' : 'w-0',
+                'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3'
+              )}
+            />
           </div>
         </div>
 
         {isAddTagsOpen && <TagAutocomplete />}
-      </div >
+      </div>
     </TagsContext.Provider>
   );
 };

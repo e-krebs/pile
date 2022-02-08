@@ -22,7 +22,5 @@ export const DeleteAction: FC = () => {
     setDeleteLoading(false);
   };
 
-  return (
-    <Action icon={Trash2} rgb={rgb} title="delete" onClick={onDelete} loading={deleteLoading} />
-  );
+  return <Action icon={Trash2} rgb={rgb} title="delete" onClick={onDelete} loading={deleteLoading} />;
 };

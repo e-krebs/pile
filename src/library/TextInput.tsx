@@ -15,22 +15,18 @@ export const TextInput: FC<TextInputProps> = (props) => {
     labelProps,
     inputProps: { className: inputClassName, ...inputProps },
     descriptionProps,
-    errorMessageProps: { className: errorClassName, ...errorMessageProps }
+    errorMessageProps: { className: errorClassName, ...errorMessageProps },
   } = useTextField(props, ref);
 
   return (
-    <div className={cx('flex', flow === 'row' ? 'flex-row space-x-2 justify-center' : 'flex-col')}>
-      {label && <label {...labelProps} className={labelClassName}>{label}</label>}
-      <input
-        {...inputProps}
-        ref={ref}
-        className={cx(inputClassName, className, 'outline-none')}
-      />
-      {props.description && (
-        <div {...descriptionProps}>
-          {props.description}
-        </div>
+    <div className={cx('flex', flow === 'row' ? 'flex-row justify-center space-x-2' : 'flex-col')}>
+      {label && (
+        <label {...labelProps} className={labelClassName}>
+          {label}
+        </label>
       )}
+      <input {...inputProps} ref={ref} className={cx(inputClassName, className, 'outline-none')} />
+      {props.description && <div {...descriptionProps}>{props.description}</div>}
       {props.errorMessage && (
         <div {...errorMessageProps} className={cx(errorClassName, 'text-red-600')}>
           {props.errorMessage}

@@ -14,13 +14,16 @@ type AutocompleteProps = TextInputProps & {
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
   close: () => void;
-} & ({
-  addValue: (value: string) => Promise<void>;
-  addValueSync?: (value: string) => void;
-} | {
-  addValue?: (value: string) => Promise<void>;
-  addValueSync: (value: string) => void;
-})
+} & (
+    | {
+        addValue: (value: string) => Promise<void>;
+        addValueSync?: (value: string) => void;
+      }
+    | {
+        addValue?: (value: string) => Promise<void>;
+        addValueSync: (value: string) => void;
+      }
+  );
 
 export const Autocomplete: FC<AutocompleteProps> = ({
   options: allOptions,
@@ -36,14 +39,12 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   const [optionIndex, setOptionIndex] = useState<number | null>(null);
 
   const options: Option[] = useMemo(
-    () => allOptions
-      .filter(option => !inputOption || option.value.includes(inputOption))
-      .slice(0, 4),
+    () => allOptions.filter((option) => !inputOption || option.value.includes(inputOption)).slice(0, 4),
     [allOptions, inputOption]
   );
 
   const newOption: Option = useMemo(
-    () => optionIndex === null ? { value: inputOption } : options[optionIndex],
+    () => (optionIndex === null ? { value: inputOption } : options[optionIndex]),
     [options, inputOption, optionIndex]
   );
 
@@ -80,10 +81,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
         newSelectedIndex = null;
         break;
     }
-    if (
-      newSelectedIndex != null &&
-      (newSelectedIndex >= options.length || newSelectedIndex < 0)
-    ) {
+    if (newSelectedIndex != null && (newSelectedIndex >= options.length || newSelectedIndex < 0)) {
       newSelectedIndex = null;
     }
     setOptionIndex(newSelectedIndex);
@@ -93,12 +91,12 @@ export const Autocomplete: FC<AutocompleteProps> = ({
     <ul
       className={cx(
         className,
-        'min-w-[25%] grid gap-y-px items-center border rounded-lg bg-gray-100 dark:bg-gray-800 p-1',
+        'grid min-w-[25%] items-center gap-y-px rounded-lg border bg-gray-100 p-1 dark:bg-gray-800'
       )}
     >
       <TextInput
         {...textInputProps}
-        className='leading-5 px-1 rounded-sm w-full dark:bg-gray-900'
+        className="w-full rounded-sm px-1 leading-5 dark:bg-gray-900"
         isDisabled={isLoading}
         onChange={onChange}
         onKeyDown={keyHandler}
@@ -109,7 +107,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
         <li
           key={option.value}
           className={cx(
-            'leading-5 px-1 rounded-sm truncate cursor-pointer',
+            'cursor-pointer truncate rounded-sm px-1 leading-5',
             'hover:bg-white hover:dark:bg-gray-900 ',
             index === optionIndex && 'bg-white dark:bg-gray-900'
           )}

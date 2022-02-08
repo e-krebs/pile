@@ -30,19 +30,14 @@ export const List: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const [tag, setTag] = useState<string | null | undefined>();
   const searchInput = useRef<HTMLInputElement>(null);
-  const { data } = useQuery(
-    service.getQueryKey,
-    async () => {
-      const list = await get(service);
-      setBadge(service.name, list.data.length);
-      return list;
-    }
-  );
+  const { data } = useQuery(service.getQueryKey, async () => {
+    const list = await get(service);
+    setBadge(service.name, list.data.length);
+    return list;
+  });
 
   const allTags: string[] = useMemo(
-    () => data?.data
-      ? uniq(data.data.map(item => item.tags).flat()).sort()
-      : [],
+    () => (data?.data ? uniq(data.data.map((item) => item.tags).flat()).sort() : []),
     [data]
   );
 
@@ -66,11 +61,11 @@ export const List: FC = () => {
     updateList();
   }, [data, tag, service, searchTerm]);
 
-  const formattedTimestamp: string | null = useMemo(() =>
-    data?.timestamp === undefined
-      ? null
-      : formatDistanceToNow(data.timestamp, { addSuffix: true }),
-    [data]);
+  const formattedTimestamp: string | null = useMemo(
+    () =>
+      data?.timestamp === undefined ? null : formatDistanceToNow(data.timestamp, { addSuffix: true }),
+    [data]
+  );
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -100,7 +95,9 @@ export const List: FC = () => {
     setAddTagsItemOpen(null);
   };
 
-  useHotkeys('r', () => { refresh(); });
+  useHotkeys('r', () => {
+    refresh();
+  });
 
   return (
     <ListContext.Provider
@@ -113,15 +110,12 @@ export const List: FC = () => {
         setSearchTerm,
         setAddTagsItemOpen,
         isLoading,
-        setIsLoading
+        setIsLoading,
       }}
     >
       {formattedTimestamp != null && (
         <div className="flex items-center justify-center text-xs">
-          <SearchFilter
-            searchOpen={searchOpen}
-            openSearch={openSearch}
-          >
+          <SearchFilter searchOpen={searchOpen} openSearch={openSearch}>
             <span className="grow text-center" title="press <r> to Refresh">
               {isRefreshing ? '...' : formattedTimestamp}
             </span>
@@ -131,36 +125,37 @@ export const List: FC = () => {
             icon={RefreshCw}
             title="Refresh (or press <r>)"
             className={cx(
-              'mx-2 w-4 h-4',
+              'mx-2 h-4 w-4',
               isRefreshing && 'animate-spin',
               searchOpen ? 'cursor-not-allowed' : 'cursor-pointer'
             )}
-            onClick={searchOpen ? () => { } : refresh}
+            onClick={searchOpen ? () => {} : refresh}
           />
         </div>
       )}
-      <div className="pt-2 space-y-px">
+      <div className="space-y-px pt-2">
         {isLoading && (
           <div className="flex items-center justify-center pb-2">
-            <Loader className="animate-spin w-10 h-10" />
+            <Loader className="h-10 w-10 animate-spin" />
           </div>
         )}
         {!isLoading && list.length <= 0 && (
-          <div className="flex justify-center items-center py-6">
+          <div className="flex items-center justify-center py-6">
             {searchInput.current?.value
               ? `No result for "${searchInput.current.value}".`
-              : 'No items in your pocket list.'
-            }
+              : 'No items in your pocket list.'}
           </div>
         )}
-        {!isLoading && list.length > 0 && list.map((item) => (
-          <Item
-            item={item}
-            key={item.id}
-            isOpen={item.id === itemOpen}
-            isAddTagsOpen={item.id === addTagsItemOpen}
-          />
-        ))}
+        {!isLoading &&
+          list.length > 0 &&
+          list.map((item) => (
+            <Item
+              item={item}
+              key={item.id}
+              isOpen={item.id === itemOpen}
+              isAddTagsOpen={item.id === addTagsItemOpen}
+            />
+          ))}
       </div>
     </ListContext.Provider>
   );
