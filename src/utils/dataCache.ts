@@ -19,7 +19,7 @@ export const getTimestamp = (): number => new Date().getTime();
 export const isCacheExpired = <T>(
   cache: JsonCache<T> | JsonArrayCache<T>,
   duration = cacheDurationMs
-): boolean => (getTimestamp() - cache.timestamp) > duration;
+): boolean => getTimestamp() - cache.timestamp > duration;
 
 export const clearCache = async (key: string, queryClient: QueryClient) => {
   await deleteJson(key);

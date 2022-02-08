@@ -17,9 +17,9 @@ export const ConnectButton: FC = () => {
   return (
     <div className="flex justify-center py-10 text-lg">
       <div
-        onClick={loading ? () => { } : onClick}
+        onClick={loading ? () => {} : onClick}
         className={cx(
-          'flex items-center rounded-md justify-center p-3 cursor-pointer',
+          'flex cursor-pointer items-center justify-center rounded-md p-3',
           'hover:bg-gray-200 hover:dark:bg-gray-700'
         )}
       >

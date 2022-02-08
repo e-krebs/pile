@@ -16,14 +16,13 @@ export const TagAutocomplete: FC = () => {
   const queryClient = useQueryClient();
 
   const options: Option[] = useMemo(
-    () => allTags.filter(tag => !tags.includes(tag)).map(value => ({ value })),
+    () => allTags.filter((tag) => !tags.includes(tag)).map((value) => ({ value })),
     [allTags, tags]
   );
 
-  const close = useCallback(
-    () => { setIsAddTagsOpen(false); },
-    [setIsAddTagsOpen]
-  );
+  const close = useCallback(() => {
+    setIsAddTagsOpen(false);
+  }, [setIsAddTagsOpen]);
 
   const addValue = useCallback(
     async (value: string) => {

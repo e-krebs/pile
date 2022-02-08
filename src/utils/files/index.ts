@@ -12,8 +12,12 @@ export const readFile = async (path: Path): Promise<string | null> => {
   return new Promise((resolve) => {
     window.resolveLocalFileSystemURL(
       url,
-      () => { resolve(url); },
-      () => { resolve(null); }
+      () => {
+        resolve(url);
+      },
+      () => {
+        resolve(null);
+      }
     );
   });
 };
@@ -37,7 +41,9 @@ export const readJson = async <T>(path: Path): Promise<T | null> => {
           reader.readAsText(blob);
         });
       },
-      () => { resolve(null); }
+      () => {
+        resolve(null);
+      }
     );
   });
 };
@@ -58,14 +64,20 @@ export const writeBlob = async (blobinfo: BlobInfo): Promise<string | null> => {
           // Create a FileWriter object for our FileEntry, and write our blob.
           file.createWriter(
             (writer) => {
-              writer.onwriteend = () => { resolve(url); };
+              writer.onwriteend = () => {
+                resolve(url);
+              };
               writer.write(blob);
             },
-            (error) => { logAndReject(error, 'writeBlob.createWriter', reject); }
+            (error) => {
+              logAndReject(error, 'writeBlob.createWriter', reject);
+            }
           );
         }
       },
-      (error) => { logAndReject(error, 'writeBlob.getFile', reject); }
+      (error) => {
+        logAndReject(error, 'writeBlob.getFile', reject);
+      }
     );
   });
 };
@@ -84,11 +96,17 @@ export const deleteFile = async (url: Path): Promise<true> => {
       { create: false },
       (file) => {
         file.remove(
-          () => { resolve(true); },
-          (error) => { logAndReject(error, 'deleteFile', reject); }
+          () => {
+            resolve(true);
+          },
+          (error) => {
+            logAndReject(error, 'deleteFile', reject);
+          }
         );
       },
-      () => { resolve(true); /* file doesn't exist */ }
+      () => {
+        resolve(true); /* file doesn't exist */
+      }
     );
   });
 };
@@ -97,8 +115,12 @@ export const deleteFolder = async (path: Path): Promise<true> => {
   const [directory] = await getFileFromPath([...path, '']);
   return new Promise<true>((resolve, reject) => {
     directory.removeRecursively(
-      () => { resolve(true); },
-      (error) => { logAndReject(error, 'deleteFolder', reject); }
+      () => {
+        resolve(true);
+      },
+      (error) => {
+        logAndReject(error, 'deleteFolder', reject);
+      }
     );
   });
 };

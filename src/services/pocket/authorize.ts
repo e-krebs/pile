@@ -1,12 +1,6 @@
 import { post } from 'utils/post';
 import { headers } from './const';
-import {
-  getPocketCode,
-  getPocketKey,
-  isConnected,
-  setPocketToken,
-  setPocketUsername
-} from './helpers';
+import { getPocketCode, getPocketKey, isConnected, setPocketToken, setPocketUsername } from './helpers';
 
 interface PocketAuthorize {
   access_token: string;
@@ -25,7 +19,9 @@ export const authorize = async (): Promise<boolean> => {
   if (!response.ok || !response.result.access_token || !response.result.username) {
     return false;
   }
-  const { result: { access_token: token, username } } = response;
+  const {
+    result: { access_token: token, username },
+  } = response;
   setPocketToken(token);
   setPocketUsername(username);
   return true;

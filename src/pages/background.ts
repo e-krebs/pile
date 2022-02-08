@@ -33,6 +33,6 @@ chrome.alarms.onAlarm.addListener(alarmListener);
     services.map(async (service) => {
       const list = await forceGet(service);
       setBadge(service.name, list.data.length);
-    })
+    }),
   ]);
 })();

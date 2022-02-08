@@ -6,7 +6,7 @@ import { headers } from './const';
 import { itemToListItem, PocketItem } from './item';
 
 interface PocketList {
-  list: Record<number, PocketItem>
+  list: Record<number, PocketItem>;
 }
 
 export const get = async (param: GetParams): Promise<ListItem[]> => {
@@ -20,12 +20,12 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
       search: param.type === 'search' ? param.search : undefined,
       tag: param.type === 'tag' ? param.tag ?? '_untagged_' : undefined,
       detailType: 'complete',
-    }
+    },
   });
 
-  if (!response.ok) throw Error('couldn\'t get pocket list');
+  if (!response.ok) throw Error("couldn't get pocket list");
 
   return Object.values(response.result.list)
-    .sort((a, b) => a.time_added < b.time_added ? 1 : -1)
+    .sort((a, b) => (a.time_added < b.time_added ? 1 : -1))
     .map(itemToListItem);
 };

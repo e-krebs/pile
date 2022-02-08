@@ -12,12 +12,7 @@ const waitFn = (duration = 500): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, duration));
 };
 
-export const Button: FC<IProps> = ({
-  disabled = false,
-  startIcon: StartIcon,
-  onClick,
-  children
-}) => {
+export const Button: FC<IProps> = ({ disabled = false, startIcon: StartIcon, onClick, children }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const Icon = useMemo(() => {
     if (!StartIcon) return;
@@ -34,12 +29,12 @@ export const Button: FC<IProps> = ({
 
   return (
     <div
-      onClick={innerDisabled ? () => { } : action}
+      onClick={innerDisabled ? () => {} : action}
       className={cx(
-        'flex space-x-2 p-2 rounded-md border border-gray-200 dark:border-gray-700',
+        'flex space-x-2 rounded-md border border-gray-200 p-2 dark:border-gray-700',
         innerDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
         innerDisabled ? 'bg-stripe-disabled' : 'hover:bg-gray-200 hover:dark:bg-gray-700',
-        !innerDisabled && 'hover:border-gray-500 dark:hover:border-gray-400',
+        !innerDisabled && 'hover:border-gray-500 dark:hover:border-gray-400'
       )}
     >
       {Icon && <Icon className={cx(loading && 'animate-spin')} />}

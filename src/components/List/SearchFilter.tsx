@@ -10,14 +10,9 @@ interface SearchFilterProps {
   searchOpen: boolean;
   openSearch: (value: boolean) => void;
 }
-export const SearchFilter: FC<SearchFilterProps> = ({
-  searchOpen,
-  openSearch,
-  children
-}) => {
+export const SearchFilter: FC<SearchFilterProps> = ({ searchOpen, openSearch, children }) => {
   const { setSearchTerm } = useListContext();
 
-  
   const onSearch = (value?: string) => {
     if (!value) {
       setSearchTerm(null);
@@ -26,13 +21,17 @@ export const SearchFilter: FC<SearchFilterProps> = ({
     }
   };
 
-  useHotkeys(
-    's',
-    (e) => { e.preventDefault(); openSearch(true); }
-  );
+  useHotkeys('s', (e) => {
+    e.preventDefault();
+    openSearch(true);
+  });
   useHotkeys(
     'Escape',
-    (e) => { e.preventDefault(); openSearch(false); onSearch(); },
+    (e) => {
+      e.preventDefault();
+      openSearch(false);
+      onSearch();
+    },
     { enableOnTags: ['INPUT'] }
   );
 
@@ -41,7 +40,7 @@ export const SearchFilter: FC<SearchFilterProps> = ({
       <Icon
         icon={Search}
         title={searchOpen ? 'Close search (or press <esc>)' : 'Open search (or press <s>)'}
-        className="ml-2 p-1 w-8 h-8 cursor-pointer"
+        className="ml-2 h-8 w-8 cursor-pointer p-1"
         onClick={() => openSearch(!searchOpen)}
       />
       {searchOpen && <SearchInput onSearch={onSearch} className="grow" />}

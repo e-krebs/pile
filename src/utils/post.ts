@@ -10,12 +10,14 @@ export const post = async <T>({ url, headers, params }: PostParams): Promise<Res
   const response = await fetch(url, {
     method: 'POST',
     headers,
-    body: JSON.stringify(params)
+    body: JSON.stringify(params),
   });
-  if (!response.ok) { return { ok: false }; }
+  if (!response.ok) {
+    return { ok: false };
+  }
   const result = (await response.json()) as T;
   return {
     ok: true,
-    result
+    result,
   };
 };

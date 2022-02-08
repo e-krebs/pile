@@ -26,7 +26,9 @@ export const ConnectionStatus: FC = () => {
   return connected ? (
     <div className="flex flex-col items-center space-y-3">
       <Connected />
-      <Button startIcon={Power} onClick={onClick}>Disconnect</Button>
+      <Button startIcon={Power} onClick={onClick}>
+        Disconnect
+      </Button>
     </div>
   ) : (
     <ConnectButton />

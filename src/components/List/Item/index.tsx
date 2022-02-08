@@ -13,11 +13,7 @@ interface ItemProps {
   isAddTagsOpen: boolean;
 }
 
-export const Item: FC<ItemProps> = ({
-  item: { id, title, url, logo, tags },
-  isOpen,
-  isAddTagsOpen,
-}) => {
+export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOpen, isAddTagsOpen }) => {
   const { setItemOpen, setAddTagsItemOpen } = useListContext();
   const [icon, setIcon] = useState<IconAndPalette>();
 

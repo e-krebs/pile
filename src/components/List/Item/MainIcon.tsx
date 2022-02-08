@@ -31,19 +31,16 @@ export const MainIcon: FC = () => {
   };
 
   return (
-    <div
-      className="shrink-0 rounded-full"
-      style={{ backgroundColor: getRgba(rgb, 0.05) }}
-    >
+    <div className="shrink-0 rounded-full" style={{ backgroundColor: getRgba(rgb, 0.05) }}>
       <div
-        className="w-8 h-8 p-1.5 rounded-full border bg-inherit cursor-pointer"
+        className="h-8 w-8 cursor-pointer rounded-full border bg-inherit p-1.5"
         style={{ borderColor: getRgba(rgb, 0.6) }}
         title="archive and open"
         onClick={onArchiveAndOpen}
       >
-        {iconState === 'loading' && <Loader className="w-full h-full animate-spin" />}
-        {iconState === 'icon' && <img src={iconUrl} className="w-full h-full" />}
-        {iconState === 'default' && <Image className="w-full h-full" />}
+        {iconState === 'loading' && <Loader className="h-full w-full animate-spin" />}
+        {iconState === 'icon' && <img src={iconUrl} className="h-full w-full" />}
+        {iconState === 'default' && <Image className="h-full w-full" />}
       </div>
     </div>
   );

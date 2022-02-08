@@ -19,7 +19,7 @@ const serviceToTab = (service: Service): TabProps => ({
 });
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { cacheTime: cacheDurationMs } }
+  defaultOptions: { queries: { cacheTime: cacheDurationMs } },
 });
 
 export const Page: FC = () => (

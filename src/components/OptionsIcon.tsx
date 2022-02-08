@@ -6,5 +6,6 @@ interface Props {
   className?: string;
 }
 
-export const OptionsIcon: FC<Props> = ({ className }) =>
-  <Settings className={cx('w-6 h-6', className)} />;
+export const OptionsIcon: FC<Props> = ({ className }) => (
+  <Settings className={cx('h-6 w-6', className)} />
+);

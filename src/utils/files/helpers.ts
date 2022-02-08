@@ -20,7 +20,10 @@ const getFilesystem = async (): Promise<FileSystemDirectoryEntry> => {
         fsRoot = localFs.root;
         resolve(fsRoot);
       },
-      (error) => { logAndReject(error, 'getFilesystem', reject); });
+      (error) => {
+        logAndReject(error, 'getFilesystem', reject);
+      }
+    );
   });
 };
 
@@ -33,14 +36,14 @@ const getFolder = async (
       path,
       { create: true },
       (directory) => resolve(directory),
-      (error) => { logAndReject(error, `getFolder ${path}`, reject); },
+      (error) => {
+        logAndReject(error, `getFolder ${path}`, reject);
+      }
     );
   });
 };
 
-export const getFileFromPath = async (
-  paths: Path
-): Promise<[FileSystemDirectoryEntry, string]> => {
+export const getFileFromPath = async (paths: Path): Promise<[FileSystemDirectoryEntry, string]> => {
   let folder = await getFilesystem();
   const folders = [rootFolder, ...paths.slice(0, -1)];
   const file = paths[paths.length - 1];
