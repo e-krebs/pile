@@ -30,9 +30,9 @@ export const setBadge = async (service: ServiceNames, value: number) => {
   const total: number = Object.values(badgeValues).reduce((a, b) => a + b);
 
   if (total > 0) {
-    chrome.browserAction.setBadgeBackgroundColor({ color });
-    chrome.browserAction.setBadgeText({ text: total.toString() });
+    chrome.action.setBadgeBackgroundColor({ color });
+    chrome.action.setBadgeText({ text: total.toString() });
   } else {
-    chrome.browserAction.setBadgeText({});
+    chrome.action.setBadgeText({ text: '' });
   }
 };
