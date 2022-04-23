@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "pile",
   "description": "pile",
   "version": "1.4.1",
@@ -8,25 +8,34 @@
     "48": "./content/icons/icon-48.png",
     "128": "./content/icons/icon-96.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "./content/icons/icon-96.png",
     "default_title": "pile",
     "default_popup": "./pages/popup.html"
   },
   "permissions": [
     "alarms",
+    "storage"
+  ],
+  "host_permissions": [
     "https://getpocket.com/v3/*",
     "https://t0.gstatic.com/faviconV2/*",
     "https://logo.clearbit.com/*",
     "https://img.readitlater.com/i/*"
   ],
   "background": {
-    "scripts": ["./pages/background.ts"]
+    "service_worker": "./pages/serviceWorker.ts",
+      "type": "module"
   },
   "options_ui": {
-    "chrome_style": true,
+    "open_in_tab": false,
     "page": "./pages/options.html"
   },
-  "web_accessible_resources": ["./pages/oauth/pocket.html"],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "web_accessible_resources": [
+    {
+      "resources": ["./pages/oauth/pocket.html"],
+      "matches": ["<all_urls>"],
+      "extension_ids": []
+    }
+  ]
 }
