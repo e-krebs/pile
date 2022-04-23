@@ -20,7 +20,7 @@ export const connect = async (): Promise<boolean> => {
   const {
     result: { code },
   } = response;
-  setPocketCode(code);
+  await setPocketCode(code);
   const redirectUri = getPocketRedirectUri();
   chrome.tabs.create({
     url: `https://getpocket.com/auth/authorize?request_token=${code}&redirect_uri=${redirectUri}`,

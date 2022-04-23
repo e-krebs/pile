@@ -9,21 +9,28 @@ import { name, LocalStorageKeys, localStorageKeyCodes } from './const';
 
 const getKeys = (): LocalStorageKeys[] => Object.keys(localStorageKeyCodes) as LocalStorageKeys[];
 
-export const isConnected = (): boolean =>
-  getKeys()
-    .map((key) => Boolean(get(localStorageKeyCodes, key)))
-    .reduce((a, b) => a && b);
+export const isConnected = async (): Promise<boolean> => {
+  const values = await Promise.all(
+    getKeys().map(async (key) => {
+      const value = await get(localStorageKeyCodes, key);
+      return Boolean(value);
+    })
+  );
+  return values.reduce((a, b) => a && b);
+};
 
-export const deleteAllKeys = () => getKeys().forEach((key) => del(localStorageKeyCodes, key));
+export const deleteAllKeys = async () =>
+  await Promise.all(getKeys().map(async (key) => await del(localStorageKeyCodes, key)));
 
 export const getPocketKey = (): string | undefined => getEnvVar('pocketKey');
 export const getPocketRedirectUri = (): string => getServiceOauthUrl(name);
 
-export const getPocketCode = () => get(localStorageKeyCodes, 'code');
-export const setPocketCode = (code: string) => set(localStorageKeyCodes, 'code', code);
+export const getPocketCode = async () => await get(localStorageKeyCodes, 'code');
+export const setPocketCode = async (code: string) => await set(localStorageKeyCodes, 'code', code);
 
-export const getPocketToken = () => get(localStorageKeyCodes, 'token');
-export const setPocketToken = (token: string) => set(localStorageKeyCodes, 'token', token);
+export const getPocketToken = async () => await get(localStorageKeyCodes, 'token');
+export const setPocketToken = async (token: string) => await set(localStorageKeyCodes, 'token', token);
 
-export const getPocketUsername = () => get(localStorageKeyCodes, 'username');
-export const setPocketUsername = (username: string) => set(localStorageKeyCodes, 'username', username);
+export const getPocketUsername = async () => await get(localStorageKeyCodes, 'username');
+export const setPocketUsername = async (username: string) =>
+  await set(localStorageKeyCodes, 'username', username);

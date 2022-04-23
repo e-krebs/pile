@@ -23,7 +23,7 @@ const action = async (item_id: string, action: PocketAction, tags?: string[]): P
     headers,
     params: {
       consumer_key: getPocketKey(),
-      access_token: getPocketToken(),
+      access_token: await getPocketToken(),
       actions: [actionItem],
     },
   });

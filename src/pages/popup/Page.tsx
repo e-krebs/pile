@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
@@ -13,26 +13,40 @@ import { cacheDurationMs } from 'utils/dataCache';
 
 const services = getServices();
 
-const serviceToTab = (service: Service): TabProps => ({
-  content: service.isConnected() ? List : ConnectionStatus,
-  service,
-});
+const serviceToTab = async (service: Service): Promise<TabProps> => {
+  const connected = await service.isConnected();
+  return {
+    content: connected ? List : ConnectionStatus,
+    service,
+  };
+};
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: cacheDurationMs } },
 });
 
-export const Page: FC = () => (
-  <QueryClientProvider client={queryClient}>
-    <Tabs tabs={services.map(serviceToTab)}>
-      <Tab
-        onClick={() => chrome.runtime.openOptionsPage()}
-        active={false}
-        Icon={OptionsIcon}
-        rounded="full"
-      />
-    </Tabs>
-    <Footer />
-    <ReactQueryDevtools />
-  </QueryClientProvider>
-);
+export const Page: FC = () => {
+  const [tabs, setTabs] = useState<TabProps[]>([]);
+
+  useEffect(() => {
+    const getTabs = async () => {
+      setTabs(await Promise.all(services.map(await serviceToTab)));
+    };
+    getTabs();
+  }, []);
+
+  return tabs.length > 0 ? (
+    <QueryClientProvider client={queryClient}>
+      <Tabs tabs={tabs}>
+        <Tab
+          onClick={() => chrome.runtime.openOptionsPage()}
+          active={false}
+          Icon={OptionsIcon}
+          rounded="full"
+        />
+      </Tabs>
+      <Footer />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  ) : null;
+};

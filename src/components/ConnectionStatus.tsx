@@ -13,14 +13,18 @@ export const ConnectionStatus: FC = () => {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    setConnected(service.isConnected());
+    const getStatus = async () => {
+      setConnected(await service.isConnected());
+    };
+    getStatus();
   }, [service]);
 
   const onClick = async () => {
-    service.disconnect();
+    await service.disconnect();
     await deleteJson(getJsonKey(service.getQueryKey));
     setBadge(service.name, 0);
-    setConnected(service.isConnected());
+    const isConnected = await service.isConnected();
+    setConnected(isConnected);
   };
 
   return connected ? (
