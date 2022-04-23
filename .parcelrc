@@ -4,6 +4,6 @@
     "*.svg": ["...", "@parcel/transformer-svg-react"]
   },
   "validators": {
-    "*.{ts,tsx}": ["@parcel/validator-typescript", "@parcel/validator-eslint"]
+    "*.{ts,tsx}": ["@parcel/validator-typescript"]
   }
 }

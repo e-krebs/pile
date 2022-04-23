@@ -1059,15 +1059,6 @@
     "@parcel/source-map" "^2.0.0"
     chalk "^4.1.0"
 
-"@parcel/validator-eslint@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@parcel/validator-eslint/-/validator-eslint-2.5.0.tgz#bd0eff56d01993ce0ef9dfe411d332561c8ead0a"
-  integrity sha512-hJc56I0Qqxm+4JP61lneGbZgCpc8sj6T+/r4yPxT6YnUl9fPgMxuPSE7qLlknO2EC3dKNGQeaEEvaGOebMF+vA==
-  dependencies:
-    "@parcel/plugin" "2.5.0"
-    "@parcel/utils" "2.5.0"
-    chalk "^4.1.0"
-
 "@parcel/validator-typescript@^2.5.0":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@parcel/validator-typescript/-/validator-typescript-2.5.0.tgz#8c4b60f3e820b709ead168d975c10f8e113cdc66"

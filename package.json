@@ -39,7 +39,6 @@
     "@parcel/config-webextension": "^2.5.0",
     "@parcel/core": "^2.5.0",
     "@parcel/transformer-svg-react": "^2.5.0",
-    "@parcel/validator-eslint": "^2.5.0",
     "@parcel/validator-typescript": "^2.5.0",
     "@types/chrome": "^0.0.181",
     "@types/express": "^4.17.13",
