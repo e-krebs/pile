@@ -1,14 +1,12 @@
 import { color } from 'helpers/vars';
 import { ServiceNames } from 'services';
-import { readJson, writeJson } from './files';
 import { getServices } from './services';
-import { Path } from './typings';
 
-const badgePath: Path = ['badge.json'];
+const badgePath = 'badge';
 type BadgeValues = Record<ServiceNames, number>;
 
 const getBadgeValues = async (): Promise<BadgeValues> => {
-  const badgeValues = await readJson<BadgeValues>(badgePath);
+  const badgeValues = (await chrome.storage.local.get(badgePath)) as BadgeValues;
 
   const result: Record<string, number> = {};
   const services = getServices();
@@ -27,14 +25,14 @@ export const setBadge = async (service: ServiceNames, value: number) => {
   const badgeValues = await getBadgeValues();
   badgeValues[service] = value;
 
-  await writeJson(badgePath, badgeValues);
+  await chrome.storage.local.set({ [badgePath]: badgeValues });
 
   const total: number = Object.values(badgeValues).reduce((a, b) => a + b);
 
   if (total > 0) {
-    chrome.browserAction.setBadgeBackgroundColor({ color });
-    chrome.browserAction.setBadgeText({ text: total.toString() });
+    chrome.action.setBadgeBackgroundColor({ color });
+    chrome.action.setBadgeText({ text: total.toString() });
   } else {
-    chrome.browserAction.setBadgeText({});
+    chrome.action.setBadgeText({ text: '' });
   }
 };

@@ -1,13 +1,19 @@
-export const getLocalStorageValue = <T extends string>(
+export const getLocalStorageValue = async <T extends string>(
   dict: Record<T, string>,
   key: T
-): string | undefined => localStorage.getItem(dict[key]) ?? undefined;
+): Promise<string | undefined> => {
+  const value = await chrome.storage.local.get(dict[key]);
+  if (!value || !value[dict[key]]) return undefined;
+  return value[dict[key]].toString();
+};
 
-export const setLocalStorageValue = <T extends string>(
+export const setLocalStorageValue = async <T extends string>(
   dict: Record<T, string>,
   key: T,
   value: string
-): void => localStorage.setItem(dict[key], value);
+): Promise<void> => await chrome.storage.local.set({ [dict[key]]: value });
 
-export const deleteLocalStorageValue = <T extends string>(dict: Record<T, string>, key: T): void =>
-  localStorage.removeItem(dict[key]);
+export const deleteLocalStorageValue = async <T extends string>(
+  dict: Record<T, string>,
+  key: T
+): Promise<void> => await chrome.storage.local.remove(dict[key]);

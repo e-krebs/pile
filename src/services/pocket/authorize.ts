@@ -8,12 +8,12 @@ interface PocketAuthorize {
 }
 
 export const authorize = async (): Promise<boolean> => {
-  if (isConnected()) return true;
+  if (await isConnected()) return true;
 
   const response = await post<PocketAuthorize>({
     url: 'https://getpocket.com/v3/oauth/authorize',
     headers,
-    params: { consumer_key: getPocketKey(), code: getPocketCode() },
+    params: { consumer_key: getPocketKey(), code: await getPocketCode() },
   });
 
   if (!response.ok || !response.result.access_token || !response.result.username) {
@@ -22,7 +22,7 @@ export const authorize = async (): Promise<boolean> => {
   const {
     result: { access_token: token, username },
   } = response;
-  setPocketToken(token);
-  setPocketUsername(username);
+  await setPocketToken(token);
+  await setPocketUsername(username);
   return true;
 };

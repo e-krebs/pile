@@ -15,7 +15,7 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
     headers,
     params: {
       consumer_key: getPocketKey(),
-      access_token: getPocketToken(),
+      access_token: await getPocketToken(),
       sort: 'newest',
       search: param.type === 'search' ? param.search : undefined,
       tag: param.type === 'tag' ? param.tag ?? '_untagged_' : undefined,

@@ -10,8 +10,8 @@ export interface Service {
   get: (param: GetParams) => Promise<ListItem[]>;
   authorize: () => Promise<boolean>;
   connect: () => Promise<boolean>;
-  disconnect: () => void;
-  isConnected: () => boolean;
+  disconnect: () => Promise<void | void[]>;
+  isConnected: () => Promise<boolean>;
   archiveItem: (id: string) => Promise<boolean>;
   deleteItem: (id: string) => Promise<boolean>;
   addTag: (id: string, tag: string) => Promise<boolean>;
@@ -24,4 +24,4 @@ export const getServices = () => {
   return Object.values(services) as Service[];
 };
 
-export const getServiceOauthUrl = (name: string) => chrome.extension.getURL(`pages/oauth/${name}.html`);
+export const getServiceOauthUrl = (name: string) => chrome.runtime.getURL(`pages/oauth/${name}.html`);
