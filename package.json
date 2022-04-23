@@ -78,6 +78,6 @@
     "json-schema": ">= 0.4.0",
     "nth-check": ">= 2.0.1",
     "node-forge": ">= 1.3.0",
-    "postcss": ">= 8.2.13"
+    "postcss": ">= 8.4.12"
   }
 }
