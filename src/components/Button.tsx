@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { Loader } from 'react-feather';
 
 interface IProps {
@@ -12,7 +12,12 @@ const waitFn = (duration = 500): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, duration));
 };
 
-export const Button: FC<IProps> = ({ disabled = false, startIcon: StartIcon, onClick, children }) => {
+export const Button: FC<PropsWithChildren<IProps>> = ({
+  disabled = false,
+  startIcon: StartIcon,
+  onClick,
+  children,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const Icon = useMemo(() => {
     if (!StartIcon) return;

@@ -1,9 +1,14 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Page } from './Page';
 import 'content/tailwind.css';
 
-const root = document.getElementById('root');
-const service = root?.getAttribute('service');
+const container = document.getElementById('root');
+if (container) {
+  const service = container.getAttribute('service');
+  const root = createRoot(container);
 
-ReactDOM.render(<Page serviceName={service} />, root);
+  root.render(<Page serviceName={service} />);
+} else {
+  console.error("couldn't find element with id 'root'");
+}

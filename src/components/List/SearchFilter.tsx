@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { Search } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 
@@ -10,7 +10,11 @@ interface SearchFilterProps {
   searchOpen: boolean;
   openSearch: (value: boolean) => void;
 }
-export const SearchFilter: FC<SearchFilterProps> = ({ searchOpen, openSearch, children }) => {
+export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({
+  searchOpen,
+  openSearch,
+  children,
+}) => {
   const { setSearchTerm } = useListContext();
 
   const onSearch = (value?: string) => {
