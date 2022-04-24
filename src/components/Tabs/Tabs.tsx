@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC, useMemo, useState } from 'react';
+import { FC, PropsWithChildren, useMemo, useState } from 'react';
 
 import { Service } from 'utils/services';
 import { ServiceContext } from 'hooks';
@@ -12,7 +12,7 @@ export interface TabsProps {
   tabIndex?: number;
 }
 
-export const Tabs: FC<TabsProps> = ({ tabs, children, tabIndex = 0 }) => {
+export const Tabs: FC<PropsWithChildren<TabsProps>> = ({ tabs, children, tabIndex = 0 }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(tabIndex);
   const service: Service | null = useMemo(() => {
     const selectedTab = tabs[selectedIndex];

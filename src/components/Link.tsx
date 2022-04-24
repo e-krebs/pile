@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 
 interface Props {
   url: string;
@@ -7,7 +7,7 @@ interface Props {
   title?: string;
 }
 
-export const Link: FC<Props> = ({ url, className, title, children }) => (
+export const Link: FC<PropsWithChildren<Props>> = ({ url, className, title, children }) => (
   <a
     className={cx('cursor-pointer hover:text-gray-900', className)}
     href={url}
