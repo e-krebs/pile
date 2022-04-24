@@ -1,6 +1,12 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Page } from './Page';
 import 'content/tailwind.css';
 
-ReactDOM.render(<Page />, document.getElementById('root'));
+const container = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(<Page />);
+} else {
+  console.error("couldn't find element with id 'root'");
+}
