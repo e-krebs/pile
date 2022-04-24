@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { Loader, RefreshCw } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
@@ -18,10 +18,11 @@ import { TagFilter } from './TagFilter';
 import { SearchFilter } from './SearchFilter';
 
 export const List: FC = () => {
+  const [transitionPending, startTransition] = useTransition();
   const service = useService();
   const queryClient = useQueryClient();
   const [list, setList] = useState<ListItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [tagOpen, setTagOpen] = useState<boolean>(false);
@@ -36,6 +37,8 @@ export const List: FC = () => {
     return list;
   });
 
+  const isLoading: boolean = useMemo(() => loading || transitionPending, [transitionPending, loading]);
+
   const allTags: string[] = useMemo(
     () => (data?.data ? uniq(data.data.map((item) => item.tags).flat()).sort() : []),
     [data]
@@ -44,18 +47,24 @@ export const List: FC = () => {
   useEffect(() => {
     const updateList = async () => {
       if (tag !== undefined) {
-        setIsLoading(true);
+        setLoading(true);
         const tagResult = await filterTag(tag, service);
-        setList(tagResult.data);
-        setIsLoading(false);
+        startTransition(() => {
+          setList(tagResult.data);
+          setLoading(false);
+        });
       } else if (searchTerm != null) {
-        setIsLoading(true);
+        setLoading(true);
         const searchResult = await search(searchTerm, service);
-        setList(searchResult.data);
-        setIsLoading(false);
+        startTransition(() => {
+          setList(searchResult.data);
+          setLoading(false);
+        });
       } else {
-        setList(data?.data ?? []);
-        if (data?.data !== undefined) setIsLoading(false);
+        startTransition(() => {
+          setList(data?.data ?? []);
+          if (data?.data !== undefined) setLoading(false);
+        });
       }
     };
     updateList();
@@ -110,7 +119,7 @@ export const List: FC = () => {
         setSearchTerm,
         setAddTagsItemOpen,
         isLoading,
-        setIsLoading,
+        setIsLoading: setLoading,
       }}
     >
       {formattedTimestamp != null && (

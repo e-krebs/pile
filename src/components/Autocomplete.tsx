@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { EventHandler, KeyboardEvent, FC, useState, useMemo } from 'react';
+import { EventHandler, KeyboardEvent, FC, useState, useMemo, useTransition } from 'react';
 
 import { TextInput, TextInputProps } from 'library/TextInput';
 
@@ -28,15 +28,18 @@ type AutocompleteProps = TextInputProps & {
 export const Autocomplete: FC<AutocompleteProps> = ({
   options: allOptions,
   className,
-  isLoading,
+  isLoading: loading,
   setIsLoading,
   close,
   addValue,
   addValueSync,
   ...textInputProps
 }) => {
+  const [transitionPending, startTransition] = useTransition();
   const [inputOption, onChange] = useState('');
   const [optionIndex, setOptionIndex] = useState<number | null>(null);
+
+  const isLoading = useMemo(() => loading || transitionPending, [loading, transitionPending]);
 
   const options: Option[] = useMemo(
     () => allOptions.filter((option) => !inputOption || option.value.includes(inputOption)).slice(0, 4),
@@ -51,13 +54,16 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   const add = async (option?: string) => {
     if (!option && !newOption) return;
     setIsLoading(true);
-    if (addValueSync) {
-      addValueSync(option ?? newOption.value);
-    }
     if (addValue) {
       await addValue(option ?? newOption.value);
     }
-    setIsLoading(false);
+
+    startTransition(() => {
+      if (addValueSync) {
+        addValueSync(option ?? newOption.value);
+      }
+      setIsLoading(false);
+    });
   };
 
   const keyHandler: EventHandler<KeyboardEvent> = ({ code, preventDefault }) => {
