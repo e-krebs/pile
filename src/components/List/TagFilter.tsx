@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { FC, useMemo } from 'react';
-import { Tag } from 'react-feather';
+import { Tag, X } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { Icon } from 'components/Icon';
@@ -69,7 +69,12 @@ export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
         title={tagOpen ? 'Close tag filter (or press <esc>)' : 'Filter by tag (or press <t>)'}
       >
         <Icon icon={Tag} className="h-4 w-4 cursor-pointer pt-[1px]" />
-        {hasTag && <div className="">{tag ? tag : 'untagged'}</div>}
+        {hasTag && (
+          <div className=" group flex items-center border-b border-transparent text-sm hover:border-dashed hover:border-inherit">
+            <span>{tag ? tag : 'untagged'}</span>
+            <X className="mb-[-3px] h-4 w-0 transition-width group-hover:w-4" />
+          </div>
+        )}
       </div>
       {tagOpen && (
         <div className="relative h-6 min-w-[25%]">
