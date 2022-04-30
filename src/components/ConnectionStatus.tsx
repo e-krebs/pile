@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import { Power } from 'react-feather';
 
 import { setBadge } from 'utils/badge';
-import { deleteJson, getJsonKey } from 'utils/files';
 import { Button } from './Button';
 import { Connected } from './Connected';
 import { ConnectButton } from './ConnectButton';
@@ -21,7 +20,7 @@ export const ConnectionStatus: FC = () => {
 
   const onClick = async () => {
     await service.disconnect();
-    await deleteJson(getJsonKey(service.getQueryKey));
+    await chrome.storage.local.remove(service.getQueryKey);
     setBadge(service.name, 0);
     const isConnected = await service.isConnected();
     setConnected(isConnected);
