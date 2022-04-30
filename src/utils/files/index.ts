@@ -5,8 +5,6 @@ import { getFileFromPath, getFileUrl } from './helpers';
 // @ts-expect-error webkit specific variant
 window.resolveLocalFileSystemURL = window.webkitResolveLocalFileSystemURL;
 
-export const getJsonKey = (key: string) => `${key}.json`;
-
 export const readFile = async (path: Path): Promise<string | null> => {
   const url = await getFileUrl(path);
   return new Promise((resolve) => {
@@ -123,11 +121,6 @@ export const deleteFolder = async (path: Path): Promise<true> => {
       }
     );
   });
-};
-
-export const deleteJson = async (key: string): Promise<true> => {
-  const path = getJsonKey(key);
-  return await deleteFile([path]);
 };
 
 export const deleteBlob = async (blobinfo: BlobInfo): Promise<true> => {
