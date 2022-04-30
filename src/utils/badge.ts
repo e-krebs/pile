@@ -1,5 +1,6 @@
 import { color, colorSelected } from 'helpers/vars';
 import { ServiceNames } from 'services';
+import { currentUrlIsMatching } from './currentUrlIsMatching';
 import { getServices, Service } from './services';
 
 const badgePath = 'badge';
@@ -9,7 +10,6 @@ const getBadgeValues = async (services: Service[]): Promise<BadgeValues> => {
   const badgeValues = (await chrome.storage.local.get(badgePath)) as BadgeValues;
 
   const result: Record<string, number> = {};
-  const services = getServices();
   const serviceList = Object.keys(services) as ServiceNames[];
 
   for (const service of serviceList) {
@@ -30,8 +30,12 @@ export const setBadge = async (service: ServiceNames, value: number) => {
 
   const total: number = Object.values(badgeValues).reduce((a, b) => a + b);
 
+  const tabs = await chrome.tabs.query({ active: true });
+  const url = tabs.length > 0 ? tabs[0].url : undefined;
+  const isMatching = url ? await currentUrlIsMatching(new URL(url), services) : false;
+
   if (total > 0) {
-    chrome.action.setBadgeBackgroundColor({ color });
+    setBadgeColor(isMatching);
     chrome.action.setBadgeText({ text: total.toString() });
   } else {
     chrome.action.setBadgeText({ text: '' });

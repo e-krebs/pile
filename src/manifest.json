@@ -15,7 +15,8 @@
   },
   "permissions": [
     "alarms",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
     "https://getpocket.com/v3/*",
