@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "pile",
   "description": "pile",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "icons": {
     "16": "./content/icons/icon-16.png",
     "48": "./content/icons/icon-48.png",
@@ -15,7 +15,8 @@
   },
   "permissions": [
     "alarms",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
     "https://getpocket.com/v3/*",
@@ -25,7 +26,7 @@
   ],
   "background": {
     "service_worker": "./pages/serviceWorker.ts",
-      "type": "module"
+    "type": "module"
   },
   "options_ui": {
     "open_in_tab": false,
@@ -33,8 +34,14 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["./pages/oauth/pocket.html"],
-      "matches": ["<all_urls>"],
+      "resources": [
+        "./pages/oauth/pocket.html",
+        "./content/icons/icon-96.png",
+        "./content/icons/icon-96-selected.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ],
       "extension_ids": []
     }
   ]

@@ -9,3 +9,4 @@ export const defaultVars: Record<VarKeys, number> = {
 };
 
 export const color = '#F1B602';
+export const colorSelected = '#22C55E';
