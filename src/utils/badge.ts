@@ -1,4 +1,4 @@
-import { color } from 'helpers/vars';
+import { color, colorSelected } from 'helpers/vars';
 import { ServiceNames } from 'services';
 import { getServices, Service } from './services';
 
@@ -36,4 +36,11 @@ export const setBadge = async (service: ServiceNames, value: number) => {
   } else {
     chrome.action.setBadgeText({ text: '' });
   }
+};
+
+export const setBadgeColor = (currentUrlIsMatching: boolean) => {
+  chrome.action.setIcon({
+    path: `/content/icons/icon-96${currentUrlIsMatching ? '-selected' : ''}.png`,
+  });
+  chrome.action.setBadgeBackgroundColor({ color: currentUrlIsMatching ? colorSelected : color });
 };
