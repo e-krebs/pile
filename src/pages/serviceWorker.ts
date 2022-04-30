@@ -1,6 +1,7 @@
 import { vars, defaultVars } from 'helpers/vars';
 import { getServices } from 'utils/services';
 import { setBadge } from 'utils/badge';
+import { forceGet } from 'utils/get';
 
 const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
@@ -10,8 +11,8 @@ const refreshBadge = async () => {
     getServices().map(async (service) => {
       const isConnected = await service.isConnected();
       if (!isConnected) return;
-      const list = await service.get({ type: 'force' });
-      setBadge(service.name, list.length);
+      const { data } = await forceGet(service);
+      setBadge(service.name, data.length);
     })
   );
 };
