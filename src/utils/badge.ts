@@ -1,11 +1,11 @@
 import { color } from 'helpers/vars';
 import { ServiceNames } from 'services';
-import { getServices } from './services';
+import { getServices, Service } from './services';
 
 const badgePath = 'badge';
 type BadgeValues = Record<ServiceNames, number>;
 
-const getBadgeValues = async (): Promise<BadgeValues> => {
+const getBadgeValues = async (services: Service[]): Promise<BadgeValues> => {
   const badgeValues = (await chrome.storage.local.get(badgePath)) as BadgeValues;
 
   const result: Record<string, number> = {};
@@ -22,7 +22,8 @@ const getBadgeValues = async (): Promise<BadgeValues> => {
 };
 
 export const setBadge = async (service: ServiceNames, value: number) => {
-  const badgeValues = await getBadgeValues();
+  const services = getServices();
+  const badgeValues = await getBadgeValues(services);
   badgeValues[service] = value;
 
   await chrome.storage.local.set({ [badgePath]: badgeValues });
