@@ -1,7 +1,8 @@
 import { vars, defaultVars } from 'helpers/vars';
 import { getServices } from 'utils/services';
-import { setBadge } from 'utils/badge';
+import { setBadge, setBadgeColor } from 'utils/badge';
 import { forceGet } from 'utils/get';
+import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';
 
 const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
@@ -17,6 +18,12 @@ const refreshBadge = async () => {
   );
 };
 
+const refreshBadgeIfMatching = async (currentUrl: URL) => {
+  const services = getServices();
+  const isMatching = await currentUrlIsMatching(currentUrl, services);
+  setBadgeColor(isMatching);
+};
+
 const alarmListener = async (alarm: chrome.alarms.Alarm) => {
   switch (alarm.name) {
     case refreshInterval:
@@ -27,6 +34,26 @@ const alarmListener = async (alarm: chrome.alarms.Alarm) => {
       break;
   }
 };
+
+const tabsUpdatedListener = async (
+  _: number,
+  __: chrome.tabs.TabChangeInfo,
+  { active, url }: chrome.tabs.Tab
+) => {
+  if (active && url) {
+    await refreshBadgeIfMatching(new URL(url));
+  }
+};
+
+const tabsActivatedListener = async ({ tabId }: chrome.tabs.TabActiveInfo) => {
+  const { url } = await chrome.tabs.get(tabId);
+  if (url) {
+    await refreshBadgeIfMatching(new URL(url));
+  }
+};
+
+chrome.tabs.onUpdated.addListener(tabsUpdatedListener);
+chrome.tabs.onActivated.addListener(tabsActivatedListener);
 
 (async () => {
   const value = await chrome.storage.local.get(refreshInterval);
