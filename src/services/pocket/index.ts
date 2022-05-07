@@ -1,6 +1,7 @@
 import type { Service } from 'utils/services';
 import { name, getQueryKey } from './const';
 import { get } from './get';
+import { add } from './add';
 import { authorize } from './authorize';
 import { connect } from './connect';
 import { deleteAllKeys, isConnected } from './helpers';
@@ -13,6 +14,7 @@ export const pocket: Service = {
   name,
   getQueryKey,
   get,
+  add,
   authorize,
   connect,
   disconnect: deleteAllKeys,
