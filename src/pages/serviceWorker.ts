@@ -3,6 +3,7 @@ import { getServices } from 'utils/services';
 import { setBadge, setBadgeColor } from 'utils/badge';
 import { forceGet } from 'utils/get';
 import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';
+import { createContextMenus } from 'utils/createContextMenus';
 
 const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
@@ -52,8 +53,11 @@ const tabsActivatedListener = async ({ tabId }: chrome.tabs.TabActiveInfo) => {
   }
 };
 
+const onInstalledListener = async () => await createContextMenus();
+
 chrome.tabs.onUpdated.addListener(tabsUpdatedListener);
 chrome.tabs.onActivated.addListener(tabsActivatedListener);
+chrome.runtime.onInstalled.addListener(onInstalledListener);
 
 (async () => {
   const value = await chrome.storage.local.get(refreshInterval);
