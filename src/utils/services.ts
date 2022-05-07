@@ -8,6 +8,7 @@ export interface Service {
   name: ServiceNames;
   getQueryKey: string;
   get: (param: GetParams) => Promise<ListItem[]>;
+  add: (url: string) => Promise<void>;
   authorize: () => Promise<boolean>;
   connect: () => Promise<boolean>;
   disconnect: () => Promise<void | void[]>;
@@ -23,5 +24,7 @@ export interface Service {
 export const getServices = () => {
   return Object.values(services) as Service[];
 };
+
+export const getService = (name: string): Service | undefined => services[name as ServiceNames];
 
 export const getServiceOauthUrl = (name: string) => chrome.runtime.getURL(`pages/oauth/${name}.html`);

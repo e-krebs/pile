@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "pile",
   "description": "pile",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "icons": {
     "16": "./content/icons/icon-16.png",
     "48": "./content/icons/icon-48.png",
@@ -13,10 +13,15 @@
     "default_title": "pile",
     "default_popup": "./pages/popup.html"
   },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["./pages/contentScript.ts"]
+  }],
   "permissions": [
     "alarms",
     "storage",
-    "tabs"
+    "tabs",
+    "contextMenus"
   ],
   "host_permissions": [
     "https://getpocket.com/v3/*",

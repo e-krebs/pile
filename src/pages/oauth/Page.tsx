@@ -7,6 +7,7 @@ import { Connected } from 'components/Connected';
 import { setBadge } from 'utils/badge';
 import { get } from 'utils/get';
 import { ServiceContext } from 'hooks';
+import { createContextMenus } from 'utils/createContextMenus';
 
 type OAuthState = 'inprogress' | 'failed' | 'success';
 
@@ -34,6 +35,11 @@ export const Page: FC<PageProps> = ({ serviceName }) => {
     };
     effect();
   }, [service]);
+
+  useEffect(() => {
+    if (state !== 'success') return;
+    createContextMenus();
+  });
 
   return (
     <ServiceContext.Provider value={service}>
