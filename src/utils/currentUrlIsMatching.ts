@@ -1,5 +1,29 @@
 import { get } from './get';
-import { Service } from './services';
+import type { Service } from './services';
+
+export const getMatchingId = async (
+  currentUrl: URL,
+  services: Service[]
+): Promise<string | undefined> => {
+  const matchingIds = await Promise.all(
+    services
+      .map(async (service) => {
+        const isConnected = await service.isConnected();
+        if (!isConnected) return;
+        const { data } = await get(service);
+        return data.find((item) => {
+          const url = new URL(item.url);
+          return (
+            url.origin === currentUrl.origin &&
+            url.pathname === currentUrl.pathname &&
+            url.search === currentUrl.search
+          );
+        })?.id;
+      })
+      .flat()
+  );
+  return matchingIds.find((item) => Boolean(item));
+};
 
 export const currentUrlIsMatching = async (currentUrl: URL, services: Service[]): Promise<boolean> => {
   const matches = await Promise.all(
