@@ -13,6 +13,10 @@
     "default_title": "pile",
     "default_popup": "./pages/popup.html"
   },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["./pages/contentScript.ts"]
+  }],
   "permissions": [
     "alarms",
     "storage",

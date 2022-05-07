@@ -58,6 +58,7 @@ const onInstalledListener = async () => await createContextMenus();
 chrome.tabs.onUpdated.addListener(tabsUpdatedListener);
 chrome.tabs.onActivated.addListener(tabsActivatedListener);
 chrome.runtime.onInstalled.addListener(onInstalledListener);
+chrome.contextMenus.onClicked.addListener(onContextMenuClickedListener);
 
 (async () => {
   const value = await chrome.storage.local.get(refreshInterval);
