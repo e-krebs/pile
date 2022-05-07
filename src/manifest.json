@@ -16,7 +16,8 @@
   "permissions": [
     "alarms",
     "storage",
-    "tabs"
+    "tabs",
+    "contextMenus"
   ],
   "host_permissions": [
     "https://getpocket.com/v3/*",
