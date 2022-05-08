@@ -10,4 +10,7 @@ export type Message =
       action: 'archiveFromService' | 'deleteFromService';
       service: ServiceNames;
       id: string;
+    }
+  | {
+      action: 'refresh';
     };
