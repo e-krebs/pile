@@ -88,6 +88,10 @@ const onMessageListener = async (message: Message, _: unknown, sendMessage: () =
       await refreshBadge();
       return;
     }
+    case 'refresh': {
+      sendMessage();
+      await refreshBadge();
+    }
   }
 };
 
