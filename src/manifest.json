@@ -15,7 +15,7 @@
   },
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "js": ["./pages/contentScript.ts"]
+    "js": ["./pages/contentScript/index.tsx"]
   }],
   "permissions": [
     "alarms",
@@ -42,7 +42,8 @@
       "resources": [
         "./pages/oauth/pocket.html",
         "./content/icons/icon-96.png",
-        "./content/icons/icon-96-selected.png"
+        "./content/icons/icon-96-selected.png",
+        "./content/tailwind.css"
       ],
       "matches": [
         "<all_urls>"
