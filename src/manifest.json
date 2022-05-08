@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "pile",
   "description": "pile",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "icons": {
     "16": "./content/icons/icon-16.png",
     "48": "./content/icons/icon-48.png",
