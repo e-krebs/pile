@@ -1,5 +1,6 @@
 import { isEmpty } from 'utils/string';
 import { ListItem } from 'utils/typings';
+import { beautifyUrl } from 'utils/url';
 
 export interface PocketItem {
   domain_metadata?: {
@@ -19,10 +20,16 @@ export interface PocketItem {
   tags?: Record<string, Record<string, unknown>>;
 }
 
-export const itemToListItem = (item: PocketItem): ListItem => ({
-  id: item.item_id,
-  title: isEmpty(item.given_title) ? item.given_title : item.resolved_title,
-  url: isEmpty(item.given_url) ? item.given_url : item.resolved_url,
-  logo: item.domain_metadata?.logo,
-  tags: item.tags ? Object.keys(item.tags).sort() : [],
-});
+export const itemToListItem = (item: PocketItem): ListItem => {
+  const url = isEmpty(item.given_url) ? item.given_url : item.resolved_url;
+  let title = isEmpty(item.given_title) ? item.given_title : item.resolved_title;
+  if (!title) title = beautifyUrl(url);
+
+  return {
+    id: item.item_id,
+    title,
+    url,
+    logo: item.domain_metadata?.logo,
+    tags: item.tags ? Object.keys(item.tags).sort() : [],
+  };
+};

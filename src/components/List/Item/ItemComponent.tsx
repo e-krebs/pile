@@ -2,6 +2,7 @@ import cx from 'classnames';
 import type { FC } from 'react';
 
 import { getRgba } from 'utils/palette';
+import { beautifyUrl } from 'utils/url';
 import { Link } from 'components/Link';
 import { MainIcon } from './MainIcon';
 import { Chevron } from './Chevron';
@@ -27,7 +28,7 @@ export const ItemComponent: FC = () => {
             <Link
               className={cx('grow pt-0.5 hover:text-inherit', !isOpen && 'truncate')}
               url={url}
-              title={`${url} – ${title}`}
+              title={`${beautifyUrl(url)} – ${title}`}
             >
               {title}
             </Link>
