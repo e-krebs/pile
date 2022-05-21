@@ -36,7 +36,9 @@ export const Tags: FC = () => {
         className={cx(
           'group flex cursor-default flex-col rounded-lg text-xs leading-4',
           isAddTagsOpen ? 'max-w-[calc(50%+1rem)]' : 'max-w-[25%]',
-          'transition-max-width hover:max-w-[calc(50%+1rem)]'
+          'transition-max-width hover:max-w-[calc(50%+1rem)]',
+          !color && 'text-gray-900 dark:text-gray-100',
+          !borderColor && 'border-gray-900 dark:border-gray-100'
         )}
         style={{ color, borderColor }}
       >

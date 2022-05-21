@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import type { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { Icon as FeatherIcon, Loader } from 'react-feather';
 
 import { getRgba, RGB } from 'utils/palette';
@@ -7,13 +7,14 @@ import { getRgba, RGB } from 'utils/palette';
 export interface ActionProps {
   icon: FeatherIcon;
   loading: boolean;
-  rgb: RGB;
+  rgb?: RGB;
   title?: string;
   onClick?: () => void;
 }
 
 export const Action: FC<ActionProps> = ({ icon, rgb, title, onClick, loading }) => {
   const Icon = loading ? Loader : icon;
+  const color = useMemo(() => getRgba(rgb, 0.6), [rgb]);
 
   return (
     <div
@@ -25,7 +26,14 @@ export const Action: FC<ActionProps> = ({ icon, rgb, title, onClick, loading }) 
       title={title}
       onClick={onClick}
     >
-      <Icon className={cx('h-5 w-5', loading && 'animate-spin')} style={{ color: getRgba(rgb, 0.6) }} />
+      <Icon
+        className={cx(
+          'h-5 w-5',
+          loading && 'animate-spin',
+          !color && 'text-gray-900 dark:text-gray-100'
+        )}
+        style={{ color }}
+      />
     </div>
   );
 };
