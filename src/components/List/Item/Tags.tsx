@@ -44,14 +44,14 @@ export const Tags: FC = () => {
       >
         <div
           className={cx(
-            'flex items-center rounded-lg border bg-gray-100 px-2 py-1 dark:bg-gray-800',
+            'flex items-center rounded-lg border bg-gray-100 px-2 py-1 hover:border-inherit hover:text-inherit dark:bg-gray-800',
             isOpen ? 'border-inherit text-inherit' : 'border-gray-400 text-gray-500 dark:text-gray-400'
           )}
         >
           <TagIcon className={cx('mt-[3px] mb-[2px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
 
           {tags.length > 0 && (
-            <div className="mt-[-1px] flex truncate">
+            <div className="mt-[-1px] flex truncate border-inherit">
               {tags.map((tag) => (
                 <div
                   key={tag}
