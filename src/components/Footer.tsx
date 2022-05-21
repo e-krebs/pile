@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Link } from './Link';
 
 export const Footer: FC = () => (
-  <div className="text-grey-400 py-3">
+  <div className="py-3 text-gray-400">
     <p className="flex justify-center space-x-1 text-xs">
       <span>chrome extension by</span>
       <Link url="https://github.com/e-krebs" className="underline">
