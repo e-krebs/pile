@@ -10,8 +10,6 @@ export interface Palette {
   lightMuted?: RGB;
 }
 
-export const defaultRgb: RGB = [1, 1, 1];
-
 export const getRgba = (rgb?: RGB, a = 1): string | undefined => {
   if (!rgb) return;
   const [r, g, b] = rgb;
