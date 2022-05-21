@@ -7,7 +7,7 @@ interface Item {
   url: string;
   title: string;
   iconUrl?: string;
-  rgb: RGB;
+  rgb?: RGB;
   tags: string[];
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;

@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 
 import { getIcon, IconAndPalette } from 'utils/icon';
-import { defaultRgb } from 'utils/palette';
 import { ListItem } from 'utils/typings';
 import { ItemContext } from './ItemContext';
 import { ItemComponent } from './ItemComponent';
@@ -32,7 +31,7 @@ export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOp
         url,
         title,
         iconUrl: icon?.url,
-        rgb: icon?.palette.vibrant ?? defaultRgb,
+        rgb: icon?.palette.vibrant,
         tags,
         isOpen,
         setIsOpen: (value: boolean) => setItemOpen(value ? id : null),

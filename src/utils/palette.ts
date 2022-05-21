@@ -10,9 +10,11 @@ export interface Palette {
   lightMuted?: RGB;
 }
 
-export const defaultRgb: RGB = [1, 1, 1];
-
-export const getRgba = ([r, g, b]: RGB, a = 1): string => `rgba(${r}, ${g}, ${b}, ${a})`;
+export const getRgba = (rgb?: RGB, a = 1): string | undefined => {
+  if (!rgb) return;
+  const [r, g, b] = rgb;
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+};
 
 export const resolvePalette = (input: VibrantPalette): Palette => {
   return {
