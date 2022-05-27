@@ -13,6 +13,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
   title,
   children,
   contentProps,
+  className,
   ...props
 }) => {
   const { closing, closeModal } = useModal();
@@ -20,7 +21,10 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
   return (
     <div
       {...props}
-      className="fixed top-0 left-0 z-[9999] flex h-screen w-screen items-start justify-center bg-black bg-opacity-70 pt-[33vh] text-white dark:bg-white dark:bg-opacity-70"
+      className={cx(
+        'fixed top-0 left-0 z-[9999] flex h-screen w-screen items-start justify-center bg-black bg-opacity-70 pt-[33vh] text-white dark:bg-white dark:bg-opacity-70',
+        className
+      )}
       onClick={closeModal}
     >
       <section

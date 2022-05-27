@@ -1,14 +1,13 @@
-const colors = require('tailwindcss/colors');
+const shared = require('@e-krebs/react-library/tailwind.config.js');
 
 module.exports = {
-  content: ["./src/**/*.html", "./src/**/*.ts", "./src/**/*.tsx"],
-  safelist: ["MuiCheckbox-root", "MuiTextField-root"],
+  presets: [shared],
+  content: ["./src/**/*.{html,ts,tsx}", "./node_modules/@e-krebs/react-library/dist/**/*.js"],
   theme: {
     extend: {
       colors: {
         'pocket': '#EF4056',
         'inherit': 'inherit',
-        'gray': colors.zinc,
       },
       transitionProperty: {
         'height': 'height',
@@ -34,5 +33,4 @@ module.exports = {
       }
     },
   },
-  plugins: [],
 };

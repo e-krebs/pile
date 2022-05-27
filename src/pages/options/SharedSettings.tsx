@@ -1,11 +1,10 @@
+import { Checkbox, TextInput } from '@e-krebs/react-library';
 import { FC, useEffect, useState } from 'react';
 import { Trash2 } from 'react-feather';
 
 import { vars, defaultVars } from 'helpers/vars';
 import { cleanIcons } from 'utils/icon';
 import { Button } from 'components/Button';
-import { TextInput } from 'library/TextInput';
-import { Checkbox } from 'library/Checkbox';
 
 const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
@@ -35,10 +34,11 @@ export const SharedSettings: FC = () => {
       <Checkbox label="Enable Pocket" defaultSelected={true} isDisabled={true} />
       <div className="flex items-baseline space-x-2">
         <TextInput
+          border="none"
           label="background refresh interval (in minutes):"
           type="number"
           defaultValue={refreshIntervalValue.toString()}
-          className="w-10 !rounded-none !border-x-0 !border-t-0 bg-inherit !text-inherit"
+          className="w-12 !rounded-none !border-x-0 !border-t-0 bg-inherit !text-inherit"
           labelClassName="leading-7"
           flow="row"
           onChange={updateRefreshInterval}
