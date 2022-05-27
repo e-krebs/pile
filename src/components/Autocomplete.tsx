@@ -1,7 +1,6 @@
+import { TextInput, TextInputProps } from '@e-krebs/react-library';
 import cx from 'classnames';
 import { EventHandler, KeyboardEvent, FC, useState, useMemo, useTransition } from 'react';
-
-import { TextInput, TextInputProps } from 'library/TextInput';
 
 export interface Option {
   label?: string;
@@ -102,6 +101,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
     >
       <TextInput
         {...textInputProps}
+        border="none"
         className="w-full rounded-sm px-1 leading-5 dark:bg-gray-900"
         isDisabled={isLoading}
         onChange={onChange}
