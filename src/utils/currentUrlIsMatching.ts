@@ -1,5 +1,6 @@
 import { get } from './get';
 import type { Service } from './services';
+import { beautifyUrl } from './url';
 
 export const getMatchingId = async (
   currentUrl: URL,
@@ -14,8 +15,8 @@ export const getMatchingId = async (
         return data.find((item) => {
           const url = new URL(item.url);
           return (
-            url.origin === currentUrl.origin &&
-            url.pathname === currentUrl.pathname &&
+            beautifyUrl(url.origin) === beautifyUrl(currentUrl.origin) &&
+            beautifyUrl(url.pathname) === beautifyUrl(currentUrl.pathname) &&
             url.search === currentUrl.search
           );
         })?.id;
@@ -35,8 +36,8 @@ export const currentUrlIsMatching = async (currentUrl: URL, services: Service[])
         .map((i) => new URL(i.url))
         .filter(
           (iUrl) =>
-            iUrl.origin === currentUrl.origin &&
-            iUrl.pathname === currentUrl.pathname &&
+            beautifyUrl(iUrl.origin) === beautifyUrl(currentUrl.origin) &&
+            beautifyUrl(iUrl.pathname) === beautifyUrl(currentUrl.pathname) &&
             iUrl.search === currentUrl.search
         );
       return matchingUrls.length > 0;
