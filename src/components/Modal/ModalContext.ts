@@ -1,7 +1,7 @@
-import { createContext, useContext } from 'react';
+import { createContext, RefObject, useContext } from 'react';
 
 interface ModalContext {
-  closing: boolean;
+  modalRef: RefObject<HTMLDialogElement>;
   closeModal: () => void;
 }
 
