@@ -1,6 +1,6 @@
 const shared = require('@e-krebs/react-library/tailwind.config.js');
 
-/** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   presets: [shared],
   content: ["./src/**/*.{html,ts,tsx}", "./node_modules/@e-krebs/react-library/dist/**/*.js"],
