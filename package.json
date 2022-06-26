@@ -76,6 +76,7 @@
     "utils": "./src/utils"
   },
   "resolutions": {
+    "jpeg-js": ">= 0.4.4",
     "json-schema": ">= 0.4.0",
     "nth-check": ">= 2.0.1",
     "node-forge": ">= 1.3.0"
