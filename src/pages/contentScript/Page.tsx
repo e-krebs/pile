@@ -6,40 +6,19 @@ import { getService, type Service } from 'utils/services';
 import { type Message } from 'utils/messages';
 import { getMatchingId } from 'utils/currentUrlIsMatching';
 import { Button } from 'components/Button';
-import { Modal, ModalContext } from 'components/Modal';
+import { Modal, type ModalRef } from 'components/Modal';
 
 export const Page = () => {
-  const modalRef = useRef<HTMLDialogElement>(null);
-  const [closing, setClosing] = useState(false);
+  const modalRef = useRef<ModalRef>(null);
   const [doneVisible, setDoneVisible] = useState(false);
   const [service, setService] = useState<Service>();
   const [url, setUrl] = useState<string>();
   const [matchingId, setMatchingId] = useState<string>();
 
-  const closeModal = useCallback(() => {
-    setClosing(true);
-    setTimeout(() => {
-      setMatchingId(undefined);
-      setDoneVisible(false);
-      modalRef.current?.close();
-    }, 150);
-  }, []);
-
-  const onModalBackdropClick = useCallback(
-    (event: HTMLElementEventMap['click']) => {
-      if (!modalRef.current) return;
-      const rect = modalRef.current.getBoundingClientRect();
-      const isInDialog =
-        rect.top <= event.clientY &&
-        event.clientY <= rect.top + rect.height &&
-        rect.left <= event.clientX &&
-        event.clientX <= rect.left + rect.width;
-      if (!isInDialog && (event.target as Element).tagName.toLowerCase() === 'dialog') {
-        closeModal();
-      }
-    },
-    [closeModal]
-  );
+  const onClosed = () => {
+    setMatchingId(undefined);
+    setDoneVisible(false);
+  };
 
   useEffect(() => {
     const onMessageListener = async (message: Message, _: unknown, sendMessage: () => void) => {
@@ -51,10 +30,7 @@ export const Page = () => {
             setUrl(message.url);
             const id = await getMatchingId(new URL(message.url), [msgService]);
             setMatchingId(id);
-            setClosing(false);
-            modalRef.current?.removeEventListener('click', onModalBackdropClick);
-            modalRef.current?.showModal();
-            modalRef.current?.addEventListener('click', onModalBackdropClick);
+            modalRef.current?.openModal();
           }
           sendMessage();
         }
@@ -65,12 +41,14 @@ export const Page = () => {
     return () => {
       chrome.runtime.onMessage.removeListener(onMessageListener);
     };
-  }, [onModalBackdropClick]);
+  }, []);
 
   const done = useCallback(() => {
     setDoneVisible(true);
-    setTimeout(closeModal, 300);
-  }, [closeModal]);
+    if (modalRef.current) {
+      setTimeout(modalRef.current.closeModal, 300);
+    }
+  }, []);
 
   const addItem = useCallback(
     (service: Service, url: string) => {
@@ -108,55 +86,50 @@ export const Page = () => {
     [done]
   );
 
-  return (
-    <ModalContext.Provider value={{ closeModal, modalRef }}>
-      {service && url && (
-        <Modal
-          title={`pile for ${service.name}`}
-          contentProps={{
-            id: 'pile-content',
-            className: closing ? 'animate-blowDownModal' : 'animate-blowUpModal',
-          }}
-        >
-          <div
-            className={cx(
-              'absolute top-0 left-0 flex h-full w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
-              doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
-            )}
+  return service && url ? (
+    <Modal
+      ref={modalRef}
+      onClosed={onClosed}
+      title={`pile for ${service.name}`}
+      contentProps={{ id: 'pile-content' }}
+    >
+      <div
+        className={cx(
+          'absolute top-0 left-0 flex h-full w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
+          doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
+        )}
+      >
+        ✓
+      </div>
+      {matchingId ? (
+        <>
+          <Button
+            startIcon={Archive}
+            className="w-max justify-self-center"
+            options={{ disableLoader: true }}
+            onClick={() => archiveItem(service, matchingId)}
           >
-            ✓
-          </div>
-          {matchingId ? (
-            <>
-              <Button
-                startIcon={Archive}
-                className="w-max justify-self-center"
-                options={{ disableLoader: true }}
-                onClick={() => archiveItem(service, matchingId)}
-              >
-                Archive from {service.name}
-              </Button>
-              <Button
-                startIcon={Trash2}
-                className="w-max justify-self-center"
-                options={{ disableLoader: true }}
-                onClick={() => deleteItem(service, matchingId)}
-              >
-                Delete from {service.name}
-              </Button>
-            </>
-          ) : (
-            <Button
-              startIcon={Plus}
-              className="w-max justify-self-center"
-              options={{ disableLoader: true }}
-              onClick={() => addItem(service, url)}
-            >
-              Add to {service.name}
-            </Button>
-          )}
-        </Modal>
+            Archive from {service.name}
+          </Button>
+          <Button
+            startIcon={Trash2}
+            className="w-max justify-self-center"
+            options={{ disableLoader: true }}
+            onClick={() => deleteItem(service, matchingId)}
+          >
+            Delete from {service.name}
+          </Button>
+        </>
+      ) : (
+        <Button
+          startIcon={Plus}
+          className="w-max justify-self-center"
+          options={{ disableLoader: true }}
+          onClick={() => addItem(service, url)}
+        >
+          Add to {service.name}
+        </Button>
       )}
-    </ModalContext.Provider>
-  );
+    </Modal>
+  ) : null;
 };
