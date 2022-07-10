@@ -1,3 +1,4 @@
+import { Modal, type ModalRef } from '@e-krebs/react-library';
 import cx from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Archive, Plus, Trash2 } from 'react-feather';
@@ -6,7 +7,6 @@ import { getService, type Service } from 'utils/services';
 import { type Message } from 'utils/messages';
 import { getMatchingId } from 'utils/currentUrlIsMatching';
 import { Button } from 'components/Button';
-import { Modal, type ModalRef } from 'components/Modal';
 
 export const Page = () => {
   const modalRef = useRef<ModalRef>(null);
@@ -91,11 +91,11 @@ export const Page = () => {
       ref={modalRef}
       onClosed={onClosed}
       title={`pile for ${service.name}`}
-      contentProps={{ id: 'pile-content' }}
+      contentProps={{ id: 'pile-content', className: 'items-center space-y-4' }}
     >
       <div
         className={cx(
-          'absolute top-0 left-0 flex h-full w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
+          'absolute top-0 left-0 !my-8 flex h-[calc(100%-4rem)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
           doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
         )}
       >
