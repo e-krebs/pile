@@ -1,5 +1,5 @@
-import cx from 'classnames';
 import { FC, useCallback, useState } from 'react';
+import { Button } from '@e-krebs/react-library';
 
 import { useService } from 'hooks';
 
@@ -16,16 +16,13 @@ export const ConnectButton: FC = () => {
 
   return (
     <div className="flex justify-center py-10 text-lg">
-      <div
-        onClick={loading ? () => {} : onClick}
-        className={cx(
-          'flex cursor-pointer items-center justify-center rounded-md p-3',
-          'hover:bg-gray-200 hover:dark:bg-gray-700'
-        )}
+      <Button
+        iconStart={Icon}
+        onPress={loading ? () => {} : onClick}
+        className="h-auto border-none bg-transparent px-3 py-3 hover:bg-gray-200 dark:bg-transparent hover:dark:bg-gray-700"
       >
-        <Icon className="mr-2" />
-        <span>{loading ? 'connecting' : 'connect'} to pocket</span>
-      </div>
+        {loading ? 'connecting' : 'connect'} to {service.name}
+      </Button>
     </div>
   );
 };
