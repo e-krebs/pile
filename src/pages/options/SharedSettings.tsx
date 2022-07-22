@@ -4,7 +4,7 @@ import { Trash2 } from 'react-feather';
 
 import { vars, defaultVars } from 'helpers/vars';
 import { cleanIcons } from 'utils/icon';
-import { Button } from 'components/Button';
+import { LoaderButton } from 'components/LoadingIcon';
 
 const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
@@ -46,9 +46,9 @@ export const SharedSettings: FC = () => {
         />
       </div>
       <div className="flex">
-        <Button startIcon={Trash2} onClick={cleanIcons}>
+        <LoaderButton startIcon={Trash2} onClick={cleanIcons}>
           Clear icons data
-        </Button>
+        </LoaderButton>
       </div>
     </div>
   ) : null;

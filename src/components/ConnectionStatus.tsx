@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { Power } from 'react-feather';
 
 import { setBadge } from 'utils/badge';
-import { Button } from './Button';
+import { LoaderButton } from './LoadingIcon';
 import { Connected } from './Connected';
 import { ConnectButton } from './ConnectButton';
 import { useService } from 'hooks';
@@ -29,9 +29,9 @@ export const ConnectionStatus: FC = () => {
   return connected ? (
     <div className="flex flex-col items-center space-y-3">
       <Connected />
-      <Button startIcon={Power} onClick={onClick}>
+      <LoaderButton startIcon={Power} onClick={onClick}>
         Disconnect
-      </Button>
+      </LoaderButton>
     </div>
   ) : (
     <ConnectButton />
