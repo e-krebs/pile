@@ -6,7 +6,7 @@ import { Archive, Plus, Trash2 } from 'react-feather';
 import { getService, type Service } from 'utils/services';
 import { type Message } from 'utils/messages';
 import { getMatchingId } from 'utils/currentUrlIsMatching';
-import { Button } from 'components/Button';
+import { LoaderButton } from 'components/LoadingIcon';
 
 export const Page = () => {
   const modalRef = useRef<ModalRef>(null);
@@ -103,32 +103,32 @@ export const Page = () => {
       </div>
       {matchingId ? (
         <>
-          <Button
+          <LoaderButton
             startIcon={Archive}
             className="w-max justify-self-center"
             options={{ disableLoader: true }}
             onClick={() => archiveItem(service, matchingId)}
           >
             Archive from {service.name}
-          </Button>
-          <Button
+          </LoaderButton>
+          <LoaderButton
             startIcon={Trash2}
             className="w-max justify-self-center"
             options={{ disableLoader: true }}
             onClick={() => deleteItem(service, matchingId)}
           >
             Delete from {service.name}
-          </Button>
+          </LoaderButton>
         </>
       ) : (
-        <Button
+        <LoaderButton
           startIcon={Plus}
           className="w-max justify-self-center"
           options={{ disableLoader: true }}
           onClick={() => addItem(service, url)}
         >
           Add to {service.name}
-        </Button>
+        </LoaderButton>
       )}
     </Modal>
   ) : null;

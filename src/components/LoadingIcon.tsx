@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import { FC, PropsWithChildren, useCallback, useMemo, useState } from 'react';
-import { Loader } from 'react-feather';
+import { type IconProps, Loader } from 'react-feather';
+import { Button } from '@e-krebs/react-library';
 
 interface IProps {
   disabled?: boolean;
@@ -16,7 +17,11 @@ const waitFn = (duration = 500): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, duration));
 };
 
-export const Button: FC<PropsWithChildren<IProps>> = ({
+const LoadingIcon: FC<IconProps> = ({ className, ...props }) => (
+  <Loader {...props} className={cx(className, 'animate-spin')} />
+);
+
+export const LoaderButton: FC<PropsWithChildren<IProps>> = ({
   disabled = false,
   startIcon: StartIcon,
   className,
@@ -28,7 +33,11 @@ export const Button: FC<PropsWithChildren<IProps>> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const Icon = useMemo(() => {
     if (!StartIcon) return;
-    return loading ? Loader : StartIcon;
+    const ActualIcon = loading ? LoadingIcon : StartIcon;
+    const ResultIcon: FC<IconProps> = ({ className, ...props }) => (
+      <ActualIcon {...props} className={cx(className, 'm-1')} />
+    );
+    return ResultIcon;
   }, [StartIcon, loading]);
 
   const innerDisabled = useMemo(() => disabled || loading, [disabled, loading]);
@@ -42,19 +51,13 @@ export const Button: FC<PropsWithChildren<IProps>> = ({
   }, [disableLoader, onClick]);
 
   return (
-    <div
-      onClick={innerDisabled ? () => {} : action}
-      className={cx(
-        'flex space-x-2 rounded-md border border-gray-200 p-2 dark:border-gray-700',
-        innerDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
-        innerDisabled ? 'bg-stripe-disabled' : 'hover:bg-gray-200 hover:dark:bg-gray-700',
-        !innerDisabled && 'hover:border-gray-500 dark:hover:border-gray-400',
-        className
-      )}
+    <Button
+      className={cx(className, 'h-auto py-2 pl-2 pr-3', innerDisabled && 'bg-stripe-disabled')}
+      onPress={innerDisabled ? () => {} : action}
+      iconStart={Icon}
+      isDisabled={innerDisabled}
     >
-      {Icon && <Icon className={cx('m-1 h-4 w-4', loading && 'animate-spin')} />}
-      <div>{children}</div>
-      <div>{loading}</div>
-    </div>
+      {children}
+    </Button>
   );
 };
