@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Loader, RefreshCw } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
@@ -18,11 +18,10 @@ import { TagFilter } from './TagFilter';
 import { SearchFilter } from './SearchFilter';
 
 export const List: FC = () => {
-  const [transitionPending, startTransition] = useTransition();
   const service = useService();
   const queryClient = useQueryClient();
   const [list, setList] = useState<ListItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [tagOpen, setTagOpen] = useState<boolean>(false);
@@ -37,8 +36,6 @@ export const List: FC = () => {
     return list;
   });
 
-  const isLoading: boolean = useMemo(() => loading || transitionPending, [transitionPending, loading]);
-
   const allTags: string[] = useMemo(
     () => (data?.data ? uniq(data.data.map((item) => item.tags).flat()).sort() : []),
     [data]
@@ -49,22 +46,16 @@ export const List: FC = () => {
       if (tag !== undefined) {
         setLoading(true);
         const tagResult = await filterTag(tag, service);
-        startTransition(() => {
-          setList(tagResult.data);
-          setLoading(false);
-        });
+        setList(tagResult.data);
+        setLoading(false);
       } else if (searchTerm != null) {
         setLoading(true);
         const searchResult = await search(searchTerm, service);
-        startTransition(() => {
-          setList(searchResult.data);
-          setLoading(false);
-        });
+        setList(searchResult.data);
+        setLoading(false);
       } else {
-        startTransition(() => {
-          setList(data?.data ?? []);
-          if (data?.data !== undefined) setLoading(false);
-        });
+        setList(data?.data ?? []);
+        if (data?.data !== undefined) setLoading(false);
       }
     };
     updateList();
