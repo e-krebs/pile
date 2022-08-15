@@ -21,7 +21,7 @@ export const List: FC = () => {
   const service = useService();
   const queryClient = useQueryClient();
   const [list, setList] = useState<ListItem[]>([]);
-  const [isLoading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [tagOpen, setTagOpen] = useState<boolean>(false);
@@ -44,18 +44,18 @@ export const List: FC = () => {
   useEffect(() => {
     const updateList = async () => {
       if (tag !== undefined) {
-        setLoading(true);
+        setIsLoading(true);
         const tagResult = await filterTag(tag, service);
         setList(tagResult.data);
-        setLoading(false);
+        setIsLoading(false);
       } else if (searchTerm !== null) {
-        setLoading(true);
+        setIsLoading(true);
         const searchResult = await search(searchTerm, service);
         setList(searchResult.data);
-        setLoading(false);
+        setIsLoading(false);
       } else {
         setList(data?.data ?? []);
-        if (data?.data !== undefined) setLoading(false);
+        if (data?.data !== undefined) setIsLoading(false);
       }
     };
     updateList();
@@ -110,7 +110,7 @@ export const List: FC = () => {
         setSearchTerm,
         setAddTagsItemOpen,
         isLoading,
-        setIsLoading: setLoading,
+        setIsLoading: setIsLoading,
       }}
     >
       {formattedTimestamp != null && (
