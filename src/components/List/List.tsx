@@ -48,7 +48,7 @@ export const List: FC = () => {
         const tagResult = await filterTag(tag, service);
         setList(tagResult.data);
         setLoading(false);
-      } else if (searchTerm != null) {
+      } else if (searchTerm !== null) {
         setLoading(true);
         const searchResult = await search(searchTerm, service);
         setList(searchResult.data);
