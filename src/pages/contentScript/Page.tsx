@@ -10,7 +10,7 @@ import { LoaderButton } from 'components/LoadingIcon';
 
 export const Page = () => {
   const modalRef = useRef<ModalRef>(null);
-  const [doneVisible, setDoneVisible] = useState(true);
+  const [doneVisible, setDoneVisible] = useState(false);
   const [service, setService] = useState<Service>();
   const [url, setUrl] = useState<string>();
   const [matchingId, setMatchingId] = useState<string>();
