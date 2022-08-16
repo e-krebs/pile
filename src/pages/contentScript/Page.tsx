@@ -10,7 +10,7 @@ import { LoaderButton } from 'components/LoadingIcon';
 
 export const Page = () => {
   const modalRef = useRef<ModalRef>(null);
-  const [doneVisible, setDoneVisible] = useState(false);
+  const [doneVisible, setDoneVisible] = useState(true);
   const [service, setService] = useState<Service>();
   const [url, setUrl] = useState<string>();
   const [matchingId, setMatchingId] = useState<string>();
@@ -95,7 +95,7 @@ export const Page = () => {
     >
       <div
         className={cx(
-          'absolute top-0 left-0 !my-8 flex h-[calc(100%-4rem)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
+          'absolute top-0 left-0 !my-6 flex h-[calc(100%-3rem)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
           doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
         )}
       >
