@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Loader, RefreshCw } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
@@ -18,7 +18,6 @@ import { TagFilter } from './TagFilter';
 import { SearchFilter } from './SearchFilter';
 
 export const List: FC = () => {
-  const [transitionPending, startTransition] = useTransition();
   const service = useService();
   const queryClient = useQueryClient();
   const [list, setList] = useState<ListItem[]>([]);
@@ -37,31 +36,18 @@ export const List: FC = () => {
     return list;
   });
 
-  const isLoading: boolean = useMemo(() => loading || transitionPending, [transitionPending, loading]);
+  const isLoading: boolean = useMemo(() => loading || isRefreshing, [isRefreshing, loading]);
 
   const allTags: string[] = useMemo(
     () => (data?.data ? uniq(data.data.map((item) => item.tags).flat()).sort() : []),
     [data]
   );
 
-  const refreshList = useCallback(
-    (data?: ListItem[]) => {
-      const refresh = () => {
-        setList(data ?? []);
-        if (data !== undefined) setLoading(false);
-      };
-
-      if (isRefreshing) {
-        startTransition(() => {
-          refresh();
-          setIsRefreshing(false);
-        });
-      } else {
-        refresh();
-      }
-    },
-    [isRefreshing]
-  );
+  const refreshList = useCallback((data?: ListItem[]) => {
+    setList(data ?? []);
+    if (data !== undefined) setLoading(false);
+    setIsRefreshing(false);
+  }, []);
 
   useEffect(() => {
     const updateList = async () => {
