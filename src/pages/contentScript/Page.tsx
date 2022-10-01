@@ -1,6 +1,6 @@
 import { Modal, type ModalRef } from '@e-krebs/react-library';
 import cx from 'classnames';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Archive, Plus, Trash2 } from 'react-feather';
 
 import { getService, type Service } from 'utils/services';
@@ -86,12 +86,21 @@ export const Page = () => {
     [done]
   );
 
+  const pageSize: number = useMemo(() => {
+    const fontSize = window
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .getComputedStyle(document.querySelector('html')!)
+      .getPropertyValue('font-size');
+    return parseFloat(fontSize) ?? 16;
+  }, []);
+
   return service && url ? (
     <Modal
       ref={modalRef}
       onClosed={onClosed}
       title={`pile for ${service.name}`}
       contentProps={{ id: 'pile-content', className: 'items-center space-y-4' }}
+      dialogProps={{ style: { transform: `scale(calc(16/${pageSize}))` } }}
     >
       <div
         className={cx(
