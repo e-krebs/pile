@@ -36,7 +36,7 @@
     "react-query": "^3.39.2"
   },
   "devDependencies": {
-    "@e-krebs/react-library": "^0.0.20",
+    "@e-krebs/react-library": "^0.0.22",
     "@parcel/config-webextension": "^2.7.0",
     "@parcel/core": "^2.7.0",
     "@parcel/transformer-svg-react": "^2.7.0",

@@ -220,10 +220,10 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@e-krebs/react-library@^0.0.20":
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/@e-krebs/react-library/-/react-library-0.0.20.tgz#780abb4bcae33c5c05072d52c8e1707ac844c416"
-  integrity sha512-9h1EX26F2QlmbXnyvzM7EHpmRCzruspW9wlqP1yi5521I/SLx7/NZTBTev8wl4YCRJvpBhn1a+dzxsnkJ7YUsQ==
+"@e-krebs/react-library@^0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@e-krebs/react-library/-/react-library-0.0.22.tgz#4ec3bdca2a65b23cd961e91d609663124ad50af7"
+  integrity sha512-t186xKnRVr+pT3aTEThJYsXkc2nwsMWSvOA32TDBSS3dK14+BtZwoQBm4foc+XPmWjyMqYhdvKe3+0AV67qITg==
   dependencies:
     "@react-aria/button" "^3.5.1"
     "@react-aria/checkbox" "^3.4.1"
