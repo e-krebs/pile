@@ -95,7 +95,7 @@ export const Page = () => {
     >
       <div
         className={cx(
-          'absolute top-0 left-0 !my-6 flex h-[calc(100%-3rem)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
+          'absolute -top-px left-0 !my-6 flex h-[calc(100%-3rem+2px)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
           doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
         )}
       >
