@@ -1,6 +1,6 @@
 import { Modal, type ModalRef } from '@e-krebs/react-library';
 import cx from 'classnames';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Archive, Plus, Trash2 } from 'react-feather';
 
 import { getService, type Service } from 'utils/services';
@@ -86,16 +86,25 @@ export const Page = () => {
     [done]
   );
 
+  const pageSize: number = useMemo(() => {
+    const fontSize = window
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .getComputedStyle(document.querySelector('html')!)
+      .getPropertyValue('font-size');
+    return parseFloat(fontSize) ?? 16;
+  }, []);
+
   return service && url ? (
     <Modal
       ref={modalRef}
       onClosed={onClosed}
       title={`pile for ${service.name}`}
       contentProps={{ id: 'pile-content', className: 'items-center space-y-4' }}
+      dialogProps={{ style: { transform: `scale(calc(16/${pageSize}))` } }}
     >
       <div
         className={cx(
-          'absolute top-0 left-0 !my-6 flex h-[calc(100%-3rem)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
+          'absolute -top-px left-0 !my-6 flex h-[calc(100%-3rem+2px)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
           doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
         )}
       >
