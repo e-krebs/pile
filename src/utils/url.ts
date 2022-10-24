@@ -1,2 +1,6 @@
 export const beautifyUrl = (url: string): string =>
-  url.replace(/^http(?:s)?:\/\/(www.)?/, '').replace(/\/$/, '');
+  url
+    .replace(/^http(?:s)?:\/\/(www.)?/, '') // remove starting http(s) & www.
+    .replace(/(?<=&|\?)utm_.*?(&|$)/gim, '') // remove ?utm_... & &utm_...
+    .replace(/(?<=&|\?).*_subscriber_.*?(&|$)/gim, '') // remove ?..._subscriber_... & &..._subscriber_...
+    .replace(/(\?|\/)$/, ''); // remove trailing ? or /
