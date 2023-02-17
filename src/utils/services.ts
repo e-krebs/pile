@@ -8,7 +8,7 @@ export interface Service {
   name: ServiceNames;
   getQueryKey: string;
   get: (param: GetParams) => Promise<ListItem[]>;
-  add: (url: string) => Promise<void>;
+  add: (url: string, tags?: string[]) => Promise<void>;
   authorize: () => Promise<boolean>;
   connect: () => Promise<boolean>;
   disconnect: () => Promise<void | void[]>;
