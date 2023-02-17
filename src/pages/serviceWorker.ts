@@ -5,6 +5,8 @@ import { forceGet } from 'utils/get';
 import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';
 import { createContextMenus } from 'utils/createContextMenus';
 import { Message } from 'utils/messages';
+import { get } from 'utils/get';
+import { getAllTags } from 'utils/getAllTags';
 
 const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
@@ -64,7 +66,7 @@ const onMessageListener = async (message: Message, _: unknown, sendMessage: () =
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
-      await service.add(message.url);
+      await service.add(message.url, message.tags);
       await refreshBadge();
       return;
     }
@@ -95,7 +97,10 @@ const onMessageListener = async (message: Message, _: unknown, sendMessage: () =
   }
 };
 
-const onContextMenuClickedListener = (info: chrome.contextMenus.OnClickData, tab?: chrome.tabs.Tab) => {
+const onContextMenuClickedListener = async (
+  info: chrome.contextMenus.OnClickData,
+  tab?: chrome.tabs.Tab
+) => {
   if (!tab?.url) {
     throw Error('no tab.url on contextMenu clicked');
   }
@@ -106,10 +111,12 @@ const onContextMenuClickedListener = (info: chrome.contextMenus.OnClickData, tab
   if (!service) {
     throw Error(`couldn't find service "${info.menuItemId}"`);
   }
+  const cachedData = await get(service);
   const message: Message = {
     action: 'service',
     service: service.name,
     url: tab.url,
+    tags: getAllTags(cachedData),
   };
   chrome.tabs.sendMessage(tab.id, message);
 };

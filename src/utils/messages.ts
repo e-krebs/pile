@@ -5,6 +5,7 @@ export type Message =
       action: 'service' | 'addToService';
       service: ServiceNames;
       url: string;
+      tags?: string[];
     }
   | {
       action: 'archiveFromService' | 'deleteFromService';
