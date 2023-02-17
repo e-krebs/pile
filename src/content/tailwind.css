@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  html, :host {
+    @apply font-sans;
+  }
   body {
     width: 499px;
     min-height: 499px;
