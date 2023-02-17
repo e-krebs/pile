@@ -4,7 +4,6 @@ import { Loader, RefreshCw } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import uniq from 'lodash/uniq';
 
 import { clearCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
@@ -16,6 +15,7 @@ import { filterTag, get, search } from 'utils/get';
 import { ListContext } from './ListContext';
 import { TagFilter } from './TagFilter';
 import { SearchFilter } from './SearchFilter';
+import { getAllTags } from 'utils/getAllTags';
 
 export const List: FC = () => {
   const service = useService();
@@ -38,10 +38,7 @@ export const List: FC = () => {
 
   const isLoading: boolean = useMemo(() => loading || isRefreshing, [isRefreshing, loading]);
 
-  const allTags: string[] = useMemo(
-    () => (data?.data ? uniq(data.data.map((item) => item.tags).flat()).sort() : []),
-    [data]
-  );
+  const allTags: string[] = useMemo(() => getAllTags(data), [data]);
 
   const refreshList = useCallback((data?: ListItem[]) => {
     setList(data ?? []);
