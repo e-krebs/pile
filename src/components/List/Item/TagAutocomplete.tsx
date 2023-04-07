@@ -6,7 +6,7 @@ import { useService } from 'hooks';
 import { Autocomplete, Option } from 'components/Autocomplete';
 import { useListContext } from 'components/List/ListContext';
 import { useItemContext } from './ItemContext';
-import { useTagsContext } from './TagsContext';
+import { useTagsContext } from 'hooks/TagsContext';
 
 export const TagAutocomplete: FC = () => {
   const { getQueryKey, addTag } = useService();

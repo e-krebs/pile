@@ -8,7 +8,7 @@ import { getRgba } from 'utils/palette';
 import { clearCache } from 'utils/dataCache';
 import { useItemContext } from './ItemContext';
 import { TagAutocomplete } from './TagAutocomplete';
-import { TagsContext } from './TagsContext';
+import { TagsContext } from 'hooks/TagsContext';
 
 export const Tags: FC = () => {
   const { getQueryKey, removeTag } = useService();
