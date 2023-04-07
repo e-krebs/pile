@@ -28,7 +28,29 @@ export const Page = () => {
 
   const addTagSync = (tag: string) => setTags((tags) => [...tags, tag]);
 
+  const addTagAsync = async (matching: Matching, value: string) => {
+    const message: Message = {
+      action: 'addTag',
+      service: matching.service.name,
+      id: matching.listItem.id,
+      tag: value,
+      url: matching.listItem.url,
+    };
+    await chrome.runtime.sendMessage(message);
+  };
+
   const removeTagSync = (tag: string) => setTags((tags) => tags.filter((t) => t !== tag));
+
+  const removeTagAsync = async (matching: Matching, value: string) => {
+    const message: Message = {
+      action: 'removeTag',
+      service: matching.service.name,
+      id: matching.listItem.id,
+      tag: value,
+      url: matching.listItem.url,
+    };
+    await chrome.runtime.sendMessage(message);
+  };
 
   const onClosed = () => {
     setMatching(undefined);
@@ -147,6 +169,14 @@ export const Page = () => {
           >
             Delete from {service.name}
           </LoaderButton>
+          <Tags
+            allTags={allTags}
+            tags={matching.listItem.tags}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            addTag={(tag) => addTagAsync(matching, tag)}
+            removeTag={(tag) => removeTagAsync(matching, tag)}
+          />
         </>
       ) : (
         <div className="flex flex-col items-center space-y-4">
