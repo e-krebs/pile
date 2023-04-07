@@ -8,6 +8,13 @@ export type Message =
       tags?: string[];
     }
   | {
+      action: 'addTag' | 'removeTag';
+      service: ServiceNames;
+      url: string;
+      id: string;
+      tag: string;
+    }
+  | {
       action: 'archiveFromService' | 'deleteFromService';
       service: ServiceNames;
       id: string;

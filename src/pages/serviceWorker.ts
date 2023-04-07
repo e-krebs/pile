@@ -1,11 +1,10 @@
 import { vars, defaultVars } from 'helpers/vars';
 import { getService, getServices } from 'utils/services';
 import { setBadge, setBadgeColor } from 'utils/badge';
-import { forceGet } from 'utils/get';
+import { forceGet, get } from 'utils/get';
 import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';
 import { createContextMenus } from 'utils/createContextMenus';
 import { Message } from 'utils/messages';
-import { get } from 'utils/get';
 import { getAllTags } from 'utils/getAllTags';
 
 const { refreshInterval } = vars;
@@ -58,7 +57,11 @@ const tabsActivatedListener = async ({ tabId }: chrome.tabs.TabActiveInfo) => {
 
 const onInstalledListener = async () => await createContextMenus();
 
-const onMessageListener = async (message: Message, _: unknown, sendMessage: () => void) => {
+const onMessageListener = async (
+  message: Message,
+  sender: chrome.runtime.MessageSender,
+  sendMessage: () => void
+) => {
   switch (message.action) {
     case 'addToService': {
       sendMessage();
@@ -88,6 +91,44 @@ const onMessageListener = async (message: Message, _: unknown, sendMessage: () =
       }
       await service.deleteItem(message.id);
       await refreshBadge();
+      return;
+    }
+    case 'addTag': {
+      sendMessage();
+      const service = getService(message.service);
+      if (!service) {
+        throw Error(`couldn't find service "${message.service}"`);
+      }
+      await service.addTag(message.id, message.tag);
+      if (sender.tab?.id) {
+        const cachedData = await forceGet(service);
+        const newMessage: Message = {
+          action: 'service',
+          service: service.name,
+          url: message.url,
+          tags: getAllTags(cachedData),
+        };
+        chrome.tabs.sendMessage(sender.tab.id, newMessage);
+      }
+      return;
+    }
+    case 'removeTag': {
+      sendMessage();
+      const service = getService(message.service);
+      if (!service) {
+        throw Error(`couldn't find service "${message.service}"`);
+      }
+      await service.removeTag(message.id, message.tag);
+      if (sender.tab?.id) {
+        const cachedData = await forceGet(service);
+        const newMessage: Message = {
+          action: 'service',
+          service: service.name,
+          url: message.url,
+          tags: getAllTags(cachedData),
+        };
+        chrome.tabs.sendMessage(sender.tab.id, newMessage);
+      }
       return;
     }
     case 'refresh': {
