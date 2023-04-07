@@ -16,6 +16,7 @@ import { ListContext } from './ListContext';
 import { TagFilter } from './TagFilter';
 import { SearchFilter } from './SearchFilter';
 import { getAllTags } from 'utils/getAllTags';
+import { getLastTag, setLastTag } from 'utils/lastTag';
 
 export const List: FC = () => {
   const service = useService();
@@ -28,13 +29,26 @@ export const List: FC = () => {
   const [itemOpen, setItemOpen] = useState<string | null>(null);
   const [addTagsItemOpen, setAddTagsItemOpen] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
-  const [tag, setTag] = useState<string | null | undefined>();
+  const [tag, setTagLocal] = useState<string | null | undefined>();
   const searchInput = useRef<HTMLInputElement>(null);
   const { data } = useQuery(service.getQueryKey, async () => {
     const list = await get(service);
     setBadge(service.name, list.data.length);
     return list;
   });
+
+  useEffect(() => {
+    const getTagOnInit = async () => {
+      const lastTag = await getLastTag(service.name);
+      setTagLocal(lastTag);
+    };
+    getTagOnInit();
+  }, [service.name]);
+
+  const setTag = async (value: string | null | undefined) => {
+    setTagLocal(value);
+    await setLastTag(service.name, value);
+  };
 
   const isLoading: boolean = useMemo(() => loading || isRefreshing, [isRefreshing, loading]);
 
@@ -74,9 +88,9 @@ export const List: FC = () => {
     await clearCache(service.getQueryKey, queryClient);
   }, [service, queryClient]);
 
-  const openSearch = (open: boolean) => {
+  const openSearch = async (open: boolean) => {
     if (open) {
-      setTag(undefined);
+      await setTag(undefined);
       setTagOpen(false);
       setSearchOpen(true);
     } else {
