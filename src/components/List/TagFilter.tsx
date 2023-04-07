@@ -17,18 +17,18 @@ export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
 
   const hasTag: boolean = useMemo(() => !tagOpen && tag !== undefined, [tag, tagOpen]);
 
-  const onTag = (value?: string | null) => {
+  const onTag = async (value?: string | null) => {
     switch (value) {
       case undefined:
       case 'undefined':
-        setTag();
+        await setTag();
         break;
       case null:
       case 'null':
-        setTag(null);
+        await setTag(null);
         break;
       default:
-        setTag(value);
+        await setTag(value);
         break;
     }
     openTag(false);
