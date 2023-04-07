@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 interface List {
   allTags: string[];
   tag?: string | null;
-  setTag: (tag?: string | null) => void;
+  setTag: (tag?: string | null) => Promise<void>;
   searchTerm: string | null;
   setSearchTerm: (string: string | null) => void;
   setItemOpen: (id: string | null) => void;
