@@ -13,6 +13,7 @@ type AutocompleteProps = TextInputProps & {
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
   close: () => void;
+  stopLoadingAfterAdd?: boolean;
 } & (
     | {
         addValue: (value: string) => Promise<void>;
@@ -32,6 +33,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   close,
   addValue,
   addValueSync,
+  stopLoadingAfterAdd = true,
   ...textInputProps
 }) => {
   const [transitionPending, startTransition] = useTransition();
@@ -61,7 +63,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
       if (addValueSync) {
         addValueSync(option ?? newOption.value);
       }
-      setIsLoading(false);
+      if (stopLoadingAfterAdd) setIsLoading(false);
     });
   };
 
