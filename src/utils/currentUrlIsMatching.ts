@@ -1,12 +1,13 @@
 import { get } from './get';
 import type { Service } from './services';
+import { ListItem } from './typings';
 import { beautifyUrl } from './url';
 
-export const getMatchingId = async (
+export const getMatchingListItem = async (
   currentUrl: URL,
   services: Service[]
-): Promise<string | undefined> => {
-  const matchingIds = await Promise.all(
+): Promise<ListItem | undefined> => {
+  const matching = await Promise.all(
     services
       .map(async (service) => {
         const isConnected = await service.isConnected();
@@ -19,11 +20,11 @@ export const getMatchingId = async (
             beautifyUrl(url.pathname) === beautifyUrl(currentUrl.pathname) &&
             url.search === currentUrl.search
           );
-        })?.id;
+        });
       })
       .flat()
   );
-  return matchingIds.find((item) => Boolean(item));
+  return matching.find((item) => item !== undefined);
 };
 
 export const currentUrlIsMatching = async (currentUrl: URL, services: Service[]): Promise<boolean> => {
