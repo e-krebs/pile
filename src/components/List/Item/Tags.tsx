@@ -48,7 +48,7 @@ export const Tags: FC = () => {
             isOpen ? 'border-inherit text-inherit' : 'border-gray-400 text-gray-500 dark:text-gray-400'
           )}
         >
-          <TagIcon className={cx('mt-[3px] mb-[2px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
+          <TagIcon className={cx('mb-[2px] mt-[3px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
 
           {tags.length > 0 && (
             <div className="mt-[-1px] flex truncate border-inherit">
