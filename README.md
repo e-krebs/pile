@@ -10,7 +10,7 @@
 |-|-|
 | ![example4](img/pile-search-filter.png) | ![example5](img/pile-tag-filter.png) |
 
-the icons color are dynamicaly computed thx to the [`node-vibrant`][1] library
+the icons color are dynamicaly computed thx to the [`extract-colors`][1] library
 
 # Install
 ## From the chrome web store
@@ -38,10 +38,10 @@ This project is built using:
 - [typescript](https://www.typescriptlang.org/)
 - [react](https://reactjs.org/)
 - [tailwindcss](https://tailwindcss.com/)
-- [node-vibrant](https://github.com/vibrant-colors/node-vibrant)
+- [extract-colors](https://github.com/Namide/extract-colors)
 - [mui](https://mui.com/)
 - [feather icons](https://feathericons.com/)
 - [parcel.js](https://parceljs.org/)
 - and plenty other tools and libraries that you can find in the **package.json**
 
-[1]: https://github.com/vibrant-colors/node-vibrant
+[1]: https://github.com/Namide/extract-colors
