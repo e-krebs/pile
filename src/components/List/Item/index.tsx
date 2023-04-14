@@ -31,7 +31,7 @@ export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOp
         url,
         title,
         iconUrl: icon?.url,
-        rgb: icon?.palette.vibrant,
+        rgb: icon?.palette,
         tags,
         isOpen,
         setIsOpen: (value: boolean) => setItemOpen(value ? id : null),

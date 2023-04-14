@@ -1,10 +1,11 @@
-import Vibrant from 'node-vibrant';
+import { extractColors } from 'extract-colors';
 
 import { readFile, readJson, writeBlob, writeJson, deleteFolder, deleteFile } from 'utils/files';
 import { getBlob } from 'utils/getBlob';
 import type { BlobInfo, Path, Response } from 'utils/typings';
 import { getTimestamp, isCacheExpired, JsonCache } from './dataCache';
-import { Palette, resolvePalette } from './palette';
+import { RGB, getRgb } from './palette';
+import { getFirstBy } from './getFirstBy';
 
 const iconFolder = 'icons';
 
@@ -30,22 +31,16 @@ const getIconBlob = async (hostname: string, fallback: string | null): Promise<R
 
 export interface IconAndPalette {
   url: string;
-  palette: Palette;
+  palette: RGB | undefined;
 }
 
 const getPalette = async (url: string, palettePath: Path): Promise<IconAndPalette> => {
-  let palette = await readJson<Palette>(palettePath);
-  if (palette) return { url, palette };
+  const palette = await readJson<RGB | undefined>(palettePath);
 
-  return new Promise((resolve) => {
-    const img = document.createElement('img');
-    img.setAttribute('src', url);
-    img.addEventListener('load', async () => {
-      palette = resolvePalette(await Vibrant.from(img).getPalette());
-      await writeJson(palettePath, palette);
-      resolve({ url, palette });
-    });
-  });
+  return {
+    url,
+    palette: palette ?? getRgb(getFirstBy(await extractColors(url), 'area')),
+  };
 };
 
 type ExcludedIcon = JsonCache<string>;
@@ -76,7 +71,7 @@ export const getIcon = async (
   fallback: string | null = null
 ): Promise<IconAndPalette | undefined> => {
   const imageName: Path = [iconFolder, `${hostname}.png`];
-  const paletteName: Path = [iconFolder, `${hostname}_palette.json`];
+  const paletteName: Path = [iconFolder, `${hostname}_palette_02.json`];
 
   try {
     if (await isExcludedIcon(hostname)) return;
