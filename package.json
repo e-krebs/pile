@@ -4,7 +4,7 @@
   "author": "Emmanuel Krebs <e-krebs@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel src/manifest.json --host localhost --target webext-dev --hmr-port 3000",
+    "dev": "parcel src/manifest.json --host localhost --target webext-dev --hmr-port 3000",
     "build": "yarn clean && parcel build src/manifest.json --target webext-prod",
     "zip": "cd dist/webext-prod && bestzip pile.zip *",
     "clean": "rimraf .parcel-cache dist pile.zip",
