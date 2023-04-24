@@ -25,11 +25,11 @@ In order to have your own version, you must "create a new app" in the [pocket de
 Then, add the consumer key provided by pocket in the newly created `src/env.json` file by replacing the `XXXXX-XXXXXXXXXXX` chain.
 
 Then, you either:
-- (dev) run `yarn start`
+- (dev) run `yarn dev`
   - then import the `/dist` folder into `chrome://extensions` in your browser
 - (prod) run `yarn build`
   - then import the `/dist/webext-prod` folder into `chrome://extensions` in your browser
-  - by then running `yarn zip`, you can also generates a `pile.zip` file (in that folder) that you can upload to the chrome web store
+  - by then running `yarn zip`, you can also generates a `pile.zip` file that you can upload to the chrome web store
 
 # How to add a new Service to Pile
 [see the dedicated readme](./src/services/README.md)

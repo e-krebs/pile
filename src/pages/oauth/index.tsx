@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 
 import { Page } from './Page';
-import 'content/tailwind.css';
+import 'tailwind.css';
 
 const container = document.getElementById('root');
 if (container) {

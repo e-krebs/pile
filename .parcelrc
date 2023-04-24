@@ -1,5 +1,6 @@
 {
   "extends": "@parcel/config-webextension",
+  "namers": ["parcel-namer-rewrite"],
   "transformers": {
     "*.svg": ["...", "@parcel/transformer-svg-react"]
   },

@@ -42,18 +42,18 @@ export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
     }
   };
 
-  useHotkeys('t', (e) => {
+  useHotkeys('t', (e: KeyboardEvent) => {
     e.preventDefault();
     toggleTagOpen();
   });
 
   useHotkeys(
     'Escape',
-    (e) => {
+    (e: KeyboardEvent) => {
       e.preventDefault();
       onTag();
     },
-    { enableOnTags: ['INPUT'] }
+    { enableOnFormTags: ['INPUT'] }
   );
 
   return (

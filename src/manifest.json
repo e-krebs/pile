@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "pile",
   "description": "pile",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "icons": {
     "16": "./content/icons/icon-16.png",
     "48": "./content/icons/icon-48.png",
@@ -43,7 +43,7 @@
         "./pages/oauth/pocket.html",
         "./content/icons/icon-96.png",
         "./content/icons/icon-96-selected.png",
-        "./content/tailwind.css"
+        "./tailwind.css"
       ],
       "matches": [
         "<all_urls>"
