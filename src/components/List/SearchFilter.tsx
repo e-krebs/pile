@@ -25,18 +25,18 @@ export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({
     }
   };
 
-  useHotkeys('s', (e) => {
+  useHotkeys('s', (e: KeyboardEvent) => {
     e.preventDefault();
     openSearch(true);
   });
   useHotkeys(
     'Escape',
-    (e) => {
+    (e: KeyboardEvent) => {
       e.preventDefault();
       openSearch(false);
       onSearch();
     },
-    { enableOnTags: ['INPUT'] }
+    { enableOnFormTags: ['INPUT'] }
   );
 
   return (
