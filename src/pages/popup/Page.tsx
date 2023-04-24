@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import 'content/tailwind.css';
+import 'tailwind.css';
 import { List } from 'components/List';
 import { ConnectionStatus } from 'components/ConnectionStatus';
 import { Footer } from 'components/Footer';

@@ -74,7 +74,8 @@
     "hooks": "./src/hooks",
     "library": "./src/library",
     "services": "./src/services",
-    "utils": "./src/utils"
+    "utils": "./src/utils",
+    "tailwind.css": "./src/tailwind.css"
   },
   "resolutions": {
     "json5": "2.2.3"

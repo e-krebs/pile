@@ -8,7 +8,7 @@ document.body.appendChild(shadow);
 
 if (shadow.shadowRoot) {
   const link = document.createElement('link');
-  link.href = chrome.runtime.getURL('content/tailwind.css');
+  link.href = chrome.runtime.getURL('tailwind.css');
   link.type = 'text/css';
   link.rel = 'stylesheet';
   shadow.shadowRoot.appendChild(link);
