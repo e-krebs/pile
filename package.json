@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "parcel src/manifest.json --host localhost --target webext-dev --hmr-port 3000",
     "build": "yarn clean && parcel build src/manifest.json --target webext-prod",
-    "zip": "cd dist/webext-prod && bestzip pile.zip *",
+    "zip": "cd dist/webext-prod && bestzip ../../pile.zip *",
     "clean": "rimraf .parcel-cache dist pile.zip",
     "lint": "eslint --ext .ts,.tsx src",
     "setup-ci": "cp ./src/env.sample.json ./src/env.json"
