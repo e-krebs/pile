@@ -135,7 +135,11 @@ export const List: FC = () => {
               {isRefreshing ? '...' : formattedTimestamp}
             </span>
           </SearchFilter>
-          <TagFilter tagOpen={tagOpen} openTag={openTag} />
+          <TagFilter
+            hasUntaggedItem={list.some((item) => item.tags.length <= 0)}
+            tagOpen={tagOpen}
+            openTag={openTag}
+          />
           <Icon
             icon={RefreshCw}
             title="Refresh (or press <r>)"
