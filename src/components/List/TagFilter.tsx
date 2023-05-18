@@ -8,11 +8,12 @@ import { Autocomplete } from 'components/Autocomplete';
 import { useListContext } from './ListContext';
 
 interface TagFilterProps {
+  hasUntaggedItem: boolean;
   tagOpen: boolean;
   openTag: (value: boolean) => void;
 }
 
-export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
+export const TagFilter: FC<TagFilterProps> = ({ hasUntaggedItem, tagOpen, openTag }) => {
   const { allTags, tag, setTag, isLoading, setIsLoading } = useListContext();
 
   const hasTag: boolean = useMemo(() => !tagOpen && tag !== undefined, [tag, tagOpen]);
@@ -82,8 +83,7 @@ export const TagFilter: FC<TagFilterProps> = ({ tagOpen, openTag }) => {
             aria-label="tag filter"
             autoFocus
             options={[
-              // { value: 'undefined' },
-              { value: 'null', label: 'untagged' },
+              ...(hasUntaggedItem ? [{ value: 'null', label: 'untagged' }] : []),
               ...allTags.map((value) => ({ value })),
             ]}
             className="absolute left-0 top-[-0.25rem] w-full shadow-xl"

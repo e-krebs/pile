@@ -43,7 +43,13 @@ export const Autocomplete: FC<AutocompleteProps> = ({
   const isLoading = useMemo(() => loading || transitionPending, [loading, transitionPending]);
 
   const options: Option[] = useMemo(
-    () => allOptions.filter((option) => !inputOption || option.value.includes(inputOption)).slice(0, 4),
+    () =>
+      allOptions
+        .filter((option) => !inputOption || option.value.includes(inputOption))
+        .sort(
+          (option1, option2) => option1.value.indexOf(inputOption) - option2.value.indexOf(inputOption)
+        )
+        .slice(0, 4),
     [allOptions, inputOption]
   );
 
