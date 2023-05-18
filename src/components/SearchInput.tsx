@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { FC, useRef } from 'react';
-import debounce from 'lodash/debounce';
+import { debounce } from 'radash';
 import { XCircle } from 'react-feather';
 
 import { Icon } from './Icon';
@@ -37,7 +37,7 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
         placeholder="Search"
         className={'grow bg-transparent outline-none'}
         autoFocus={true}
-        onChange={debounce(onChange, 300)}
+        onChange={debounce({ delay: 300 }, onChange)}
       />
       <Icon
         icon={XCircle}
