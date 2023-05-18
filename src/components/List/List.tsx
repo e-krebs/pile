@@ -169,7 +169,7 @@ export const List: FC = () => {
                 </div>
               </>
             )}
-            {!searchTerm && !tag && 'No items in your pocket list.'}
+            {!searchTerm && !tag && `No items in your ${service.name} list.`}
           </div>
         )}
         {!isLoading &&
