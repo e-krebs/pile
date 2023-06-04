@@ -169,7 +169,8 @@ export const List: FC = () => {
                 </div>
               </>
             )}
-            {!searchTerm && !tag && `No items in your ${service.name} list.`}
+            {!searchTerm && tag === null && 'No untagged item in your list.'}
+            {!searchTerm && tag === undefined && `No items in your ${service.name} list.`}
           </div>
         )}
         {!isLoading &&
