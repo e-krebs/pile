@@ -63,7 +63,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "parcel": "^2.9.3",
     "parcel-namer-rewrite": "^2.0.0-rc.3",
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.31",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "process": "^0.11.10",
