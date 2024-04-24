@@ -6,6 +6,7 @@ import { LoaderButton } from './LoadingIcon';
 import { Connected } from './Connected';
 import { ConnectButton } from './ConnectButton';
 import { useService } from 'hooks';
+import { deleteFromLocalStorage } from 'helpers/localstorage';
 
 export const ConnectionStatus: FC = () => {
   const service = useService();
@@ -20,7 +21,7 @@ export const ConnectionStatus: FC = () => {
 
   const onClick = async () => {
     await service.disconnect();
-    await chrome.storage.local.remove(service.getQueryKey);
+    await deleteFromLocalStorage(service.getQueryKey);
     setBadge(service.name, 0);
     const isConnected = await service.isConnected();
     setConnected(isConnected);

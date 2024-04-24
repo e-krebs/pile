@@ -6,8 +6,8 @@ import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';
 import { createContextMenus } from 'utils/createContextMenus';
 import { Message } from 'utils/messages';
 import { getAllTags } from 'utils/getAllTags';
+import { getFromLocalStorage } from 'helpers/localstorage';
 
-const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
 
 const refreshBadge = async () => {
@@ -29,7 +29,7 @@ const refreshBadgeIfMatching = async (currentUrl: URL) => {
 
 const alarmListener = async (alarm: chrome.alarms.Alarm) => {
   switch (alarm.name) {
-    case refreshInterval:
+    case vars.refreshInterval:
       await refreshBadge();
       break;
     default:
@@ -184,10 +184,11 @@ chrome.runtime.onMessage.addListener(onMessageListener);
 chrome.contextMenus.onClicked.addListener(onContextMenuClickedListener);
 
 (async () => {
-  const value = await chrome.storage.local.get(refreshInterval);
-  let periodInMinutes: number = parseInt(value[refreshInterval]);
+  const value =
+    (await getFromLocalStorage<string>(vars.refreshInterval)) ?? defaultRefreshInterval.toString();
+  let periodInMinutes: number = parseInt(value);
   if (isNaN(periodInMinutes)) periodInMinutes = defaultRefreshInterval;
-  chrome.alarms.create(refreshInterval, { periodInMinutes });
+  chrome.alarms.create(vars.refreshInterval, { periodInMinutes });
 
   chrome.alarms.onAlarm.addListener(alarmListener);
 

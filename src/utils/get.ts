@@ -1,3 +1,4 @@
+import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 import { getTimestamp, isCacheExpired, JsonArrayCache } from './dataCache';
 import { Service } from './services';
 import { ListItem } from './typings';
@@ -20,14 +21,13 @@ export type GetParams =
 const rawGet = async (param: GetParams, service: Service): Promise<JsonArrayCache<ListItem>> => {
   if (!service.isConnected()) throw Error('not connected to pocket');
 
-  const cache = await chrome.storage.local.get(service.getQueryKey);
-  let list = (cache[service.getQueryKey] ?? null) as JsonArrayCache<ListItem> | null;
+  let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
 
   if (param.type !== 'default' || !list || isCacheExpired(list)) {
     const data = await service.get(param);
     list = { timestamp: getTimestamp(), data };
     if (!['search', 'tag'].includes(param.type)) {
-      await chrome.storage.local.set({ [service.getQueryKey]: list });
+      await setToLocalStorage(service.getQueryKey, list);
     }
   }
 
