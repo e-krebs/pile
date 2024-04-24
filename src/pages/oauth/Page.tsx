@@ -24,7 +24,7 @@ export const Page: FC<PageProps> = ({ serviceName }) => {
   const [state, setState] = useState<OAuthState>('inprogress');
 
   useEffect(() => {
-    if (!service) return;
+    if (!service || !service.hasOAuth) return;
     const effect = async () => {
       const ok = await service.authorize();
       setState(ok ? 'success' : 'failed');

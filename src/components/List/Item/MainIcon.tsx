@@ -9,7 +9,7 @@ import { type Message } from 'utils/messages';
 type IconState = 'loading' | 'icon' | 'default';
 
 export const MainIcon: FC = () => {
-  const { archiveItem } = useService();
+  const service = useService();
   const { rgb, id, url, iconUrl } = useItemContext();
   const [iconLoading, setIconLoading] = useState(false);
 
@@ -19,14 +19,18 @@ export const MainIcon: FC = () => {
   }, [iconUrl, iconLoading]);
 
   const onArchiveAndOpen = async () => {
-    setIconLoading(true);
-    const ok = await archiveItem(id);
-    if (ok) {
-      const message: Message = { action: 'refresh' };
-      chrome.runtime.sendMessage(message);
+    if (service.isUpdatable) {
+      setIconLoading(true);
+      const ok = await service.archiveItem(id);
+      if (ok) {
+        const message: Message = { action: 'refresh' };
+        chrome.runtime.sendMessage(message);
+        chrome.tabs.create({ url });
+      }
+      setIconLoading(false);
+    } else {
       chrome.tabs.create({ url });
     }
-    setIconLoading(false);
   };
 
   return (
@@ -34,7 +38,7 @@ export const MainIcon: FC = () => {
       <div
         className="h-8 w-8 cursor-pointer rounded-full border bg-inherit p-1.5"
         style={{ borderColor: getRgba(rgb, 0.6) }}
-        title="archive and open"
+        title={service.isUpdatable ? 'archive and open' : 'open'}
         onClick={onArchiveAndOpen}
       >
         {iconState === 'loading' && <Loader className="h-full w-full animate-spin" />}

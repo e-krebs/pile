@@ -16,7 +16,14 @@ const services = getServices();
 const serviceToTab = async (service: Service): Promise<TabProps> => {
   const connected = await service.isConnected();
   return {
-    content: connected ? List : ConnectionStatus,
+    content: connected
+      ? List
+      : service.hasOAuth
+      ? ConnectionStatus
+      : () => {
+          const Setup = service.Setup;
+          return <Setup context="popup" />;
+        },
     service,
   };
 };

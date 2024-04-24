@@ -8,8 +8,11 @@ export const createContextMenus = async () => {
   });
   await Promise.all(
     getServices().map(async (service) => {
+      if (!service.isUpdatable) return;
+
       const isConnected = await service.isConnected();
       if (!isConnected) return;
+
       chrome.contextMenus.create({
         id: service.name,
         title: `pile for ${service.name}`,
