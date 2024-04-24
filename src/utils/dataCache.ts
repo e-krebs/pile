@@ -1,5 +1,7 @@
 import type { QueryClient } from 'react-query';
 
+import { deleteFromLocalStorage } from 'helpers/localstorage';
+
 export const cacheDurationMs = 5 * 60 * 1000; // 5 minutes
 
 export interface JsonArrayCache<T> {
@@ -20,6 +22,6 @@ export const isCacheExpired = <T>(
 ): boolean => getTimestamp() - cache.timestamp > duration;
 
 export const clearCache = async (key: string, queryClient: QueryClient) => {
-  await chrome.storage.local.remove(key);
+  await deleteFromLocalStorage(key);
   await queryClient.invalidateQueries(key);
 };

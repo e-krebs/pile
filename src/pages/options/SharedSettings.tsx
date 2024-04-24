@@ -5,8 +5,8 @@ import { Trash2 } from 'react-feather';
 import { vars, defaultVars } from 'helpers/vars';
 import { cleanIcons } from 'utils/icon';
 import { LoaderButton } from 'components/LoadingIcon';
+import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 
-const { refreshInterval } = vars;
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
 
 export const SharedSettings: FC = () => {
@@ -15,14 +15,15 @@ export const SharedSettings: FC = () => {
   const updateRefreshInterval = async (stringValue: string) => {
     const value = parseInt(stringValue);
     if (typeof value === 'number' && !isNaN(value)) {
-      await chrome.storage.local.set({ [refreshInterval]: value });
+      await setToLocalStorage(vars.refreshInterval, value);
     }
   };
 
   useEffect(() => {
     const getRefreshInterval = async () => {
-      const value = await chrome.storage.local.get(refreshInterval);
-      let periodInMinutes: number = parseInt(value[refreshInterval]);
+      const value =
+        (await getFromLocalStorage<string>(vars.refreshInterval)) ?? defaultRefreshInterval.toString();
+      let periodInMinutes: number = parseInt(value);
       if (isNaN(periodInMinutes)) periodInMinutes = defaultRefreshInterval;
       setRefreshIntervalValue(periodInMinutes);
     };
