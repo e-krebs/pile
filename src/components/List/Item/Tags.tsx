@@ -11,7 +11,7 @@ import { TagAutocomplete } from './TagAutocomplete';
 import { TagsContext } from 'hooks/TagsContext';
 
 export const Tags: FC = () => {
-  const { getQueryKey, removeTag } = useService();
+  const { getQueryKey, ...service } = useService();
   const { id, rgb, tags, isOpen, isAddTagsOpen, setIsAddTagsOpen } = useItemContext();
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +22,9 @@ export const Tags: FC = () => {
   const Add = useMemo(() => (isAddTagsOpen ? XCircle : Plus), [isAddTagsOpen]);
 
   const remove = async (tag: string) => {
+    if (!service.isUpdatable) return;
     setIsLoading(true);
-    const ok = await removeTag(id, tag);
+    const ok = await service.removeTag(id, tag);
     if (ok) {
       await clearCache(getQueryKey, queryClient);
     }
@@ -58,15 +59,17 @@ export const Tags: FC = () => {
                   className={cx(
                     'group ml-1 flex items-center pl-px',
                     'border-b border-transparent',
-                    !isLoading && 'cursor-pointer border-dashed hover:border-inherit'
+                    !isLoading && 'border-dashed hover:border-inherit',
+                    !isLoading && service.isUpdatable && 'cursor-pointer '
                   )}
-                  title={`remove tag [${tag}]`}
-                  onClick={() => (isLoading ? {} : remove(tag))}
+                  title={service.isUpdatable ? `remove tag [${tag}]` : tag}
+                  onClick={() => (isLoading || !service.isUpdatable ? {} : remove(tag))}
                 >
                   <span>{tag}</span>
                   <X
                     className={cx(
-                      'mb-[-3px] h-3 transition-width group-hover:w-3',
+                      'mb-[-3px] h-3',
+                      service.isUpdatable && 'transition-width group-hover:w-3',
                       isAddTagsOpen ? 'w-3' : 'w-0'
                     )}
                   />
@@ -75,18 +78,20 @@ export const Tags: FC = () => {
             </div>
           )}
 
-          <div
-            className={cx('flex shrink-0 grow justify-end', !isLoading && 'cursor-pointer')}
-            title={isAddTagsOpen ? 'close' : 'add tags'}
-            onClick={() => (isLoading ? {} : setIsAddTagsOpen(!isAddTagsOpen))}
-          >
-            <Add
-              className={cx(
-                isAddTagsOpen ? 'w-3' : 'w-0',
-                'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3'
-              )}
-            />
-          </div>
+          {service.isUpdatable && (
+            <div
+              className={cx('flex shrink-0 grow justify-end', !isLoading && 'cursor-pointer')}
+              title={isAddTagsOpen ? 'close' : 'add tags'}
+              onClick={() => (isLoading ? {} : setIsAddTagsOpen(!isAddTagsOpen))}
+            >
+              <Add
+                className={cx(
+                  isAddTagsOpen ? 'w-3' : 'w-0',
+                  'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3'
+                )}
+              />
+            </div>
+          )}
         </div>
 
         {isAddTagsOpen && <TagAutocomplete />}

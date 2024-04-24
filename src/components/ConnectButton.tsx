@@ -10,9 +10,13 @@ export const ConnectButton: FC = () => {
 
   const onClick = useCallback(async () => {
     setLoading(true);
-    await service.connect();
+    if (service.hasOAuth) {
+      await service.connect();
+    }
     setLoading(false);
   }, [service]);
+
+  if (!service.hasOAuth) return null;
 
   return (
     <div className="flex justify-center py-10 text-lg">

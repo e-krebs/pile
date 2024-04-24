@@ -9,7 +9,7 @@ import { useItemContext } from './ItemContext';
 import { useTagsContext } from 'hooks/TagsContext';
 
 export const TagAutocomplete: FC = () => {
-  const { getQueryKey, addTag } = useService();
+  const { getQueryKey, ...service } = useService();
   const { allTags } = useListContext();
   const { id, isOpen, setIsAddTagsOpen, tags } = useItemContext();
   const { isLoading, setIsLoading } = useTagsContext();
@@ -26,14 +26,18 @@ export const TagAutocomplete: FC = () => {
 
   const addValue = useCallback(
     async (value: string) => {
-      const ok = await addTag(id, value);
-      if (ok) {
-        await clearCache(getQueryKey, queryClient);
+      if (service.isUpdatable) {
+        const ok = await service.addTag(id, value);
+        if (ok) {
+          await clearCache(getQueryKey, queryClient);
+        }
       }
       close();
     },
-    [addTag, close, getQueryKey, id, queryClient]
+    [close, getQueryKey, id, queryClient, service]
   );
+
+  if (!service.isUpdatable) return null;
 
   return (
     <Autocomplete

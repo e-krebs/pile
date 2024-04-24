@@ -1,4 +1,4 @@
-import type { Service } from 'utils/services';
+import type { Service, ServiceWithOAuth, UpdatableService } from 'utils/services';
 import { name, getQueryKey } from './const';
 import { get } from './get';
 import { add } from './add';
@@ -10,7 +10,7 @@ import { Icon } from './Icon';
 
 export type PocketServiceName = 'pocket';
 
-export const pocket: Service = {
+export const pocket: Service & UpdatableService & ServiceWithOAuth = {
   name,
   getQueryKey,
   get,
@@ -25,4 +25,7 @@ export const pocket: Service = {
   removeTag,
   Icon,
   borderClassName: 'border-pocket',
+  hasOAuth: true,
+  isUpdatable: true,
+  isTogglable: false,
 };

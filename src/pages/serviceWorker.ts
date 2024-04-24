@@ -69,6 +69,9 @@ const onMessageListener = async (
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
+      if (!service.isUpdatable) {
+        throw Error(`cannot add: service "${message.service}" is not updatable`);
+      }
       await service.add(message.url, message.tags);
       await refreshBadge();
       return;
@@ -78,6 +81,9 @@ const onMessageListener = async (
       const service = getService(message.service);
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
+      }
+      if (!service.isUpdatable) {
+        throw Error(`cannot archive: service "${message.service}" is not updatable`);
       }
       await service.archiveItem(message.id);
       await refreshBadge();
@@ -89,6 +95,9 @@ const onMessageListener = async (
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
+      if (!service.isUpdatable) {
+        throw Error(`cannot delete: service "${message.service}" is not updatable`);
+      }
       await service.deleteItem(message.id);
       await refreshBadge();
       return;
@@ -98,6 +107,9 @@ const onMessageListener = async (
       const service = getService(message.service);
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
+      }
+      if (!service.isUpdatable) {
+        throw Error(`cannot add tag: service "${message.service}" is not updatable`);
       }
       await service.addTag(message.id, message.tag);
       if (sender.tab?.id) {
@@ -117,6 +129,9 @@ const onMessageListener = async (
       const service = getService(message.service);
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
+      }
+      if (!service.isUpdatable) {
+        throw Error(`cannot remove tag: service "${message.service}" is not updatable`);
       }
       await service.removeTag(message.id, message.tag);
       if (sender.tab?.id) {
