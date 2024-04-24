@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'algolia': 'rgb(0, 61, 255)',
         'pocket': '#EF4056',
         'inherit': 'inherit',
       },
