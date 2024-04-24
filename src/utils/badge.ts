@@ -1,16 +1,17 @@
-import { color, colorSelected } from 'helpers/vars';
+import { color, colorSelected, serviceVars } from 'helpers/vars';
 import { ServiceNames } from 'services';
 import { currentUrlIsMatching } from './currentUrlIsMatching';
 import { getServices, Service } from './services';
+import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 
 const badgePath = 'badge';
 type BadgeValues = Record<ServiceNames, number>;
 
 const getBadgeValues = async (services: Service[]): Promise<BadgeValues> => {
-  const badgeValues = (await chrome.storage.local.get(badgePath)) as BadgeValues;
+  const badgeValues = await getFromLocalStorage<BadgeValues>(badgePath);
 
   const result: Record<string, number> = {};
-  const serviceList = Object.keys(services) as ServiceNames[];
+  const serviceList: ServiceNames[] = services.map((x) => x.name);
 
   for (const service of serviceList) {
     let value = 0;
@@ -21,14 +22,19 @@ const getBadgeValues = async (services: Service[]): Promise<BadgeValues> => {
   return result as Record<ServiceNames, number>;
 };
 
-export const setBadge = async (service: ServiceNames, value: number) => {
-  const services = getServices();
-  const badgeValues = await getBadgeValues(services);
-  badgeValues[service] = value;
+const updateBadgeInner = async (services: Service[], badgeValues: BadgeValues) => {
+  await setToLocalStorage(badgePath, badgeValues);
 
-  await chrome.storage.local.set({ [badgePath]: badgeValues });
+  const showCountOnBadgeByService =
+    (await getFromLocalStorage<Partial<Record<ServiceNames, boolean>>>(serviceVars.showCountOnBadge)) ??
+    {};
 
-  const total: number = Object.values(badgeValues).reduce((a, b) => a + b);
+  const total: number = services
+    .map((service) => {
+      const show = showCountOnBadgeByService[service.name] ?? true;
+      return show ? badgeValues[service.name] : 0;
+    })
+    .reduce((a, b) => a + b);
 
   const tabs = await chrome.tabs.query({ active: true });
   const url = tabs.length > 0 ? tabs[0].url : undefined;
@@ -40,6 +46,19 @@ export const setBadge = async (service: ServiceNames, value: number) => {
   } else {
     chrome.action.setBadgeText({ text: '' });
   }
+};
+
+export const setBadge = async (service: ServiceNames, value: number) => {
+  const services = getServices();
+  const badgeValues = await getBadgeValues(services);
+  badgeValues[service] = value;
+  updateBadgeInner(services, badgeValues);
+};
+
+export const updateBadge = async () => {
+  const services = getServices();
+  const badgeValues = await getBadgeValues(services);
+  updateBadgeInner(services, badgeValues);
 };
 
 export const setBadgeColor = (currentUrlIsMatching: boolean) => {

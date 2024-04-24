@@ -1,30 +1,39 @@
 import cx from 'classnames';
-import { FC, PropsWithChildren, useMemo, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 
-import { Service } from 'utils/services';
 import { ServiceContext } from 'hooks';
+import { type ServiceNames } from 'services';
 import { isService, SharedTabProps, Tab } from './Tab';
 
 export type TabProps = SharedTabProps & { content: FC };
 
 export interface TabsProps {
   tabs: TabProps[];
-  tabIndex?: number;
+  initialSelected?: number;
+  onTabChange?: (service?: ServiceNames) => Promise<void>;
 }
 
-export const Tabs: FC<PropsWithChildren<TabsProps>> = ({ tabs, children, tabIndex = 0 }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(tabIndex);
-  const service: Service | null = useMemo(() => {
-    const selectedTab = tabs[selectedIndex];
-    return isService(selectedTab) ? selectedTab.service : null;
-  }, [selectedIndex, tabs]);
-  const Content = useMemo(() => tabs[selectedIndex].content, [selectedIndex, tabs]);
+interface Selected {
+  index: number;
+  tab: TabProps;
+}
+
+export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
+  tabs,
+  children,
+  onTabChange,
+  initialSelected: tabIndex = 0,
+}) => {
+  const [selected, setSelected] = useState<Selected>({ index: tabIndex, tab: tabs[tabIndex] });
+
+  const service = isService(selected.tab) ? selected.tab.service : null;
+  const Content = selected.tab.content;
 
   return (
     <ServiceContext.Provider value={service}>
       <div
         className={cx(
-          'mb-2 flex space-x-2 px-2',
+          'sticky top-0 mb-2 flex space-x-2 px-2',
           'border-b border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700'
         )}
       >
@@ -32,14 +41,20 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({ tabs, children, tabInde
           <Tab
             {...tab}
             key={index}
-            active={selectedIndex === index}
-            onClick={() => setSelectedIndex(index)}
+            active={selected.index === index}
+            onClick={async () => {
+              const tab = tabs[index];
+              setSelected({ index, tab });
+              if (onTabChange) {
+                await onTabChange(isService(tab) ? tab.service.name : undefined);
+              }
+            }}
           />
         ))}
         <div className="grow" />
         {children}
       </div>
-      <div className="px-2 py-2">
+      <div className="grow p-2">
         <Content />
       </div>
     </ServiceContext.Provider>

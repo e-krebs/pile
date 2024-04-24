@@ -1,15 +1,15 @@
 import type { FC } from 'react';
 
-import { ConnectionStatus } from 'components/ConnectionStatus';
 import { Tabs, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
 import { SharedSettings } from './SharedSettings';
 import { getServices, Service } from 'utils/services';
+import { OptionsWrapper } from './OptionsWrapper';
 
 const services = getServices();
 
 const serviceToTab = (service: Service): TabProps => ({
-  content: ConnectionStatus,
+  content: () => <OptionsWrapper service={service} />,
   service,
 });
 

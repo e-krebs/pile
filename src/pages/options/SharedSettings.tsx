@@ -1,4 +1,4 @@
-import { Checkbox, TextInput } from '@e-krebs/react-library';
+import { TextInput } from '@e-krebs/react-library';
 import { FC, useEffect, useState } from 'react';
 import { Trash2 } from 'react-feather';
 
@@ -31,8 +31,7 @@ export const SharedSettings: FC = () => {
   }, []);
 
   return refreshIntervalValue ? (
-    <div className="grid auto-rows-fr grid-cols-1 gap-2">
-      <Checkbox label="Enable Pocket" defaultSelected={true} isDisabled={true} />
+    <div className="grid auto-rows-fr grid-cols-1 gap-2 p-3 pb-9">
       <div className="flex items-baseline space-x-2">
         <TextInput
           border="none"
