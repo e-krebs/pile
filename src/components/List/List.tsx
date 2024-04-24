@@ -5,7 +5,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-import { clearCache } from 'utils/dataCache';
+import { JsonArrayCache, clearCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
 import { Icon } from 'components/Icon';
 import { Item } from './Item';
@@ -21,20 +21,33 @@ import { getLastTag, setLastTag } from 'utils/lastTag';
 export const List: FC = () => {
   const service = useService();
   const queryClient = useQueryClient();
-  const [list, setList] = useState<ListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [tagOpen, setTagOpen] = useState<boolean>(false);
   const [itemOpen, setItemOpen] = useState<string | null>(null);
   const [addTagsItemOpen, setAddTagsItemOpen] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const [tag, setTagLocal] = useState<string | null | undefined>();
-  const { data } = useQuery(service.getQueryKey, async () => {
-    const list = await get(service);
-    setBadge(service.name, list.data.length);
-    return list;
-  });
+  const { data, isLoading: queryLoading } = useQuery(
+    [service.getQueryKey, tag, searchTerm],
+    async () => {
+      let data: JsonArrayCache<ListItem> | undefined;
+      setLoading(true);
+      if (tag !== undefined) {
+        data = await filterTag(tag, service);
+      } else if (searchTerm !== null) {
+        data = await search(searchTerm, service);
+      } else {
+        data = await get(service);
+        setBadge(service.name, data.data.length);
+      }
+      setLoading(false);
+
+      return data;
+    }
+  );
+
+  const list: ListItem[] = useMemo(() => data?.data ?? [], [data?.data]);
 
   useEffect(() => {
     const getTagOnInit = async () => {
@@ -48,33 +61,9 @@ export const List: FC = () => {
     setTagLocal(value);
     await setLastTag(service.name, value);
   };
-
-  const isLoading: boolean = useMemo(() => loading || isRefreshing, [isRefreshing, loading]);
+  const isLoading: boolean = useMemo(() => loading || queryLoading, [queryLoading, loading]);
 
   const allTags: string[] = useMemo(() => getAllTags(data), [data]);
-
-  const refreshList = useCallback((data?: ListItem[]) => {
-    setList(data ?? []);
-    if (data !== undefined) setLoading(false);
-    setIsRefreshing(false);
-  }, []);
-
-  useEffect(() => {
-    const updateList = async () => {
-      if (tag !== undefined) {
-        setLoading(true);
-        const tagResult = await filterTag(tag, service);
-        refreshList(tagResult.data);
-      } else if (searchTerm !== null) {
-        setLoading(true);
-        const searchResult = await search(searchTerm, service);
-        refreshList(searchResult.data);
-      } else {
-        refreshList(data?.data);
-      }
-    };
-    updateList();
-  }, [data, tag, service, searchTerm, refreshList]);
 
   const formattedTimestamp: string | null = useMemo(
     () =>
@@ -83,7 +72,6 @@ export const List: FC = () => {
   );
 
   const refresh = useCallback(async () => {
-    setIsRefreshing(true);
     await clearCache(service.getQueryKey, queryClient);
   }, [service, queryClient]);
 
@@ -131,7 +119,7 @@ export const List: FC = () => {
         <div className="flex items-center justify-center text-xs">
           <SearchFilter searchOpen={searchOpen} openSearch={openSearch}>
             <span className="grow text-center" title="press <r> to Refresh">
-              {isRefreshing ? '...' : formattedTimestamp}
+              {isLoading ? '...' : formattedTimestamp}
             </span>
           </SearchFilter>
           <TagFilter
@@ -144,7 +132,7 @@ export const List: FC = () => {
             title="Refresh (or press <r>)"
             className={cx(
               'mx-2 h-4 w-4',
-              isRefreshing && 'animate-spin',
+              isLoading && 'animate-spin',
               searchOpen ? 'cursor-not-allowed' : 'cursor-pointer'
             )}
             onClick={searchOpen ? () => {} : refresh}
