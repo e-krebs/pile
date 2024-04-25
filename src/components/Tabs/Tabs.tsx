@@ -55,7 +55,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
         {children}
       </div>
       <div className="grow p-2">
-        <Content />
+        <Content key={selected.index} />
       </div>
     </ServiceContext.Provider>
   );
