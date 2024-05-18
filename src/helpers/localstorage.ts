@@ -20,7 +20,7 @@ export const deleteLocalStorageValue = async <T extends string>(
 
 export const getFromLocalStorage = async <T>(key: string): Promise<T | undefined> => {
   const value = await chrome.storage.local.get(key);
-  if (!value || !value[key]) return undefined;
+  if (!value || value[key] === undefined) return undefined;
   return value[key] as T;
 };
 
