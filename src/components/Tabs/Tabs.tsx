@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import { FC, PropsWithChildren, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 import { ServiceContext } from 'hooks';
 import { type ServiceNames } from 'services';
@@ -29,6 +30,26 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
   const service = isService(selected.tab) ? selected.tab.service : null;
   const Content = selected.tab.content;
 
+  const selectedTabByIndex = async (index: number) => {
+    const tab = tabs[index];
+    setSelected({ index, tab });
+    if (onTabChange) {
+      await onTabChange(isService(tab) ? tab.service.name : undefined);
+    }
+  };
+
+  useHotkeys(
+    'ctrl+1,ctrl+2,ctrl+3,ctrl+4,ctrl+5,ctrl+6,ctrl+7,ctrl+8,ctrl+9,ctrl+0',
+    async (e, { keys }) => {
+      e.preventDefault();
+      if (!keys || keys.length < 1) return;
+      let tabIndex = parseInt(keys[0]);
+      if (tabIndex === 0) tabIndex = 10;
+      if (isNaN(tabIndex) || tabIndex > tabs.length) return;
+      await selectedTabByIndex(tabIndex - 1);
+    }
+  );
+
   return (
     <ServiceContext.Provider value={service}>
       <div
@@ -43,11 +64,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
             key={index}
             active={selected.index === index}
             onClick={async () => {
-              const tab = tabs[index];
-              setSelected({ index, tab });
-              if (onTabChange) {
-                await onTabChange(isService(tab) ? tab.service.name : undefined);
-              }
+              await selectedTabByIndex(index);
             }}
           />
         ))}
