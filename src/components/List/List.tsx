@@ -17,6 +17,8 @@ import { TagFilter } from './TagFilter';
 import { SearchFilter } from './SearchFilter';
 import { getAllTags } from 'utils/getAllTags';
 import { getLastTag, setLastTag } from 'utils/lastTag';
+import { getActiveTab } from 'utils/getActiveTab';
+import { urlsAreMatching } from 'utils/currentUrlIsMatching';
 
 export const List: FC = () => {
   const service = useService();
@@ -29,12 +31,26 @@ export const List: FC = () => {
   const [itemOpen, setItemOpen] = useState<string | null>(null);
   const [addTagsItemOpen, setAddTagsItemOpen] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<URL | undefined>();
   const [tag, setTagLocal] = useState<string | null | undefined>();
   const { data } = useQuery(service.getQueryKey, async () => {
     const list = await get(service);
     setBadge(service.name, list.data.length);
     return list;
   });
+
+  useEffect(() => {
+    const initActiveTab = async () => {
+      const url = await getActiveTab();
+      setActiveTab(url ? new URL(url) : undefined);
+    };
+    initActiveTab();
+  }, []);
+
+  const isMatching = useCallback(
+    (url: string) => activeTab !== undefined && urlsAreMatching(new URL(url), activeTab),
+    [activeTab]
+  );
 
   useEffect(() => {
     const getTagOnInit = async () => {
@@ -180,6 +196,7 @@ export const List: FC = () => {
               item={item}
               key={item.id}
               isOpen={item.id === itemOpen}
+              isActive={isMatching(item.url)}
               isAddTagsOpen={item.id === addTagsItemOpen}
             />
           ))}
