@@ -10,9 +10,15 @@ interface ItemProps {
   item: ListItem;
   isOpen: boolean;
   isAddTagsOpen: boolean;
+  isActive: boolean;
 }
 
-export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOpen, isAddTagsOpen }) => {
+export const Item: FC<ItemProps> = ({
+  item: { id, title, url, logo, tags },
+  isOpen,
+  isAddTagsOpen,
+  isActive,
+}) => {
   const { setItemOpen, setAddTagsItemOpen } = useListContext();
   const [icon, setIcon] = useState<IconAndPalette>();
 
@@ -37,6 +43,7 @@ export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOp
         setIsOpen: (value: boolean) => setItemOpen(value ? id : null),
         isAddTagsOpen,
         setIsAddTagsOpen: (value: boolean) => setAddTagsItemOpen(value ? id : null),
+        isActive,
       }}
     >
       <ItemComponent />
