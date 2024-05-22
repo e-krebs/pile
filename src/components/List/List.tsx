@@ -28,7 +28,7 @@ export const List: FC = () => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [tagOpen, setTagOpen] = useState<boolean>(false);
-  const [itemOpen, setItemOpen] = useState<string | null>(null);
+  const [itemOpen, setItemOpen] = useState<string | null | undefined>(undefined);
   const [addTagsItemOpen, setAddTagsItemOpen] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<URL | undefined>();
@@ -195,7 +195,7 @@ export const List: FC = () => {
             <Item
               item={item}
               key={item.id}
-              isOpen={item.id === itemOpen}
+              isOpen={itemOpen !== undefined ? item.id === itemOpen : isMatching(item.url)}
               isActive={isMatching(item.url)}
               isAddTagsOpen={item.id === addTagsItemOpen}
             />
