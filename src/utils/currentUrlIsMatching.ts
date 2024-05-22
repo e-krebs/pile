@@ -15,11 +15,7 @@ export const getMatchingListItem = async (
         const { data } = await get(service);
         return data.find((item) => {
           const url = new URL(item.url);
-          return (
-            beautifyUrl(url.origin) === beautifyUrl(currentUrl.origin) &&
-            beautifyUrl(url.pathname) === beautifyUrl(currentUrl.pathname) &&
-            url.search === currentUrl.search
-          );
+          return urlsAreMatching(url, currentUrl);
         });
       })
       .flat()
@@ -35,15 +31,15 @@ export const currentUrlIsMatching = async (currentUrl: URL, services: Service[])
       const { data } = await get(service);
       const matchingUrls = data
         .map((i) => new URL(i.url))
-        .filter(
-          (iUrl) =>
-            beautifyUrl(iUrl.origin) === beautifyUrl(currentUrl.origin) &&
-            beautifyUrl(iUrl.pathname) === beautifyUrl(currentUrl.pathname) &&
-            iUrl.search === currentUrl.search
-        );
+        .filter((iUrl) => urlsAreMatching(iUrl, currentUrl));
       return matchingUrls.length > 0;
     })
   );
   const isMatching = matches.reduce((a, b) => a || b);
   return isMatching;
 };
+
+export const urlsAreMatching = (url1: URL, url2: URL): boolean =>
+  beautifyUrl(url1.origin) === beautifyUrl(url2.origin) &&
+  beautifyUrl(url1.pathname) === beautifyUrl(url2.pathname) &&
+  url1.search === url2.search;

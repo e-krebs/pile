@@ -3,6 +3,7 @@ import { ServiceNames } from 'services';
 import { currentUrlIsMatching } from './currentUrlIsMatching';
 import { getServices, Service } from './services';
 import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
+import { getActiveTab } from './getActiveTab';
 
 const badgePath = 'badge';
 type BadgeValues = Record<ServiceNames, number>;
@@ -36,8 +37,7 @@ const updateBadgeInner = async (services: Service[], badgeValues: BadgeValues) =
     })
     .reduce((a, b) => a + b);
 
-  const tabs = await chrome.tabs.query({ active: true });
-  const url = tabs.length > 0 ? tabs[0].url : undefined;
+  const url = await getActiveTab();
   const isMatching = url ? await currentUrlIsMatching(new URL(url), services) : false;
 
   if (total > 0) {
