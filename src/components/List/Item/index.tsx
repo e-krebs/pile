@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { getIcon, IconAndPalette } from 'utils/icon';
 import { ListItem } from 'utils/typings';
@@ -10,11 +10,19 @@ interface ItemProps {
   item: ListItem;
   isOpen: boolean;
   isAddTagsOpen: boolean;
+  isActive: boolean;
 }
 
-export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOpen, isAddTagsOpen }) => {
+export const Item: FC<ItemProps> = ({
+  item: { id, title, url, logo, tags },
+  isOpen,
+  isAddTagsOpen,
+  isActive,
+}) => {
   const { setItemOpen, setAddTagsItemOpen } = useListContext();
   const [icon, setIcon] = useState<IconAndPalette>();
+
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const effect = async () => {
@@ -23,6 +31,12 @@ export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOp
     };
     effect();
   }, [logo, url]);
+
+  useEffect(() => {
+    if (isActive && ref?.current) {
+      ref.current.scrollIntoView({ block: 'center' });
+    }
+  }, [ref, isActive]);
 
   return (
     <ItemContext.Provider
@@ -37,9 +51,10 @@ export const Item: FC<ItemProps> = ({ item: { id, title, url, logo, tags }, isOp
         setIsOpen: (value: boolean) => setItemOpen(value ? id : null),
         isAddTagsOpen,
         setIsAddTagsOpen: (value: boolean) => setAddTagsItemOpen(value ? id : null),
+        isActive,
       }}
     >
-      <ItemComponent />
+      <ItemComponent ref={ref} />
     </ItemContext.Provider>
   );
 };

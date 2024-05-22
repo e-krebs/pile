@@ -13,6 +13,7 @@ interface Item {
   setIsOpen: (value: boolean) => void;
   isAddTagsOpen: boolean;
   setIsAddTagsOpen: (value: boolean) => void;
+  isActive: boolean;
 }
 
 export const ItemContext = createContext<Item | null>(null);
