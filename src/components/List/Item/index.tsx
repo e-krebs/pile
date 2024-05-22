@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { getIcon, IconAndPalette } from 'utils/icon';
 import { ListItem } from 'utils/typings';
@@ -22,6 +22,8 @@ export const Item: FC<ItemProps> = ({
   const { setItemOpen, setAddTagsItemOpen } = useListContext();
   const [icon, setIcon] = useState<IconAndPalette>();
 
+  const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const effect = async () => {
       const iconAndPalette = await getIcon(new URL(url).hostname, logo);
@@ -29,6 +31,12 @@ export const Item: FC<ItemProps> = ({
     };
     effect();
   }, [logo, url]);
+
+  useEffect(() => {
+    if (isActive && ref?.current) {
+      ref.current.scrollIntoView({ block: 'center' });
+    }
+  }, [ref, isActive]);
 
   return (
     <ItemContext.Provider
@@ -46,7 +54,7 @@ export const Item: FC<ItemProps> = ({
         isActive,
       }}
     >
-      <ItemComponent />
+      <ItemComponent ref={ref} />
     </ItemContext.Provider>
   );
 };
