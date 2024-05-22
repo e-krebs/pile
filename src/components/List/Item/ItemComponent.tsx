@@ -15,10 +15,14 @@ import { useService } from 'hooks';
 export const ItemComponent: FC<RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement>(
   function ItemComponent(_, ref) {
     const { isUpdatable } = useService();
-    const { url, title, rgb, isOpen } = useItemContext();
+    const { url, title, rgb, isOpen, isActive } = useItemContext();
 
     return (
-      <div ref={ref} className="rounded-md" style={{ backgroundColor: getRgba(rgb, 0.1) }}>
+      <div
+        ref={ref}
+        className={cx('rounded-md', isActive && 'border border-green-500')}
+        style={{ backgroundColor: getRgba(rgb, 0.1) }}
+      >
         <div
           className={cx(
             'rounded-md py-2 hover:bg-inherit',
