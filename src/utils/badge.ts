@@ -1,9 +1,10 @@
-import { color, colorSelected, serviceVars } from 'helpers/vars';
+import { color, colorSelected } from 'helpers/vars';
 import { ServiceNames } from 'services';
 import { currentUrlIsMatching } from './currentUrlIsMatching';
 import { getServices, Service } from './services';
 import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 import { getActiveTab } from './getActiveTab';
+import { getShowCountOnBadge } from './getShowCountOnBadge';
 
 const badgePath = 'badge';
 type BadgeValues = Record<ServiceNames, number>;
@@ -26,9 +27,7 @@ const getBadgeValues = async (services: Service[]): Promise<BadgeValues> => {
 const updateBadgeInner = async (services: Service[], badgeValues: BadgeValues) => {
   await setToLocalStorage(badgePath, badgeValues);
 
-  const showCountOnBadgeByService =
-    (await getFromLocalStorage<Partial<Record<ServiceNames, boolean>>>(serviceVars.showCountOnBadge)) ??
-    {};
+  const showCountOnBadgeByService = await getShowCountOnBadge();
 
   const total: number = services
     .map((service) => {
