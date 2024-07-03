@@ -7,6 +7,7 @@ import { createContextMenus } from 'utils/createContextMenus';
 import { Message } from 'utils/messages';
 import { getAllTags } from 'utils/getAllTags';
 import { getFromLocalStorage } from 'helpers/localstorage';
+import { getShowCountOnBadge } from 'utils/getShowCountOnBadge';
 
 const { refreshInterval: defaultRefreshInterval } = defaultVars;
 
@@ -15,6 +16,8 @@ const refreshBadge = async () => {
     getServices().map(async (service) => {
       const isConnected = await service.isConnected();
       if (!isConnected) return;
+      const showCountOnBadge = await getShowCountOnBadge();
+      if (showCountOnBadge[service.name] === false) return;
       const { data } = await forceGet(service);
       setBadge(service.name, data.length);
     })

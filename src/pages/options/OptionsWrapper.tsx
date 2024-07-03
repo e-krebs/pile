@@ -7,6 +7,7 @@ import { serviceVars } from 'helpers/vars';
 import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 import { updateBadge } from 'utils/badge';
 import { type ServiceNames } from 'services';
+import { getShowCountOnBadge } from 'utils/getShowCountOnBadge';
 
 export const OptionsWrapper: FC<{ service: Service }> = ({ service }) => {
   const Children = service.hasOAuth ? ConnectionStatus : service.Setup;
@@ -17,13 +18,11 @@ export const OptionsWrapper: FC<{ service: Service }> = ({ service }) => {
   const toggleShowCount = useCallback(() => {
     setShowCount((value) => {
       const newValue = !value;
-      getFromLocalStorage<Partial<Record<ServiceNames, boolean>>>(serviceVars.showCountOnBadge).then(
-        async (allValues = {}) => {
-          allValues[service.name] = newValue;
-          await setToLocalStorage(serviceVars.showCountOnBadge, allValues);
-          await updateBadge();
-        }
-      );
+      getShowCountOnBadge().then(async (allValues) => {
+        allValues[service.name] = newValue;
+        await setToLocalStorage(serviceVars.showCountOnBadge, allValues);
+        await updateBadge();
+      });
       return newValue;
     });
   }, [service.name]);
@@ -45,8 +44,8 @@ export const OptionsWrapper: FC<{ service: Service }> = ({ service }) => {
   }, [service.name, showCount, toggleShowCount]);
 
   useEffect(() => {
-    getFromLocalStorage<Partial<Record<ServiceNames, boolean>>>(serviceVars.showCountOnBadge)
-      .then((allValues = {}) => {
+    getShowCountOnBadge()
+      .then((allValues) => {
         const initialValue = allValues[service.name] ?? true;
         setShowCount(initialValue);
       })
