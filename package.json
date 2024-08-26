@@ -9,6 +9,7 @@
     "zip": "cd dist/webext-prod && bestzip ../../pile.zip *",
     "clean": "rimraf .parcel-cache dist pile.zip",
     "lint": "eslint --ext .ts,.tsx src",
+    "type-check": "tsc --noEmit",
     "setup-ci": "cp ./src/env.sample.json ./src/env.json"
   },
   "targets": {
