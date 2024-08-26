@@ -4,19 +4,19 @@
   "description": "pile",
   "version": "1.9.5",
   "icons": {
-    "16": "./content/icons/icon-16.png",
-    "48": "./content/icons/icon-48.png",
-    "128": "./content/icons/icon-96.png"
+    "16": "src/content/icons/icon-16.png",
+    "48": "src/content/icons/icon-48.png",
+    "128": "src/content/icons/icon-96.png"
   },
   "action": {
-    "default_icon": "./content/icons/icon-96.png",
+    "default_icon": "src/content/icons/icon-96.png",
     "default_title": "pile",
-    "default_popup": "./pages/popup.html"
+    "default_popup": "src/pages/popup.html"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["./pages/contentScript/index.tsx"]
+      "js": ["src/pages/contentScript/index.tsx"]
     }
   ],
   "permissions": ["alarms", "storage", "tabs", "contextMenus"],
@@ -27,20 +27,19 @@
     "https://img.readitlater.com/i/*"
   ],
   "background": {
-    "service_worker": "./pages/serviceWorker.ts",
+    "service_worker": "src/pages/serviceWorker.ts",
     "type": "module"
   },
   "options_ui": {
     "open_in_tab": false,
-    "page": "./pages/options.html"
+    "page": "src/pages/options.html"
   },
   "web_accessible_resources": [
     {
       "resources": [
-        "./pages/oauth/pocket.html",
-        "./content/icons/icon-96.png",
-        "./content/icons/icon-96-selected.png",
-        "./tailwind.css"
+        "src/pages/oauth/pocket.html",
+        "src/content/icons/icon-96.png",
+        "src/content/icons/icon-96-selected.png"
       ],
       "matches": ["<all_urls>"],
       "extension_ids": []
