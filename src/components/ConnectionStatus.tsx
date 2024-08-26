@@ -2,11 +2,12 @@ import { FC, useEffect, useState } from 'react';
 import { Power } from 'react-feather';
 
 import { setBadge } from 'utils/badge';
+import { useService } from 'hooks';
+import { deleteFromLocalStorage } from 'helpers/localstorage';
+
 import { LoaderButton } from './LoadingIcon';
 import { Connected } from './Connected';
 import { ConnectButton } from './ConnectButton';
-import { useService } from 'hooks';
-import { deleteFromLocalStorage } from 'helpers/localstorage';
 
 export const ConnectionStatus: FC = () => {
   const service = useService();

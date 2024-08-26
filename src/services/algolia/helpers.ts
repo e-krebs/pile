@@ -2,6 +2,7 @@ import { createFetchRequester } from '@algolia/requester-fetch';
 import algoliasearch, { type SearchIndex } from 'algoliasearch';
 
 import { getLocalStorageValue, deleteLocalStorageValue } from 'helpers/localstorage';
+
 import { type LocalStorageKeys, localStorageKeyCodes } from './const';
 
 let searchIndex: SearchIndex | undefined;

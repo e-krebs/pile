@@ -3,8 +3,9 @@ import { Loader, Image } from 'react-feather';
 
 import { getRgba } from 'utils/palette';
 import { useService } from 'hooks';
-import { useItemContext } from './ItemContext';
 import { type Message } from 'utils/messages';
+
+import { useItemContext } from './ItemContext';
 
 type IconState = 'loading' | 'icon' | 'default';
 

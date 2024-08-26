@@ -1,6 +1,7 @@
-import { getAlgoliaClient } from './helpers';
 import { ListItem } from 'utils/typings';
 import { GetParams } from 'utils/get';
+
+import { getAlgoliaClient } from './helpers';
 import { algoliaItemToListItem, AlgoliaItem } from './item';
 
 const hitsPerPage = 1000;

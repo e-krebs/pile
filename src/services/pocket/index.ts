@@ -1,4 +1,5 @@
 import type { Service, ServiceWithOAuth, UpdatableService } from 'utils/services';
+
 import { name, getQueryKey } from './const';
 import { get } from './get';
 import { add } from './add';

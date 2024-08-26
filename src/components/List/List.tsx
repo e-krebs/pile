@@ -8,17 +8,18 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { clearCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
 import { Icon } from 'components/Icon';
-import { Item } from './Item';
 import { setBadge } from 'utils/badge';
 import { useService } from 'hooks';
 import { filterTag, get, search } from 'utils/get';
-import { ListContext } from './ListContext';
-import { TagFilter } from './TagFilter';
-import { SearchFilter } from './SearchFilter';
 import { getAllTags } from 'utils/getAllTags';
 import { getLastTag, setLastTag } from 'utils/lastTag';
 import { getActiveTab } from 'utils/getActiveTab';
 import { urlsAreMatching } from 'utils/currentUrlIsMatching';
+
+import { SearchFilter } from './SearchFilter';
+import { TagFilter } from './TagFilter';
+import { ListContext } from './ListContext';
+import { Item } from './Item';
 
 export const List: FC = () => {
   const service = useService();

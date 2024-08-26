@@ -4,6 +4,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import { Icon } from 'components/Icon';
 import { SearchInput } from 'components/SearchInput';
+
 import { useListContext } from './ListContext';
 
 interface SearchFilterProps {

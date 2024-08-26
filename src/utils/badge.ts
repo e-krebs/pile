@@ -1,8 +1,9 @@
 import { color, colorSelected } from 'helpers/vars';
 import { ServiceNames } from 'services';
+import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
+
 import { currentUrlIsMatching } from './currentUrlIsMatching';
 import { getServices, Service } from './services';
-import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 import { getActiveTab } from './getActiveTab';
 import { getShowCountOnBadge } from './getShowCountOnBadge';
 

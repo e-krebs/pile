@@ -1,4 +1,5 @@
 import { post } from 'utils/post';
+
 import { headers } from './const';
 import { getPocketCode, getPocketKey, isConnected, setPocketToken, setPocketUsername } from './helpers';
 
