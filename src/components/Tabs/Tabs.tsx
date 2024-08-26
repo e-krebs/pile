@@ -5,7 +5,9 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { ServiceContext } from 'hooks';
 import { type ServiceNames } from 'services';
 
-import { isService, SharedTabProps, Tab } from './Tab';
+import { Tab } from './Tab';
+import { isService } from './isService';
+import { type SharedTabProps } from './types';
 
 export type TabProps = SharedTabProps & { content: FC };
 
