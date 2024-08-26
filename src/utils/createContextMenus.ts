@@ -1,4 +1,4 @@
-import { getServices } from './services';
+import { getServices } from './getService';
 
 export const createContextMenus = async () => {
   await new Promise((resolve) => {

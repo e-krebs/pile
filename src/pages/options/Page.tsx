@@ -2,14 +2,15 @@ import type { FC } from 'react';
 
 import { Tabs, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
-import { getServices, Service } from 'utils/services';
+import { FullService } from 'utils/services';
+import { getFullServices } from 'utils/getFullService';
 
 import { SharedSettings } from './SharedSettings';
 import { OptionsWrapper } from './OptionsWrapper';
 
-const services = getServices();
+const services = getFullServices();
 
-const serviceToTab = (service: Service): TabProps => ({
+const serviceToTab = (service: FullService): TabProps => ({
   content: () => <OptionsWrapper service={service} />,
   service,
 });

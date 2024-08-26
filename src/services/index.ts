@@ -1,9 +1,10 @@
-import { Service } from 'utils/services';
+import { type Service } from 'utils/services';
 
-import { pocket, PocketServiceName } from './pocket';
-import { algolia, AlgoliaServiceName } from './algolia';
+import { pocket } from './pocket';
+import { algolia } from './algolia';
+import { type ServiceNames } from './types';
 
-export type ServiceNames = PocketServiceName | AlgoliaServiceName;
+export { ServiceNames };
 
 export const services: Record<ServiceNames, Service> = {
   pocket,

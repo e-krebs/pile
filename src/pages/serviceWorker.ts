@@ -1,5 +1,5 @@
 import { vars, defaultVars } from 'helpers/vars';
-import { getService, getServices } from 'utils/services';
+import { getService, getServices } from 'utils/getService';
 import { setBadge, setBadgeColor } from 'utils/badge';
 import { forceGet, get } from 'utils/get';
 import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';

@@ -3,9 +3,10 @@ import { ServiceNames } from 'services';
 import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 
 import { currentUrlIsMatching } from './currentUrlIsMatching';
-import { getServices, Service } from './services';
+import { Service } from './services';
 import { getActiveTab } from './getActiveTab';
 import { getShowCountOnBadge } from './getShowCountOnBadge';
+import { getServices } from './getService';
 
 const badgePath = 'badge';
 type BadgeValues = Record<ServiceNames, number>;
@@ -63,7 +64,9 @@ export const updateBadge = async () => {
 
 export const setBadgeColor = (currentUrlIsMatching: boolean) => {
   chrome.action.setIcon({
-    path: `/content/icons/icon-96${currentUrlIsMatching ? '-selected' : ''}.png`,
+    path: chrome.runtime.getURL(
+      `src/content/icons/icon-96${currentUrlIsMatching ? '-selected' : ''}.png`
+    ),
   });
   chrome.action.setBadgeBackgroundColor({ color: currentUrlIsMatching ? colorSelected : color });
 };

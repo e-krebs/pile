@@ -1,13 +1,14 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 
 import { Footer } from 'components/Footer';
-import { services, ServiceNames } from 'services';
-import type { Service } from 'utils/services';
+import { type ServiceNames } from 'services';
+import type { FullService } from 'utils/services';
 import { Connected } from 'components/Connected';
 import { setBadge } from 'utils/badge';
 import { get } from 'utils/get';
 import { ServiceContext } from 'hooks';
 import { createContextMenus } from 'utils/createContextMenus';
+import { fullServices } from 'services/full';
 
 type OAuthState = 'inprogress' | 'failed' | 'success';
 
@@ -16,9 +17,9 @@ interface PageProps {
 }
 
 export const Page: FC<PageProps> = ({ serviceName }) => {
-  const service: Service | null = useMemo(() => {
-    if (!serviceName || !services.hasOwnProperty(serviceName)) return null;
-    return services[serviceName as ServiceNames];
+  const service: FullService | null = useMemo(() => {
+    if (!serviceName || !fullServices.hasOwnProperty(serviceName)) return null;
+    return fullServices[serviceName as ServiceNames];
   }, [serviceName]);
 
   const [state, setState] = useState<OAuthState>('inprogress');

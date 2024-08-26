@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import { FC } from 'react';
 
-import { Service } from 'utils/services';
+import { FullService } from 'utils/services';
 
 type ServiceTabProps = {
-  service: Service;
+  service: FullService;
   rounded?: 'full' | 't-md';
 };
 
