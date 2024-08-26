@@ -6,9 +6,10 @@ import { useQueryClient } from 'react-query';
 import { useService } from 'hooks';
 import { getRgba } from 'utils/palette';
 import { clearCache } from 'utils/dataCache';
+import { TagsContext } from 'hooks/TagsContext';
+
 import { useItemContext } from './ItemContext';
 import { TagAutocomplete } from './TagAutocomplete';
-import { TagsContext } from 'hooks/TagsContext';
 
 export const Tags: FC = () => {
   const { getQueryKey, ...service } = useService();

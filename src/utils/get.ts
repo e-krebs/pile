@@ -1,4 +1,5 @@
 import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
+
 import { getTimestamp, isCacheExpired, JsonArrayCache } from './dataCache';
 import { Service } from './services';
 import { ListItem } from './typings';

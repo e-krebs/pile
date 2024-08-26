@@ -1,4 +1,5 @@
 import type { Service } from 'utils/services';
+
 import { getQueryKey, name } from './const';
 import { deleteAllKeys, isConnected } from './helpers';
 import { get } from './get';

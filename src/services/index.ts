@@ -1,4 +1,5 @@
 import { Service } from 'utils/services';
+
 import { pocket, PocketServiceName } from './pocket';
 import { algolia, AlgoliaServiceName } from './algolia';
 

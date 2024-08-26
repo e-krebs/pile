@@ -1,5 +1,6 @@
 import { logAndReject } from 'utils/logAndReject';
 import type { BlobInfo, Path } from 'utils/typings';
+
 import { getFileFromPath, getFileUrl } from './helpers';
 
 // @ts-expect-error webkit specific variant

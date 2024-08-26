@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import { getIcon, IconAndPalette } from 'utils/icon';
 import { ListItem } from 'utils/typings';
+
 import { ItemContext } from './ItemContext';
 import { ItemComponent } from './ItemComponent';
 import { useListContext } from '../ListContext';

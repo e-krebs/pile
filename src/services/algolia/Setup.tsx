@@ -10,6 +10,7 @@ import {
   deleteLocalStorageValue,
 } from 'helpers/localstorage';
 import { type ComponentContext } from 'utils/services';
+
 import { LocalStorageKeys, localStorageKeyCodes } from './const';
 
 const algoliaSearchOptions = { requester: createFetchRequester() };

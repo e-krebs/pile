@@ -4,13 +4,14 @@ import { RefAttributes, forwardRef, type FC } from 'react';
 import { getRgba } from 'utils/palette';
 import { beautifyUrl } from 'utils/url';
 import { Link } from 'components/Link';
+import { useService } from 'hooks';
+
 import { MainIcon } from './MainIcon';
 import { Chevron } from './Chevron';
 import { useItemContext } from './ItemContext';
 import { DeleteAction } from './DeleteAction';
 import { ArchiveAction } from './ArchiveAction';
 import { Tags } from './Tags';
-import { useService } from 'hooks';
 
 export const ItemComponent: FC<RefAttributes<HTMLDivElement>> = forwardRef<HTMLDivElement>(
   function ItemComponent(_, ref) {

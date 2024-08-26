@@ -3,6 +3,7 @@ import { extractColors } from 'extract-colors';
 import { readFile, readJson, writeBlob, writeJson, deleteFolder, deleteFile } from 'utils/files';
 import { getBlob } from 'utils/getBlob';
 import type { BlobInfo, Path, Response } from 'utils/typings';
+
 import { getTimestamp, isCacheExpired, JsonCache } from './dataCache';
 import { RGB, getRgb } from './palette';
 import { getFirstBy } from './getFirstBy';

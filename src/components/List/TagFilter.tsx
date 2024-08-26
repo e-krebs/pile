@@ -5,6 +5,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import { Icon } from 'components/Icon';
 import { Autocomplete } from 'components/Autocomplete';
+
 import { useListContext } from './ListContext';
 
 interface TagFilterProps {
