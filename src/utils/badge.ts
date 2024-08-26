@@ -3,9 +3,10 @@ import { ServiceNames } from 'services';
 import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 
 import { currentUrlIsMatching } from './currentUrlIsMatching';
-import { getServices, Service } from './services';
+import { Service } from './services';
 import { getActiveTab } from './getActiveTab';
 import { getShowCountOnBadge } from './getShowCountOnBadge';
+import { getServices } from './getService';
 
 const badgePath = 'badge';
 type BadgeValues = Record<ServiceNames, number>;

@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 
-import { ServiceNames, services } from 'services';
+import { type ServiceNames } from 'services';
 
-import { GetParams } from './get';
-import { ListItem } from './typings';
+import { type GetParams } from './get';
+import { type ListItem } from './typings';
 
 interface BaseService {
   name: ServiceNames;
@@ -11,7 +11,6 @@ interface BaseService {
   get: (param: GetParams) => Promise<ListItem[]>;
   disconnect: () => Promise<void | void[]>;
   isConnected: () => Promise<boolean>;
-  Icon: FC<{ className?: string }>;
   borderClassName: string;
   isTogglable: boolean;
 }
@@ -35,13 +34,11 @@ export interface ServiceWithoutOAuth {
 }
 
 export type Service = BaseService &
-  (({ hasOAuth: true } & ServiceWithOAuth) | ({ hasOAuth: false } & ServiceWithoutOAuth)) &
+  (({ hasOAuth: true } & ServiceWithOAuth) | { hasOAuth: false }) &
   (({ isUpdatable: true } & UpdatableService) | { isUpdatable: false });
 
-export const getServices = () => {
-  return Object.values(services) as Service[];
-};
+type ExtendedService = {
+  Icon: FC<{ className?: string }>;
+} & ({ hasOAuth: true } | ({ hasOAuth: false } & ServiceWithoutOAuth));
 
-export const getService = (name: string): Service | undefined => services[name as ServiceNames];
-
-export const getServiceOauthUrl = (name: string) => chrome.runtime.getURL(`pages/oauth/${name}.html`);
+export type FullService = Service & ExtendedService;
