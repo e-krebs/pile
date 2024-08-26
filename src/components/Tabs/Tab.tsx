@@ -1,28 +1,13 @@
 import cx from 'classnames';
 import { FC } from 'react';
 
-import { FullService } from 'utils/services';
-
-type ServiceTabProps = {
-  service: FullService;
-  rounded?: 'full' | 't-md';
-};
-
-type NoServiceTabProps = {
-  borderClassName?: string;
-  Icon: FC;
-  rounded?: 'full' | 't-md';
-};
-
-export type SharedTabProps = ServiceTabProps | NoServiceTabProps;
+import { isService } from './isService';
+import type { NoServiceTabProps, SharedTabProps } from './types';
 
 type IProps = SharedTabProps & {
   active?: boolean;
   onClick: () => void;
 };
-
-export const isService = (props: SharedTabProps): props is ServiceTabProps =>
-  (props as ServiceTabProps).service !== undefined;
 
 export const Tab: FC<IProps> = ({ active = false, onClick, rounded = 't-md', ...props }) => {
   const color = isService(props)
