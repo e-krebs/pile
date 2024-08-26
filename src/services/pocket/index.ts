@@ -7,7 +7,6 @@ import { authorize } from './authorize';
 import { connect } from './connect';
 import { deleteAllKeys, isConnected } from './helpers';
 import { archiveItem, deleteItem, addTag, removeTag } from './actions';
-import { Icon } from './Icon';
 
 export type PocketServiceName = 'pocket';
 
@@ -24,7 +23,6 @@ export const pocket: Service & UpdatableService & ServiceWithOAuth = {
   deleteItem,
   addTag,
   removeTag,
-  Icon,
   borderClassName: 'border-pocket',
   hasOAuth: true,
   isUpdatable: true,
