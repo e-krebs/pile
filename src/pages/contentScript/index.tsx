@@ -1,5 +1,7 @@
 import { createRoot } from 'react-dom/client';
 
+import inline from 'tailwind.css?inline';
+
 import { Page } from './Page';
 
 const shadow = document.createElement('div');
@@ -7,10 +9,8 @@ shadow.attachShadow({ mode: 'open' });
 document.body.appendChild(shadow);
 
 if (shadow.shadowRoot) {
-  const link = document.createElement('link');
-  link.href = chrome.runtime.getURL('tailwind.css');
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
+  const link = document.createElement('style');
+  link.textContent = inline;
   shadow.shadowRoot.appendChild(link);
 
   const container = document.createElement('div');
