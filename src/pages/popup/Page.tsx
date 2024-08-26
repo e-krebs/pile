@@ -8,16 +8,17 @@ import { ConnectionStatus } from 'components/ConnectionStatus';
 import { Footer } from 'components/Footer';
 import { Tabs, Tab, TabProps } from 'components/Tabs';
 import { OptionsIcon } from 'components/OptionsIcon';
-import { getServices, Service } from 'utils/services';
+import { FullService } from 'utils/services';
 import { cacheDurationMs } from 'utils/dataCache';
 import { getLastTab, setLastTab } from 'utils/lastTab';
 import { getFromLocalStorage } from 'helpers/localstorage';
 import { ServiceNames } from 'services';
 import { serviceVars } from 'helpers/vars';
+import { getFullServices } from 'utils/getFullService';
 
-const services = getServices();
+const services = getFullServices();
 
-const serviceToTab = async (service: Service): Promise<TabProps> => {
+const serviceToTab = async (service: FullService): Promise<TabProps> => {
   const connected = await service.isConnected();
   return {
     content: connected

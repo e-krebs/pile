@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
 
-import { Service } from 'utils/services';
+import { FullService } from 'utils/services';
 
-export const ServiceContext = createContext<Service | null>(null);
+export const ServiceContext = createContext<FullService | null>(null);
 
 export const useService = () => {
   const context = useContext(ServiceContext);

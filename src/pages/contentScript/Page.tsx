@@ -3,11 +3,12 @@ import cx from 'classnames';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Archive, Plus, Trash2 } from 'react-feather';
 
-import { getService, type Service } from 'utils/services';
+import { type Service } from 'utils/services';
 import { type Message } from 'utils/messages';
 import { getMatchingListItem } from 'utils/currentUrlIsMatching';
 import { LoaderButton } from 'components/LoadingIcon';
 import { ListItem } from 'utils/typings';
+import { getService } from 'utils/getService';
 
 import { Tags } from './Tags';
 

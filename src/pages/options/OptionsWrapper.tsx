@@ -2,14 +2,14 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { Checkbox } from '@e-krebs/react-library';
 
 import { ConnectionStatus } from 'components/ConnectionStatus';
-import { type Service } from 'utils/services';
+import { type FullService } from 'utils/services';
 import { serviceVars } from 'helpers/vars';
 import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 import { updateBadge } from 'utils/badge';
 import { type ServiceNames } from 'services';
 import { getShowCountOnBadge } from 'utils/getShowCountOnBadge';
 
-export const OptionsWrapper: FC<{ service: Service }> = ({ service }) => {
+export const OptionsWrapper: FC<{ service: FullService }> = ({ service }) => {
   const Children = service.hasOAuth ? ConnectionStatus : service.Setup;
   const [isActive, setIsActive] = useState(true);
   const [showCount, setShowCount] = useState(true);
