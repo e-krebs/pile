@@ -4,7 +4,6 @@ import {
   setLocalStorageValue as set,
   deleteLocalStorageValue as del,
 } from 'helpers/localstorage';
-import { getServiceOauthUrl } from 'utils/services';
 
 import { name, LocalStorageKeys, localStorageKeyCodes } from './const';
 
@@ -24,7 +23,7 @@ export const deleteAllKeys = async () =>
   await Promise.all(getKeys().map(async (key) => await del(localStorageKeyCodes, key)));
 
 export const getPocketKey = (): string | undefined => getEnvVar('pocketKey');
-export const getPocketRedirectUri = (): string => getServiceOauthUrl(name);
+export const getPocketRedirectUri = (): string => chrome.runtime.getURL(`src/pages/oauth/${name}.html`);
 
 export const getPocketCode = async () => await get(localStorageKeyCodes, 'code');
 export const setPocketCode = async (code: string) => await set(localStorageKeyCodes, 'code', code);
