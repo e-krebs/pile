@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "resolveJsonModule": true,
-    "types": ["chrome", "node"],
+    "types": ["chrome", "bun"],
     "baseUrl": "src",
   }
 }
