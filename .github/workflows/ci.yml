@@ -19,5 +19,6 @@ jobs:
       - run: bun run setup-ci
       - run: bun run type-check
       - run: bun run lint
+      - run: bun test
       - run: bun run build
       - run: bun run zip

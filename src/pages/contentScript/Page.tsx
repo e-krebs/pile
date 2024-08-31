@@ -69,7 +69,7 @@ export const Page = () => {
             setUrl(message.url);
             setAllTags(message.tags ?? []);
             setTags([]);
-            const listItem = await getMatchingListItem(new URL(message.url), [msgService]);
+            const listItem = await getMatchingListItem(message.url, [msgService]);
             setMatching(listItem ? { service: msgService, listItem } : undefined);
             setIsLoading(false);
             modalRef.current?.openModal();

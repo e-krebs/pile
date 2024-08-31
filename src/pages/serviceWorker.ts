@@ -24,7 +24,7 @@ const refreshBadge = async () => {
   );
 };
 
-const refreshBadgeIfMatching = async (currentUrl: URL) => {
+const refreshBadgeIfMatching = async (currentUrl: string) => {
   const services = getServices();
   const isMatching = await currentUrlIsMatching(currentUrl, services);
   setBadgeColor(isMatching);
@@ -47,14 +47,14 @@ const tabsUpdatedListener = async (
   { active, url }: chrome.tabs.Tab
 ) => {
   if (active && url) {
-    await refreshBadgeIfMatching(new URL(url));
+    await refreshBadgeIfMatching(url);
   }
 };
 
 const tabsActivatedListener = async ({ tabId }: chrome.tabs.TabActiveInfo) => {
   const { url } = await chrome.tabs.get(tabId);
   if (url) {
-    await refreshBadgeIfMatching(new URL(url));
+    await refreshBadgeIfMatching(url);
   }
 };
 

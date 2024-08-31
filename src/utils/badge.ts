@@ -39,7 +39,7 @@ const updateBadgeInner = async (services: Service[], badgeValues: BadgeValues) =
     .reduce((a, b) => a + b);
 
   const url = await getActiveTab();
-  const isMatching = url ? await currentUrlIsMatching(new URL(url), services) : false;
+  const isMatching = url ? await currentUrlIsMatching(url, services) : false;
 
   if (total > 0) {
     setBadgeColor(isMatching);
