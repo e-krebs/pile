@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
+import { getUrl } from 'utils/getURL';
 import { getIcon, IconAndPalette } from 'utils/icon';
 import { ListItem } from 'utils/typings';
 
@@ -27,7 +28,7 @@ export const Item: FC<ItemProps> = ({
 
   useEffect(() => {
     const effect = async () => {
-      const iconAndPalette = await getIcon(new URL(url).hostname, logo);
+      const iconAndPalette = await getIcon(getUrl(url).hostname, logo);
       setIcon(iconAndPalette);
     };
     effect();

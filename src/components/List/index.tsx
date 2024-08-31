@@ -14,6 +14,7 @@ import { filterTag, get, search } from 'utils/get';
 import { getAllTags } from 'utils/getAllTags';
 import { getLastTag, setLastTag } from 'utils/lastTag';
 import { getActiveTab } from 'utils/getActiveTab';
+import { getUrl } from 'utils/getURL';
 import { urlsAreMatching } from 'utils/currentUrlIsMatching';
 
 import { SearchFilter } from './SearchFilter';
@@ -43,13 +44,13 @@ export const List: FC = () => {
   useEffect(() => {
     const initActiveTab = async () => {
       const url = await getActiveTab();
-      setActiveTab(url ? new URL(url) : undefined);
+      setActiveTab(url ? getUrl(url) : undefined);
     };
     initActiveTab();
   }, []);
 
   const isMatching = useCallback(
-    (url: string) => activeTab !== undefined && urlsAreMatching(new URL(url), activeTab),
+    (url: string) => activeTab !== undefined && urlsAreMatching(url, activeTab),
     [activeTab]
   );
 
