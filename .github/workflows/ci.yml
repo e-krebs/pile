@@ -12,16 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20'
-      - uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: yarn-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn --frozen-lockfile
-      - run: yarn setup-ci
-      - run: yarn type-check
-      - run: yarn lint
-      - run: yarn build
-      - run: yarn zip
+          bun-version: 'latest'
+      - run: bun install --no-save
+      - run: bun run setup-ci
+      - run: bun run type-check
+      - run: bun run lint
+      - run: bun run build
+      - run: bun run zip
