@@ -19,7 +19,7 @@ jobs:
         id: manifest
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: 'src/manifest.json'
+          path: 'manifest.json'
           prop_path: 'version'
       - name: check manifest version
         if: ${{ steps.manifest.outputs.prop != env.new_release_version }}
