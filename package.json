@@ -8,7 +8,7 @@
     "dev": "bunx --bun vite",
     "build": "bun run clean && bunx --bun vite build",
     "zip": "cd dist && bestzip ../pile.zip *",
-    "clean": "bun clean.sh",
+    "clean": "bun run clean.ts",
     "lint": "eslint --ext .ts,.tsx src",
     "type-check": "tsc --noEmit",
     "setup-ci": "cp ./src/env.sample.json ./src/env.json"
