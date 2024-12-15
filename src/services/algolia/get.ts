@@ -17,7 +17,7 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
     param.type === 'search' ? param.search : '',
     param.type === 'tag'
       ? { filters: param.tag ? `tags:${param.tag}` : 'NOT tags', hitsPerPage }
-      : { hitsPerPage }
+      : { hitsPerPage },
   );
 
   return searchResponse.hits.map(algoliaItemToListItem);

@@ -22,14 +22,14 @@ const getFilesystem = async (): Promise<FileSystemDirectoryEntry> => {
       },
       (error) => {
         logAndReject(error, 'getFilesystem', reject);
-      }
+      },
     );
   });
 };
 
 const getFolder = async (
   parentDir: FileSystemDirectoryEntry,
-  path: string
+  path: string,
 ): Promise<FileSystemDirectoryEntry> => {
   return await new Promise((resolve, reject) => {
     parentDir.getDirectory(
@@ -38,7 +38,7 @@ const getFolder = async (
       (directory) => resolve(directory),
       (error) => {
         logAndReject(error, `getFolder ${path}`, reject);
-      }
+      },
     );
   });
 };

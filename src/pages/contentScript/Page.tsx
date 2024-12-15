@@ -102,7 +102,7 @@ export const Page = () => {
       };
       chrome.runtime.sendMessage(message, done);
     },
-    [done, tags]
+    [done, tags],
   );
 
   const archiveItem = useCallback(
@@ -114,7 +114,7 @@ export const Page = () => {
       };
       chrome.runtime.sendMessage(message, done);
     },
-    [done]
+    [done],
   );
 
   const deleteItem = useCallback(
@@ -126,12 +126,12 @@ export const Page = () => {
       };
       chrome.runtime.sendMessage(message, done);
     },
-    [done]
+    [done],
   );
 
   const pageSize: number = useMemo(() => {
     const fontSize = window
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       .getComputedStyle(document.querySelector('html')!)
       .getPropertyValue('font-size');
     return parseFloat(fontSize) ?? 16;
@@ -148,7 +148,7 @@ export const Page = () => {
       <div
         className={cx(
           'absolute -top-px left-0 !my-6 flex h-[calc(100%-3rem+2px)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
-          doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
+          doneVisible ? 'opacity-1 visible' : 'invisible opacity-0',
         )}
       >
         ✓

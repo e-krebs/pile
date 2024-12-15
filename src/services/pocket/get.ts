@@ -28,7 +28,7 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
         access_token: await getPocketToken(),
         sort: 'newest',
         search: param.type === 'search' ? param.search : undefined,
-        tag: param.type === 'tag' ? param.tag ?? '_untagged_' : undefined,
+        tag: param.type === 'tag' ? (param.tag ?? '_untagged_') : undefined,
         detailType: 'complete',
         state: 'unread',
         count,
@@ -42,7 +42,7 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
     listItems.push(
       ...Object.values(response.result.list)
         .sort((a, b) => (a.time_added < b.time_added ? 1 : -1))
-        .map(itemToListItem)
+        .map(itemToListItem),
     );
 
     total = parseInt(response.result.total);

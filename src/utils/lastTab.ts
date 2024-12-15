@@ -7,7 +7,7 @@ export const getLastTab = async (): Promise<ServiceNames | undefined> =>
   await getFromLocalStorage<ServiceNames>(lastTabKey);
 
 export const setLastTab = async (serviceName?: string): Promise<void> => {
-  serviceName === undefined
+  return serviceName === undefined
     ? await deleteFromLocalStorage(lastTabKey)
     : await setToLocalStorage(lastTabKey, serviceName);
 };

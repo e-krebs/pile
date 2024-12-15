@@ -6,7 +6,7 @@ import { beautifyUrl } from './url';
 
 export const getMatchingListItem = async (
   currentUrl: URL | string,
-  services: Service[]
+  services: Service[],
 ): Promise<ListItem | undefined> => {
   const currentURL = typeof currentUrl === 'string' ? getUrl(currentUrl) : currentUrl;
   const matching = await Promise.all(
@@ -17,14 +17,14 @@ export const getMatchingListItem = async (
         const { data } = await get(service);
         return data.find((item) => urlsAreMatching(item.url, currentURL));
       })
-      .flat()
+      .flat(),
   );
   return matching.find((item) => item !== undefined);
 };
 
 export const currentUrlIsMatching = async (
   currentUrl: URL | string,
-  services: Service[]
+  services: Service[],
 ): Promise<boolean> => {
   const currentURL = typeof currentUrl === 'string' ? getUrl(currentUrl) : currentUrl;
   const matches = await Promise.all(
@@ -34,7 +34,7 @@ export const currentUrlIsMatching = async (
       const { data } = await get(service);
       const matchingUrls = data.filter(({ url }) => urlsAreMatching(url, currentURL));
       return matchingUrls.length > 0;
-    })
+    }),
   );
   const isMatching = matches.reduce((a, b) => a || b);
   return isMatching;

@@ -65,7 +65,7 @@ export const updateBadge = async () => {
 export const setBadgeColor = (currentUrlIsMatching: boolean) => {
   chrome.action.setIcon({
     path: chrome.runtime.getURL(
-      `src/content/icons/icon-96${currentUrlIsMatching ? '-selected' : ''}.png`
+      `src/content/icons/icon-96${currentUrlIsMatching ? '-selected' : ''}.png`,
     ),
   });
   chrome.action.setBadgeBackgroundColor({ color: currentUrlIsMatching ? colorSelected : color });

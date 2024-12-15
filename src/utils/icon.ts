@@ -69,7 +69,7 @@ const isExcludedIcon = async (hostname: string): Promise<boolean> => {
 
 export const getIcon = async (
   hostname: string,
-  fallback: string | null = null
+  fallback: string | null = null,
 ): Promise<IconAndPalette | undefined> => {
   const imageName: Path = [iconFolder, `${hostname}.png`];
   const paletteName: Path = [iconFolder, `${hostname}_palette_02.json`];

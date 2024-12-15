@@ -22,7 +22,7 @@ export const Tab: FC<IProps> = ({ active = false, onClick, rounded = 't-md', ...
         color,
         rounded === 't-md' && 'rounded-t-md',
         rounded === 'full' && 'rounded-full',
-        active && 'border-b-2'
+        active && 'border-b-2',
       )}
       onClick={onClick}
     >

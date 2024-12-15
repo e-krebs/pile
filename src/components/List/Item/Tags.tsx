@@ -40,14 +40,14 @@ export const Tags: FC = () => {
           isAddTagsOpen ? 'max-w-[calc(50%+1rem)]' : 'max-w-[25%]',
           'transition-max-width hover:max-w-[calc(50%+1rem)]',
           !color && 'text-gray-900 dark:text-gray-100',
-          !borderColor && 'border-gray-900 dark:border-gray-100'
+          !borderColor && 'border-gray-900 dark:border-gray-100',
         )}
         style={{ color, borderColor }}
       >
         <div
           className={cx(
             'flex items-center rounded-lg border bg-gray-100 px-2 py-1 hover:border-inherit hover:text-inherit dark:bg-gray-800',
-            isOpen ? 'border-inherit text-inherit' : 'border-gray-400 text-gray-500 dark:text-gray-400'
+            isOpen ? 'border-inherit text-inherit' : 'border-gray-400 text-gray-500 dark:text-gray-400',
           )}
         >
           <TagIcon className={cx('mb-[2px] mt-[3px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
@@ -61,7 +61,7 @@ export const Tags: FC = () => {
                     'group ml-1 flex items-center pl-px',
                     'border-b border-transparent',
                     !isLoading && 'border-dashed hover:border-inherit',
-                    !isLoading && service.isUpdatable && 'cursor-pointer '
+                    !isLoading && service.isUpdatable && 'cursor-pointer',
                   )}
                   title={service.isUpdatable ? `remove tag [${tag}]` : tag}
                   onClick={() => (isLoading || !service.isUpdatable ? {} : remove(tag))}
@@ -71,7 +71,7 @@ export const Tags: FC = () => {
                     className={cx(
                       'mb-[-3px] h-3',
                       service.isUpdatable && 'transition-width group-hover:w-3',
-                      isAddTagsOpen ? 'w-3' : 'w-0'
+                      isAddTagsOpen ? 'w-3' : 'w-0',
                     )}
                   />
                 </div>
@@ -88,7 +88,7 @@ export const Tags: FC = () => {
               <Add
                 className={cx(
                   isAddTagsOpen ? 'w-3' : 'w-0',
-                  'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3'
+                  'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3',
                 )}
               />
             </div>

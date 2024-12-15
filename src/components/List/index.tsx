@@ -51,7 +51,7 @@ export const List: FC = () => {
 
   const isMatching = useCallback(
     (url: string) => activeTab !== undefined && urlsAreMatching(url, activeTab),
-    [activeTab]
+    [activeTab],
   );
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export const List: FC = () => {
   const formattedTimestamp: string | null = useMemo(
     () =>
       data?.timestamp === undefined ? null : formatDistanceToNow(data.timestamp, { addSuffix: true }),
-    [data]
+    [data],
   );
 
   const refresh = useCallback(async () => {
@@ -163,7 +163,7 @@ export const List: FC = () => {
             className={cx(
               'mx-2 h-4 w-4',
               isRefreshing && 'animate-spin',
-              searchOpen ? 'cursor-not-allowed' : 'cursor-pointer'
+              searchOpen ? 'cursor-not-allowed' : 'cursor-pointer',
             )}
             onClick={searchOpen ? () => {} : refresh}
           />

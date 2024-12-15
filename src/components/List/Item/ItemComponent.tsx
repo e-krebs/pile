@@ -27,7 +27,7 @@ export const ItemComponent: FC<RefAttributes<HTMLDivElement>> = forwardRef<HTMLD
         <div
           className={cx(
             'rounded-md py-2 hover:bg-inherit',
-            isOpen ? 'bg-inherit' : 'bg-white dark:bg-gray-900'
+            isOpen ? 'bg-inherit' : 'bg-white dark:bg-gray-900',
           )}
         >
           <div className="flex items-start space-x-4 pl-2">
@@ -57,5 +57,5 @@ export const ItemComponent: FC<RefAttributes<HTMLDivElement>> = forwardRef<HTMLD
         </div>
       </div>
     );
-  }
+  },
 );

@@ -24,11 +24,11 @@ const serviceToTab = async (service: FullService): Promise<TabProps> => {
     content: connected
       ? List
       : service.hasOAuth
-      ? ConnectionStatus
-      : () => {
-          const Setup = service.Setup;
-          return <Setup context="popup" />;
-        },
+        ? ConnectionStatus
+        : () => {
+            const Setup = service.Setup;
+            return <Setup context="popup" />;
+          },
     service,
   };
 };
@@ -47,7 +47,7 @@ export const Page: FC = () => {
       const activeService =
         (await getFromLocalStorage<Partial<Record<ServiceNames, boolean>>>(serviceVars.active)) ?? {};
       const currentServices = services.filter(
-        (service) => !service.isTogglable || activeService[service.name] !== false
+        (service) => !service.isTogglable || activeService[service.name] !== false,
       );
 
       const tabs = await Promise.all(currentServices.map(await serviceToTab));

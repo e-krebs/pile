@@ -20,7 +20,7 @@ const refreshBadge = async () => {
       if (showCountOnBadge[service.name] === false) return;
       const { data } = await forceGet(service);
       setBadge(service.name, data.length);
-    })
+    }),
   );
 };
 
@@ -44,7 +44,7 @@ const alarmListener = async (alarm: chrome.alarms.Alarm) => {
 const tabsUpdatedListener = async (
   _: number,
   __: chrome.tabs.TabChangeInfo,
-  { active, url }: chrome.tabs.Tab
+  { active, url }: chrome.tabs.Tab,
 ) => {
   if (active && url) {
     await refreshBadgeIfMatching(url);
@@ -63,7 +63,7 @@ const onInstalledListener = async () => await createContextMenus();
 const onMessageListener = async (
   message: Message,
   sender: chrome.runtime.MessageSender,
-  sendMessage: () => void
+  sendMessage: () => void,
 ) => {
   switch (message.action) {
     case 'addToService': {
@@ -158,7 +158,7 @@ const onMessageListener = async (
 
 const onContextMenuClickedListener = async (
   info: chrome.contextMenus.OnClickData,
-  tab?: chrome.tabs.Tab
+  tab?: chrome.tabs.Tab,
 ) => {
   if (!tab?.url) {
     throw Error('no tab.url on contextMenu clicked');

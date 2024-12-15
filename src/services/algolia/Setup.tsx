@@ -38,6 +38,7 @@ export const Setup: FC<{ context: ComponentContext }> = ({ context }) => {
               await searchClient.initIndex(values.IndexName).search('');
               setIsValid({ apiKey: true, indexName: true });
               return;
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (e) {
               /* empty */
             }
@@ -45,6 +46,7 @@ export const Setup: FC<{ context: ComponentContext }> = ({ context }) => {
           setIsValid({ apiKey: true, indexName: false });
           return;
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         /* empty */
       }

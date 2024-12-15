@@ -37,7 +37,7 @@ export const OptionsWrapper: FC<{ service: FullService }> = ({ service }) => {
           if (showCount) {
             toggleShowCount();
           }
-        }
+        },
       );
       return newValue;
     });

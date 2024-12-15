@@ -25,6 +25,7 @@ export const getAlgoliaClient = async (): Promise<SearchIndex | undefined> => {
     searchIndex = searchClient.initIndex(IndexName);
     await searchIndex.search('');
     return searchIndex;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     return undefined;
   }
@@ -43,6 +44,6 @@ export const isConnected = async (): Promise<boolean> => {
 export const deleteAllKeys = async () =>
   await Promise.all(
     (Object.keys(localStorageKeyCodes) as LocalStorageKeys[]).map(
-      async (key) => await deleteLocalStorageValue(localStorageKeyCodes, key)
-    )
+      async (key) => await deleteLocalStorageValue(localStorageKeyCodes, key),
+    ),
   );

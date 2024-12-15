@@ -19,6 +19,6 @@ export const createContextMenus = async () => {
         type: 'normal',
         contexts: ['page'],
       });
-    })
+    }),
   );
 };

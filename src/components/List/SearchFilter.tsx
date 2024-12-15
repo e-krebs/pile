@@ -37,7 +37,7 @@ export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({
       openSearch(false);
       onSearch();
     },
-    { enableOnFormTags: ['INPUT'] }
+    { enableOnFormTags: ['INPUT'] },
   );
 
   return (

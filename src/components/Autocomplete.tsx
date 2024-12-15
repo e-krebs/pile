@@ -47,15 +47,15 @@ export const Autocomplete: FC<AutocompleteProps> = ({
       allOptions
         .filter((option) => !inputOption || option.value.includes(inputOption))
         .sort(
-          (option1, option2) => option1.value.indexOf(inputOption) - option2.value.indexOf(inputOption)
+          (option1, option2) => option1.value.indexOf(inputOption) - option2.value.indexOf(inputOption),
         )
         .slice(0, 4),
-    [allOptions, inputOption]
+    [allOptions, inputOption],
   );
 
   const newOption: Option = useMemo(
     () => (optionIndex === null ? { value: inputOption } : options[optionIndex]),
-    [options, inputOption, optionIndex]
+    [options, inputOption, optionIndex],
   );
 
   const add = async (option?: string) => {
@@ -104,7 +104,7 @@ export const Autocomplete: FC<AutocompleteProps> = ({
     <ul
       className={cx(
         className,
-        'grid min-w-[25%] items-center gap-y-px rounded-lg border bg-gray-100 p-1 dark:bg-gray-800'
+        'grid min-w-[25%] items-center gap-y-px rounded-lg border bg-gray-100 p-1 dark:bg-gray-800',
       )}
     >
       <TextInput
@@ -122,8 +122,8 @@ export const Autocomplete: FC<AutocompleteProps> = ({
           key={option.value}
           className={cx(
             'cursor-pointer truncate rounded-sm px-1 leading-5',
-            'hover:bg-white hover:dark:bg-gray-900 ',
-            index === optionIndex && 'bg-white dark:bg-gray-900'
+            'hover:bg-white hover:dark:bg-gray-900',
+            index === optionIndex && 'bg-white dark:bg-gray-900',
           )}
           onClick={() => add(option.value)}
         >
