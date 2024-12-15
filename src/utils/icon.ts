@@ -1,4 +1,4 @@
-import { extractColors } from 'extract-colors';
+import { extractColors, type FinalColor } from 'extract-colors';
 
 import { readFile, readJson, writeBlob, writeJson, deleteFolder, deleteFile } from 'utils/files';
 import { getBlob } from 'utils/getBlob';
@@ -40,7 +40,7 @@ const getPalette = async (url: string, palettePath: Path): Promise<IconAndPalett
 
   return {
     url,
-    palette: palette ?? getRgb(getFirstBy(await extractColors(url), 'area')),
+    palette: palette ?? getRgb(getFirstBy<FinalColor>(await extractColors(url), 'area')),
   };
 };
 
