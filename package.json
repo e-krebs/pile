@@ -30,7 +30,7 @@
     "@react-stately/toggle": "^3.8.0",
     "algoliasearch": "^5.17.1",
     "classnames": "^2.5.1",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.1.0",
     "extract-colors": "^3.0.0",
     "radash": "^10.8.1",
     "react": "^18.2.0",
