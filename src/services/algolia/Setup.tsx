@@ -1,7 +1,7 @@
 import { createFetchRequester } from '@algolia/requester-fetch';
 import { Button, TextInput } from '@e-krebs/react-library';
 import { FC, useCallback, useEffect, useState } from 'react';
-import algoliasearch from 'algoliasearch';
+import { algoliasearch } from 'algoliasearch';
 import { CheckCircle, XCircle } from 'react-feather';
 
 import {
@@ -31,11 +31,11 @@ export const Setup: FC<{ context: ComponentContext }> = ({ context }) => {
     if (values.AppId && values.ApiKey) {
       try {
         const searchClient = algoliasearch(values.AppId, values.ApiKey, algoliaSearchOptions);
-        const apiKeys = await searchClient.getApiKey(values.ApiKey);
+        const apiKeys = await searchClient.getApiKey({ key: values.ApiKey });
         if (apiKeys.acl.length === 1 && apiKeys.acl[0] === 'search') {
           if (values.IndexName) {
             try {
-              await searchClient.initIndex(values.IndexName).search('');
+              await searchClient.search([{ indexName: values.IndexName, params: '' }]);
               setIsValid({ apiKey: true, indexName: true });
               return;
               // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -13,12 +13,11 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
     return [];
   }
 
-  const searchResponse = await algolia.search<AlgoliaItem>(
-    param.type === 'search' ? param.search : '',
-    param.type === 'tag'
-      ? { filters: param.tag ? `tags:${param.tag}` : 'NOT tags', hitsPerPage }
-      : { hitsPerPage },
-  );
+  const searchResponse = await algolia.search<AlgoliaItem>({
+    query: param.type === 'search' ? param.search : '',
+    hitsPerPage,
+    filters: param.type === 'tag' ? (param.tag ? `tags:${param.tag}` : 'NOT tags') : undefined,
+  });
 
   return searchResponse.hits.map(algoliaItemToListItem);
 };

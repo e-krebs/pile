@@ -23,12 +23,12 @@
     "webext-prod": {}
   },
   "dependencies": {
-    "@algolia/requester-fetch": "^4.23.3",
+    "@algolia/requester-fetch": "^5.17.1",
     "@react-aria/checkbox": "^3.9.0",
     "@react-aria/textfield": "^3.9.1",
     "@react-aria/visually-hidden": "^3.8.0",
     "@react-stately/toggle": "^3.5.1",
-    "algoliasearch": "^4.23.3",
+    "algoliasearch": "^5.17.1",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "extract-colors": "^3.0.0",
