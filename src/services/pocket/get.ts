@@ -40,7 +40,7 @@ export const get = async (param: GetParams): Promise<ListItem[]> => {
     if (!response.ok) throw Error("couldn't get pocket list");
 
     listItems.push(
-      ...Object.values(response.result.list)
+      ...Object.values(response.result.list ?? {})
         .sort((a, b) => (a.time_added < b.time_added ? 1 : -1))
         .map(itemToListItem),
     );
