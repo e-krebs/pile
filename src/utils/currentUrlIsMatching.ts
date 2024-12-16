@@ -45,6 +45,6 @@ export const urlsAreMatching = (url1: URL | string, url2: URL): boolean => {
   return (
     beautifyUrl(URL1.origin) === beautifyUrl(url2.origin) &&
     beautifyUrl(URL1.pathname) === beautifyUrl(url2.pathname) &&
-    url1.search === url2.search
+    URL1.search === url2.search
   );
 };
