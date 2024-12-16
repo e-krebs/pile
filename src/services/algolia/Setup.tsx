@@ -95,7 +95,6 @@ export const Setup: FC<{ context: ComponentContext }> = ({ context }) => {
             label="Algolia Application ID"
             defaultValue={values.AppId}
             onChange={(value) => updateValue(value, 'AppId')}
-            flowClassName="w-full"
           />
           <div />
           <TextInput
@@ -104,7 +103,6 @@ export const Setup: FC<{ context: ComponentContext }> = ({ context }) => {
             defaultValue={values.ApiKey}
             onChange={(value) => updateValue(value, 'ApiKey')}
             type="password"
-            flowClassName="w-full"
           />
           {isValid.apiKey ? (
             <div className="flex items-center gap-x-3 p-1 text-green-500">
@@ -122,7 +120,6 @@ export const Setup: FC<{ context: ComponentContext }> = ({ context }) => {
             label="Algolia Index Name"
             defaultValue={values.IndexName}
             onChange={(value) => updateValue(value, 'IndexName')}
-            flowClassName="w-full"
           />
           {isValid.indexName ? (
             <div className="flex items-center gap-x-3 p-1 text-green-500">
