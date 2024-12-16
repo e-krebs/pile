@@ -3,6 +3,7 @@ import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 import { getTimestamp, isCacheExpired, JsonArrayCache } from './dataCache';
 import { Service } from './services';
 import { ListItem } from './typings';
+import { getRefreshInterval } from './refreshInterval';
 
 type GetType = 'default' | 'force' | 'search';
 
@@ -23,8 +24,9 @@ const rawGet = async (param: GetParams, service: Service): Promise<JsonArrayCach
   if (!service.isConnected()) throw Error('not connected to pocket');
 
   let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
+  const refreshInterval = await getRefreshInterval();
 
-  if (param.type !== 'default' || !list || isCacheExpired(list)) {
+  if (param.type !== 'default' || !list || isCacheExpired(list, refreshInterval)) {
     const data = await service.get(param);
     list = { timestamp: getTimestamp(), data };
     if (!['search', 'tag'].includes(param.type)) {

@@ -7,6 +7,7 @@ import type { BlobInfo, Path, Response } from 'utils/typings';
 import { getTimestamp, isCacheExpired, JsonCache } from './dataCache';
 import { RGB, getRgb } from './palette';
 import { getFirstBy } from './getFirstBy';
+import { getRefreshInterval } from './refreshInterval';
 
 const iconFolder = 'icons';
 
@@ -60,7 +61,8 @@ const isExcludedIcon = async (hostname: string): Promise<boolean> => {
   const path = getNoImageName(hostname);
   const excludedIcon = await readJson<ExcludedIcon>(path);
   if (!excludedIcon) return false;
-  if (isCacheExpired(excludedIcon)) {
+  const interval = await getRefreshInterval();
+  if (isCacheExpired(excludedIcon, interval)) {
     await deleteFile(path);
     return false;
   }
