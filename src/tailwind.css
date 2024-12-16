@@ -19,3 +19,127 @@
     @apply outline-none;
   }
 }
+
+@layer utilities {
+  /* background-color classes */
+  .bg-th {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+  .bg-th-reversed {
+    @apply bg-gray-900 dark:bg-gray-50;
+  }
+  .bg-primary {
+    @apply bg-primary-500 dark:bg-primary-400;
+  }
+  .bg-primary\/5 {
+    @apply bg-primary-500/5 dark:bg-primary-400/5;
+  }
+  .bg-primary\/95 {
+    @apply bg-primary-500/95 dark:bg-primary-400/95;
+  }
+  .bg-destructive,
+  .bg-error {
+    @apply bg-red-600 dark:bg-red-500;
+  }
+  .bg-destructive\/5 {
+    @apply bg-red-600/5 dark:bg-red-500/5;
+  }
+  .bg-th-light {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+  .bg-th-hover {
+    @apply bg-gray-200 dark:bg-gray-700;
+  }
+
+  /* border-color classes */
+  .border-th {
+    @apply border-gray-700 dark:border-gray-300;
+  }
+  .border-primary {
+    @apply border-primary-500 dark:border-primary-400;
+  }
+  .border-destructive,
+  .border-error {
+    @apply border-red-600 dark:border-red-500;
+  }
+  .border-primary.bg-primary\/95 {
+    @apply border-primary-500/95 dark:border-primary-400/95;
+  }
+  .border-th-light {
+    @apply border-gray-400 dark:border-gray-500;
+  }
+  .border-th-bg {
+    @apply border-gray-50 dark:border-gray-900;
+  }
+
+  /* text-color classes */
+  .text-th {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+  .text-h1 {
+    @apply text-gray-900 dark:text-gray-50;
+  }
+  .text-primary {
+    @apply text-primary-500 dark:text-primary-400;
+  }
+  .text-destructive,
+  .text-error {
+    @apply text-red-600 dark:text-red-500;
+  }
+  .text-valid {
+    @apply text-green-600 dark:text-green-400;
+  }
+  .text-th-reversed {
+    @apply text-gray-50 dark:text-gray-900;
+  }
+
+  /* ring-color classes */
+  .ring-th {
+    @apply ring-gray-700 dark:ring-gray-300;
+  }
+  .ring-primary {
+    @apply ring-primary-500 dark:ring-primary-400;
+  }
+  .ring-destructive,
+  .ring-error {
+    @apply ring-red-600 dark:ring-red-500;
+  }
+
+  /* ring-offset-color classes */
+  .ring-offset-th {
+    @apply ring-offset-white dark:ring-offset-gray-900;
+  }
+
+  /* outline-color classes */
+  .outline-primary {
+    @apply outline-primary-500 dark:outline-primary-400;
+  }
+  .outline-destructive,
+  .outline-error {
+    @apply outline-red-600 dark:outline-red-500;
+  }
+
+  /* caret-color classes */
+  .caret-primary {
+    @apply caret-primary-500 dark:caret-primary-400;
+  }
+  .caret-destructive,
+  .caret-error {
+    @apply caret-red-600 dark:caret-red-500;
+  }
+
+  /* stroke-color classes */
+  .stroke-th {
+    @apply stroke-white dark:stroke-gray-900;
+  }
+
+  /* fill-color classes */
+  .fill-th {
+    @apply fill-gray-500 dark:fill-gray-400;
+  }
+
+  /* shadow class */
+  .shadow-th {
+    @apply shadow-md dark:shadow-inner;
+  }
+}

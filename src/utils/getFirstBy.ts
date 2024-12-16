@@ -1,6 +1,6 @@
 export const getFirstBy = <T extends Record<string, string | number>>(
   array: T[],
-  property: keyof T
+  property: keyof T,
 ): T | undefined => {
   switch (array.length) {
     case 0:

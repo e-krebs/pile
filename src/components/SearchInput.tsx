@@ -28,7 +28,7 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
       className={cx(
         className,
         'ml-4 mr-2 flex h-8 items-center px-2 text-base leading-8',
-        'rounded-md border border-gray-200'
+        'rounded-md border border-gray-200',
       )}
     >
       <input

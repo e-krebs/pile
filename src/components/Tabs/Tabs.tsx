@@ -50,7 +50,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
       if (tabIndex === 0) tabIndex = 10;
       if (isNaN(tabIndex) || tabIndex > tabs.length) return;
       await selectedTabByIndex(tabIndex - 1);
-    }
+    },
   );
 
   return (
@@ -58,7 +58,7 @@ export const Tabs: FC<PropsWithChildren<TabsProps>> = ({
       <div
         className={cx(
           'sticky top-0 mb-2 flex space-x-2 px-2',
-          'border-b border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700'
+          'border-b border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700',
         )}
       >
         {tabs.map(({ content, ...tab }, index) => (

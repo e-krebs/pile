@@ -6,7 +6,7 @@ export const getLastTag = async (serviceName: string): Promise<string | null | u
   await getFromLocalStorage<string | null>(getLastTagKey(serviceName));
 
 export const setLastTag = async (serviceName: string, tag: string | null | undefined): Promise<void> => {
-  tag === undefined
+  return tag === undefined
     ? await deleteFromLocalStorage(getLastTagKey(serviceName))
     : await setToLocalStorage(getLastTagKey(serviceName), tag);
 };

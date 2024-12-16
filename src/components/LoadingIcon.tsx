@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import { FC, PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { type IconProps, Loader } from 'react-feather';
 import { Button } from '@e-krebs/react-library';
@@ -6,7 +5,6 @@ import { Button } from '@e-krebs/react-library';
 interface IProps {
   disabled?: boolean;
   startIcon?: FC;
-  className?: string;
   onClick: () => Promise<unknown> | unknown;
   options?: {
     disableLoader?: boolean;
@@ -17,14 +15,11 @@ const waitFn = (duration = 500): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, duration));
 };
 
-const LoadingIcon: FC<IconProps> = ({ className, ...props }) => (
-  <Loader {...props} className={cx(className, 'animate-spin')} />
-);
+const LoadingIcon: FC<IconProps> = (props) => <Loader {...props} className="animate-spin" />;
 
 export const LoaderButton: FC<PropsWithChildren<IProps>> = ({
   disabled = false,
   startIcon: StartIcon,
-  className,
   onClick,
   options,
   children,
@@ -33,11 +28,7 @@ export const LoaderButton: FC<PropsWithChildren<IProps>> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const Icon = useMemo(() => {
     if (!StartIcon) return;
-    const ActualIcon = loading ? LoadingIcon : StartIcon;
-    const ResultIcon: FC<IconProps> = ({ className, ...props }) => (
-      <ActualIcon {...props} className={cx(className, 'm-1')} />
-    );
-    return ResultIcon;
+    return loading ? LoadingIcon : StartIcon;
   }, [StartIcon, loading]);
 
   const innerDisabled = useMemo(() => disabled || loading, [disabled, loading]);
@@ -51,12 +42,7 @@ export const LoaderButton: FC<PropsWithChildren<IProps>> = ({
   }, [disableLoader, onClick]);
 
   return (
-    <Button
-      className={cx(className, 'h-auto py-2 pl-2 pr-3', innerDisabled && 'bg-stripe-disabled')}
-      onPress={innerDisabled ? () => {} : action}
-      iconStart={Icon}
-      isDisabled={innerDisabled}
-    >
+    <Button onPress={innerDisabled ? () => {} : action} iconStart={Icon} isDisabled={innerDisabled}>
       {children}
     </Button>
   );

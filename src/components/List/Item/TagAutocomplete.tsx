@@ -18,7 +18,7 @@ export const TagAutocomplete: FC = () => {
 
   const options: Option[] = useMemo(
     () => allTags.filter((tag) => !tags.includes(tag)).map((value) => ({ value })),
-    [allTags, tags]
+    [allTags, tags],
   );
 
   const close = useCallback(() => {
@@ -35,7 +35,7 @@ export const TagAutocomplete: FC = () => {
       }
       close();
     },
-    [close, getQueryKey, id, queryClient, service]
+    [close, getQueryKey, id, queryClient, service],
   );
 
   if (!service.isUpdatable) return null;

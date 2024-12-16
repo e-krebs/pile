@@ -14,7 +14,7 @@ export const isConnected = async (): Promise<boolean> => {
     getKeys().map(async (key) => {
       const value = await get(localStorageKeyCodes, key);
       return Boolean(value);
-    })
+    }),
   );
   return values.reduce((a, b) => a && b);
 };

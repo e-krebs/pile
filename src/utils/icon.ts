@@ -1,4 +1,4 @@
-import { extractColors } from 'extract-colors';
+import { extractColors, type FinalColor } from 'extract-colors';
 
 import { readFile, readJson, writeBlob, writeJson, deleteFolder, deleteFile } from 'utils/files';
 import { getBlob } from 'utils/getBlob';
@@ -7,6 +7,7 @@ import type { BlobInfo, Path, Response } from 'utils/typings';
 import { getTimestamp, isCacheExpired, JsonCache } from './dataCache';
 import { RGB, getRgb } from './palette';
 import { getFirstBy } from './getFirstBy';
+import { getRefreshInterval } from './refreshInterval';
 
 const iconFolder = 'icons';
 
@@ -40,7 +41,7 @@ const getPalette = async (url: string, palettePath: Path): Promise<IconAndPalett
 
   return {
     url,
-    palette: palette ?? getRgb(getFirstBy(await extractColors(url), 'area')),
+    palette: palette ?? getRgb(getFirstBy<FinalColor>(await extractColors(url), 'area')),
   };
 };
 
@@ -60,7 +61,8 @@ const isExcludedIcon = async (hostname: string): Promise<boolean> => {
   const path = getNoImageName(hostname);
   const excludedIcon = await readJson<ExcludedIcon>(path);
   if (!excludedIcon) return false;
-  if (isCacheExpired(excludedIcon)) {
+  const interval = await getRefreshInterval();
+  if (isCacheExpired(excludedIcon, interval)) {
     await deleteFile(path);
     return false;
   }
@@ -69,7 +71,7 @@ const isExcludedIcon = async (hostname: string): Promise<boolean> => {
 
 export const getIcon = async (
   hostname: string,
-  fallback: string | null = null
+  fallback: string | null = null,
 ): Promise<IconAndPalette | undefined> => {
   const imageName: Path = [iconFolder, `${hostname}.png`];
   const paletteName: Path = [iconFolder, `${hostname}_palette_02.json`];

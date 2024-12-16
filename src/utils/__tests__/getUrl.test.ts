@@ -6,7 +6,7 @@ describe('getUrl', () => {
   it('should work with simple urls', () => {
     expect(getUrl('https://www.google.fr')).toEqual(new URL('https://www.google.fr'));
     expect(getUrl('https://github.com/e-krebs/pile')).toEqual(
-      new URL('https://github.com/e-krebs/pile')
+      new URL('https://github.com/e-krebs/pile'),
     );
   });
 

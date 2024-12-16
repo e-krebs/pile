@@ -45,7 +45,7 @@ export const Tags: FC<TagsProps> = ({
       setIsAddTagsOpen(false);
       if (addTagSync) setIsLoading(false);
     },
-    [addTagSync, removeTag, removeTagSync, setIsLoading]
+    [addTagSync, removeTag, removeTagSync, setIsLoading],
   );
 
   const addValue = useCallback(
@@ -54,7 +54,7 @@ export const Tags: FC<TagsProps> = ({
       await addTag?.(tag);
       setIsAddTagsOpen(false);
     },
-    [addTag, setIsLoading]
+    [addTag, setIsLoading],
   );
 
   const addValueSync = useCallback(
@@ -62,7 +62,7 @@ export const Tags: FC<TagsProps> = ({
       if (addTagSync) addTagSync(tag);
       setIsAddTagsOpen(false);
     },
-    [addTagSync]
+    [addTagSync],
   );
 
   const Add = useMemo(() => (isAddTagsOpen ? XCircle : Plus), [isAddTagsOpen]);
@@ -70,7 +70,7 @@ export const Tags: FC<TagsProps> = ({
 
   const options: Option[] = useMemo(
     () => allTags.filter((tag) => !tags.includes(tag)).map((value) => ({ value })),
-    [allTags, tags]
+    [allTags, tags],
   );
 
   const autoCompleteProps = useMemo(
@@ -83,7 +83,7 @@ export const Tags: FC<TagsProps> = ({
       setIsLoading,
       close: () => setIsAddTagsOpen(false),
     }),
-    [isLoading, options, setIsLoading]
+    [isLoading, options, setIsLoading],
   );
 
   return (
@@ -95,13 +95,13 @@ export const Tags: FC<TagsProps> = ({
             isAddTagsOpen ? 'max-w-[calc(100%+1rem)]' : 'max-w-full',
             'transition-max-width hover:max-w-[calc(100%+1rem)]',
             'text-gray-900 dark:text-gray-100',
-            'border-gray-900 dark:border-gray-100'
+            'border-gray-900 dark:border-gray-100',
           )}
         >
           <div
             className={cx(
               'flex items-center rounded-lg border bg-gray-100 px-2 py-1 dark:bg-gray-800',
-              'border-gray-400 text-gray-500 dark:text-gray-400'
+              'border-gray-400 text-gray-500 dark:text-gray-400',
             )}
           >
             <TagIcon className={cx('mb-[2px] mt-[3px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
@@ -114,7 +114,7 @@ export const Tags: FC<TagsProps> = ({
                     className={cx(
                       'group ml-1 flex items-center pl-px',
                       'border-b border-transparent',
-                      !isLoading && 'cursor-pointer border-dashed hover:border-inherit'
+                      !isLoading && 'cursor-pointer border-dashed hover:border-inherit',
                     )}
                     title={`remove tag [${tag}]`}
                     onClick={() => (isLoading ? {} : remove(tag))}
@@ -123,7 +123,7 @@ export const Tags: FC<TagsProps> = ({
                     <X
                       className={cx(
                         'mb-[-3px] h-3 transition-width group-hover:w-3',
-                        isAddTagsOpen ? 'w-3' : 'w-0'
+                        isAddTagsOpen ? 'w-3' : 'w-0',
                       )}
                     />
                   </div>
@@ -139,7 +139,7 @@ export const Tags: FC<TagsProps> = ({
               <Add
                 className={cx(
                   isAddTagsOpen ? 'w-3' : 'w-0',
-                  'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3'
+                  'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3',
                 )}
               />
             </div>

@@ -1,3 +1,4 @@
+import Icons from '@e-krebs/react-library/icons.svg';
 import { createRoot } from 'react-dom/client';
 
 import inline from 'tailwind.css?inline';
@@ -17,5 +18,10 @@ if (shadow.shadowRoot) {
   shadow.shadowRoot.appendChild(container);
 
   const root = createRoot(container);
-  root.render(<Page />);
+  root.render(
+    <>
+      <Icons />
+      <Page />
+    </>,
+  );
 }

@@ -1,6 +1,6 @@
 import { Modal, type ModalRef } from '@e-krebs/react-library';
 import cx from 'classnames';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Archive, Plus, Trash2 } from 'react-feather';
 
 import { type Service } from 'utils/services';
@@ -102,7 +102,7 @@ export const Page = () => {
       };
       chrome.runtime.sendMessage(message, done);
     },
-    [done, tags]
+    [done, tags],
   );
 
   const archiveItem = useCallback(
@@ -114,7 +114,7 @@ export const Page = () => {
       };
       chrome.runtime.sendMessage(message, done);
     },
-    [done]
+    [done],
   );
 
   const deleteItem = useCallback(
@@ -126,80 +126,65 @@ export const Page = () => {
       };
       chrome.runtime.sendMessage(message, done);
     },
-    [done]
+    [done],
   );
 
-  const pageSize: number = useMemo(() => {
-    const fontSize = window
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      .getComputedStyle(document.querySelector('html')!)
-      .getPropertyValue('font-size');
-    return parseFloat(fontSize) ?? 16;
-  }, []);
-
   return service && url ? (
-    <Modal
-      ref={modalRef}
-      onClosed={onClosed}
-      title={`pile for ${service.name}`}
-      contentProps={{ id: 'pile-content', className: 'items-center space-y-4' }}
-      dialogProps={{ style: { transform: `scale(calc(16/${pageSize}))` } }}
-    >
-      <div
-        className={cx(
-          'absolute -top-px left-0 !my-6 flex h-[calc(100%-3rem+2px)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
-          doneVisible ? 'opacity-1 visible' : 'invisible opacity-0'
-        )}
-      >
-        ✓
-      </div>
-      {matching ? (
-        <>
-          <LoaderButton
-            startIcon={Archive}
-            className="w-max justify-self-center"
-            options={{ disableLoader: true }}
-            onClick={() => archiveItem(service, matching.listItem.id)}
-          >
-            Archive from {service.name}
-          </LoaderButton>
-          <LoaderButton
-            startIcon={Trash2}
-            className="w-max justify-self-center"
-            options={{ disableLoader: true }}
-            onClick={() => deleteItem(service, matching.listItem.id)}
-          >
-            Delete from {service.name}
-          </LoaderButton>
-          <Tags
-            allTags={allTags}
-            tags={matching.listItem.tags}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            addTag={(tag) => addTagAsync(matching, tag)}
-            removeTag={(tag) => removeTagAsync(matching, tag)}
-          />
-        </>
-      ) : (
-        <div className="flex flex-col items-center space-y-4">
-          <LoaderButton
-            startIcon={Plus}
-            className="w-max justify-self-center"
-            options={{ disableLoader: true }}
-            onClick={() => addItem(service, url)}
-          >
-            Add to {service.name}
-          </LoaderButton>
-          <Tags
-            allTags={allTags}
-            tags={tags}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            addTagSync={addTagSync}
-            removeTagSync={removeTagSync}
-          />
+    <Modal ref={modalRef} onClosed={onClosed} title={`pile for ${service.name}`}>
+      <Modal.Content id="pile-content" className="flex flex-col items-center space-y-4">
+        <div
+          className={cx(
+            'absolute -top-px left-0 !my-6 flex h-[calc(100%-3rem+2px)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
+            doneVisible ? 'opacity-1 visible' : 'invisible opacity-0',
+          )}
+        >
+          ✓
         </div>
-      )}
+        {matching ? (
+          <>
+            <LoaderButton
+              startIcon={Archive}
+              options={{ disableLoader: true }}
+              onClick={() => archiveItem(service, matching.listItem.id)}
+            >
+              Archive from {service.name}
+            </LoaderButton>
+            <LoaderButton
+              startIcon={Trash2}
+              options={{ disableLoader: true }}
+              onClick={() => deleteItem(service, matching.listItem.id)}
+            >
+              Delete from {service.name}
+            </LoaderButton>
+            <Tags
+              allTags={allTags}
+              tags={matching.listItem.tags}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              addTag={(tag) => addTagAsync(matching, tag)}
+              removeTag={(tag) => removeTagAsync(matching, tag)}
+            />
+          </>
+        ) : (
+          <div className="flex flex-col items-center space-y-4">
+            <LoaderButton
+              startIcon={Plus}
+              options={{ disableLoader: true }}
+              onClick={() => addItem(service, url)}
+            >
+              Add to {service.name}
+            </LoaderButton>
+            <Tags
+              allTags={allTags}
+              tags={tags}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              addTagSync={addTagSync}
+              removeTagSync={removeTagSync}
+            />
+          </div>
+        )}
+      </Modal.Content>
     </Modal>
   ) : null;
 };

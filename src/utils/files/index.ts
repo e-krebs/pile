@@ -16,7 +16,7 @@ export const readFile = async (path: Path): Promise<string | null> => {
       },
       () => {
         resolve(null);
-      }
+      },
     );
   });
 };
@@ -42,7 +42,7 @@ export const readJson = async <T>(path: Path): Promise<T | null> => {
       },
       () => {
         resolve(null);
-      }
+      },
     );
   });
 };
@@ -70,13 +70,13 @@ export const writeBlob = async (blobinfo: BlobInfo): Promise<string | null> => {
             },
             (error) => {
               logAndReject(error, 'writeBlob.createWriter', reject);
-            }
+            },
           );
         }
       },
       (error) => {
         logAndReject(error, 'writeBlob.getFile', reject);
-      }
+      },
     );
   });
 };
@@ -100,12 +100,12 @@ export const deleteFile = async (url: Path): Promise<true> => {
           },
           (error) => {
             logAndReject(error, 'deleteFile', reject);
-          }
+          },
         );
       },
       () => {
         resolve(true); /* file doesn't exist */
-      }
+      },
     );
   });
 };
@@ -119,7 +119,7 @@ export const deleteFolder = async (path: Path): Promise<true> => {
       },
       (error) => {
         logAndReject(error, 'deleteFolder', reject);
-      }
+      },
     );
   });
 };

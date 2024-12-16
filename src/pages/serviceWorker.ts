@@ -1,4 +1,4 @@
-import { vars, defaultVars } from 'helpers/vars';
+import { vars } from 'helpers/vars';
 import { getService, getServices } from 'utils/getService';
 import { setBadge, setBadgeColor } from 'utils/badge';
 import { forceGet, get } from 'utils/get';
@@ -6,21 +6,19 @@ import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';
 import { createContextMenus } from 'utils/createContextMenus';
 import { Message } from 'utils/messages';
 import { getAllTags } from 'utils/getAllTags';
-import { getFromLocalStorage } from 'helpers/localstorage';
 import { getShowCountOnBadge } from 'utils/getShowCountOnBadge';
+import { getRefreshInterval } from 'utils/refreshInterval';
 
-const { refreshInterval: defaultRefreshInterval } = defaultVars;
-
-const refreshBadge = async () => {
+const refreshBadge = async (force = true) => {
   await Promise.all(
     getServices().map(async (service) => {
       const isConnected = await service.isConnected();
       if (!isConnected) return;
       const showCountOnBadge = await getShowCountOnBadge();
       if (showCountOnBadge[service.name] === false) return;
-      const { data } = await forceGet(service);
+      const { data } = force ? await forceGet(service) : await get(service);
       setBadge(service.name, data.length);
-    })
+    }),
   );
 };
 
@@ -44,7 +42,7 @@ const alarmListener = async (alarm: chrome.alarms.Alarm) => {
 const tabsUpdatedListener = async (
   _: number,
   __: chrome.tabs.TabChangeInfo,
-  { active, url }: chrome.tabs.Tab
+  { active, url }: chrome.tabs.Tab,
 ) => {
   if (active && url) {
     await refreshBadgeIfMatching(url);
@@ -63,7 +61,7 @@ const onInstalledListener = async () => await createContextMenus();
 const onMessageListener = async (
   message: Message,
   sender: chrome.runtime.MessageSender,
-  sendMessage: () => void
+  sendMessage: () => void,
 ) => {
   switch (message.action) {
     case 'addToService': {
@@ -158,7 +156,7 @@ const onMessageListener = async (
 
 const onContextMenuClickedListener = async (
   info: chrome.contextMenus.OnClickData,
-  tab?: chrome.tabs.Tab
+  tab?: chrome.tabs.Tab,
 ) => {
   if (!tab?.url) {
     throw Error('no tab.url on contextMenu clicked');
@@ -187,13 +185,8 @@ chrome.runtime.onMessage.addListener(onMessageListener);
 chrome.contextMenus.onClicked.addListener(onContextMenuClickedListener);
 
 (async () => {
-  const value =
-    (await getFromLocalStorage<string>(vars.refreshInterval)) ?? defaultRefreshInterval.toString();
-  let periodInMinutes: number = parseInt(value);
-  if (isNaN(periodInMinutes)) periodInMinutes = defaultRefreshInterval;
-  chrome.alarms.create(vars.refreshInterval, { periodInMinutes });
-
+  chrome.alarms.create(vars.refreshInterval, { periodInMinutes: await getRefreshInterval() });
   chrome.alarms.onAlarm.addListener(alarmListener);
 
-  await refreshBadge();
+  await refreshBadge(false);
 })();
