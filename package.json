@@ -42,6 +42,7 @@
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.28",
     "@e-krebs/react-library": "^0.0.41",
+    "@eslint/compat": "^1.2.4",
     "@tailwindcss/typography": "^0.5.15",
     "@types/bun": "^1.1.14",
     "@types/chrome": "^0.0.287",
@@ -63,6 +64,7 @@
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^3.4.16",
+    "tailwindcss-react-aria-components": "^1.2.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
     "vite-plugin-svgr": "^4.3.0"
