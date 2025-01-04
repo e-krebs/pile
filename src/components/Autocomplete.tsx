@@ -104,13 +104,12 @@ export const Autocomplete: FC<AutocompleteProps> = ({
     <ul
       className={cx(
         className,
-        'grid min-w-[25%] items-center gap-y-px rounded-lg border bg-gray-100 p-1 dark:bg-gray-800',
+        'flex min-w-[25%] flex-col justify-center gap-y-0.5 rounded-lg border bg-gray-100 p-1 dark:bg-gray-900',
       )}
     >
       <TextInput
         {...textInputProps}
         border="none"
-        className="w-full rounded-sm px-1 leading-5 dark:bg-gray-900"
         isDisabled={isLoading}
         onChange={onChange}
         onKeyDown={keyHandler}
