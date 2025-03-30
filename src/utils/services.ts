@@ -16,11 +16,11 @@ interface BaseService {
 }
 
 export interface UpdatableService {
-  add: (url: string, tags?: string[]) => Promise<ListItem>;
-  archiveItem: (id: string) => Promise<boolean>;
-  deleteItem: (id: string) => Promise<boolean>;
-  addTag: (id: string, tag: string) => Promise<boolean>;
-  removeTag: (id: string, tag: string) => Promise<boolean>;
+  internal_add: (url: string, tags?: string[]) => Promise<ListItem>;
+  internal_archiveItem: (id: string) => Promise<boolean>;
+  internal_deleteItem: (id: string) => Promise<boolean>;
+  internal_addTag: (id: string, tag: string) => Promise<boolean>;
+  internal_removeTag: (id: string, tag: string) => Promise<boolean>;
 }
 
 export interface ServiceWithOAuth {

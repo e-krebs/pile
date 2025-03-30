@@ -15,7 +15,7 @@ export const removeTag = async ({ service, id, tag }: OptimisticRemoveTag): Prom
   if (!service.isUpdatable) {
     throw Error(`cannot remove tag: service "${service.name}" is not updatable`);
   }
-  await service.removeTag(id, tag);
+  await service.internal_removeTag(id, tag);
   let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
   const index = list ? list.data.findIndex((item) => item.id === id) : -1;
   const tagIndex = list && index !== -1 ? list.data[index].tags.findIndex((item) => item === tag) : -1;

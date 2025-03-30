@@ -14,7 +14,7 @@ export const addItem = async ({ service, url, tags }: OptimisticAdd) => {
   if (!service.isUpdatable) {
     throw Error(`cannot add: service "${service.name}" is not updatable`);
   }
-  const item = await service.add(url, tags);
+  const item = await service.internal_add(url, tags);
   const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
   if (list) {
     // optimistic update

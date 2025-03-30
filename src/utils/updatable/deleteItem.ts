@@ -13,7 +13,7 @@ export const deleteItem = async ({ service, id }: OptimisticDelete) => {
   if (!service.isUpdatable) {
     throw Error(`cannot delete: service "${service.name}" is not updatable`);
   }
-  await service.deleteItem(id);
+  await service.internal_deleteItem(id);
   const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
   const index = list ? list.data.findIndex((item) => item.id === id) : -1;
   if (list && index !== -1) {

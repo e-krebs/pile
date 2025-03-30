@@ -13,7 +13,7 @@ export const archiveItem = async ({ service, id }: OptimisticArchive) => {
   if (!service.isUpdatable) {
     throw Error(`cannot archive: service "${service.name}" is not updatable`);
   }
-  await service.archiveItem(id);
+  await service.internal_archiveItem(id);
   const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
   const index = list ? list.data.findIndex((item) => item.id === id) : -1;
   if (list && index !== -1) {

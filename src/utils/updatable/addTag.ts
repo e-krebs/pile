@@ -15,7 +15,7 @@ export const addTag = async ({ service, id, tag }: OptimisticAddTag): Promise<st
   if (!service.isUpdatable) {
     throw Error(`cannot add tag: service "${service.name}" is not updatable`);
   }
-  await service.addTag(id, tag);
+  await service.internal_addTag(id, tag);
 
   let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
   const index = list ? list.data.findIndex(({ id }) => id === id) : -1;
