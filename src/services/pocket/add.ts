@@ -1,9 +1,9 @@
 import { post } from 'utils/post';
+import { type ListItem } from 'utils/typings';
 
 import { getPocketKey, getPocketToken } from './helpers';
 import { headers } from './const';
 import { itemToListItem, type PocketItem } from './item';
-import { type ListItem } from 'utils/typings';
 
 interface AddResponse {
   item: PocketItem;
@@ -23,5 +23,5 @@ export const add = async (url: string, tags?: string[]): Promise<ListItem> => {
 
   if (!response.ok) throw Error(`couldn't add item to pocket "${url}"`);
 
-  return itemToListItem(response.result.item)
+  return itemToListItem(response.result.item);
 };
