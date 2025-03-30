@@ -17,16 +17,16 @@ export const addTag = async ({ service, id, tag }: OptimisticAddTag): Promise<st
   }
   await service.internal_addTag(id, tag);
 
-  let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
-  const index = list ? list.data.findIndex((item) => item.id === id) : -1;
-
-  if (list && index !== -1) {
-    // optimistic update
-    list.data[index].tags.push(tag);
-    await setToLocalStorage(service.getQueryKey, list);
-  } else {
-    list = await forceGet(service);
+  const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
+  if (list) {
+    const index = list.data.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      // optimistic update
+      list.data[index].tags.push(tag);
+      await setToLocalStorage(service.getQueryKey, list);
+      return getAllTags(list);
+    }
   }
 
-  return getAllTags(list);
+  return getAllTags(await forceGet(service));
 };

@@ -15,13 +15,15 @@ export const archiveItem = async ({ service, id }: OptimisticArchive) => {
   }
   await service.internal_archiveItem(id);
   const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
-  const index = list ? list.data.findIndex((item) => item.id === id) : -1;
-  if (list && index !== -1) {
-    // optimistic update
-    list.data.splice(index, 1);
-    await setToLocalStorage(service.getQueryKey, list);
-    await refreshBadge(false);
-  } else {
-    await refreshBadge(true);
+  if (list) {
+    const index = list.data.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      // optimistic update
+      list.data.splice(index, 1);
+      await setToLocalStorage(service.getQueryKey, list);
+      await refreshBadge(false);
+      return;
+    }
   }
+  await refreshBadge(true);
 };

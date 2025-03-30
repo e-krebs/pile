@@ -15,13 +15,13 @@ export const deleteItem = async ({ service, id }: OptimisticDelete) => {
   }
   await service.internal_deleteItem(id);
   const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
-  const index = list ? list.data.findIndex((item) => item.id === id) : -1;
-  if (list && index !== -1) {
+  if (list) {
+    const index = list.data.findIndex((item) => item.id === id);
     // optimistic update
     list.data.splice(index, 1);
     await setToLocalStorage(service.getQueryKey, list);
     await refreshBadge(false);
-  } else {
-    await refreshBadge(true);
+    return;
   }
+  await refreshBadge(true);
 };
