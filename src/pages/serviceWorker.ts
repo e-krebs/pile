@@ -12,7 +12,7 @@ import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
 import { JsonArrayCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
 
-const refreshBadge = async (force = true) => {
+const refreshBadge = async (force: boolean) => {
   await Promise.all(
     getServices().map(async (service) => {
       const isConnected = await service.isConnected();
@@ -34,7 +34,7 @@ const refreshBadgeIfMatching = async (currentUrl: string) => {
 const alarmListener = async (alarm: chrome.alarms.Alarm) => {
   switch (alarm.name) {
     case vars.refreshInterval:
-      await refreshBadge();
+      await refreshBadge(true);
       break;
     default:
       console.warn('alarm', new Date(), alarm);
@@ -200,7 +200,7 @@ const onMessageListener = async (
     }
     case 'refresh': {
       sendMessage();
-      await refreshBadge();
+      await refreshBadge(true);
     }
   }
 };
