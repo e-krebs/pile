@@ -18,7 +18,7 @@ export const addTag = async ({ service, id, tag }: OptimisticAddTag): Promise<st
   await service.internal_addTag(id, tag);
 
   let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
-  const index = list ? list.data.findIndex(({ id }) => id === id) : -1;
+  const index = list ? list.data.findIndex((item) => item.id === id) : -1;
 
   if (list && index !== -1) {
     // optimistic update
