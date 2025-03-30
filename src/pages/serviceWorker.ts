@@ -143,12 +143,22 @@ const onMessageListener = async (
       }
       await service.addTag(message.id, message.tag);
       if (sender.tab?.id) {
-        const cachedData = await forceGet(service);
+        let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
+        const index = list ? list.data.findIndex(({ id }) => message.id === id) : -1;
+
+        if (list && index !== -1) {
+          // optimistic update
+          list.data[index].tags.push(message.tag);
+          await setToLocalStorage(service.getQueryKey, list);
+        } else {
+          list = await forceGet(service);
+        }
+
         const newMessage: Message = {
           action: 'service',
           service: service.name,
           url: message.url,
-          tags: getAllTags(cachedData),
+          tags: getAllTags(list),
         };
         chrome.tabs.sendMessage(sender.tab.id, newMessage);
       }
@@ -165,12 +175,24 @@ const onMessageListener = async (
       }
       await service.removeTag(message.id, message.tag);
       if (sender.tab?.id) {
-        const cachedData = await forceGet(service);
+        let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
+        const index = list ? list.data.findIndex(({ id }) => message.id === id) : -1;
+        const tagIndex =
+          list && index !== -1 ? list.data[index].tags.findIndex((tag) => tag === message.tag) : -1;
+
+        if (list && index !== -1 && tagIndex !== -1) {
+          // optimistic update
+          list.data[index].tags.splice(tagIndex, 1);
+          await setToLocalStorage(service.getQueryKey, list);
+        } else {
+          list = await forceGet(service);
+        }
+
         const newMessage: Message = {
           action: 'service',
           service: service.name,
           url: message.url,
-          tags: getAllTags(cachedData),
+          tags: getAllTags(list),
         };
         chrome.tabs.sendMessage(sender.tab.id, newMessage);
       }
