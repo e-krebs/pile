@@ -5,22 +5,21 @@ import { useQueryClient } from 'react-query';
 import { Action } from 'components/Action';
 import { useService } from 'hooks';
 import { clearCache } from 'utils/dataCache';
+import { archiveItem } from 'utils/updatable';
 
 import { useItemContext } from './ItemContext';
 
 export const ArchiveAction: FC = () => {
   const queryClient = useQueryClient();
-  const { getQueryKey, ...service } = useService();
+  const service = useService();
   const { rgb, id } = useItemContext();
   const [archiveLoading, setArchiveLoading] = useState(false);
 
   const onArchive = async () => {
     if (!service.isUpdatable) return;
     setArchiveLoading(true);
-    const ok = await service.archiveItem(id);
-    if (ok) {
-      await clearCache(getQueryKey, queryClient);
-    }
+    await archiveItem({ service, id });
+    await clearCache(service.getQueryKey, queryClient);
     setArchiveLoading(false);
   };
 

@@ -1,9 +1,9 @@
 import { FC, useMemo, useState } from 'react';
 import { Loader, Image } from 'react-feather';
 
+import { archiveItem } from 'utils/updatable';
 import { getRgba } from 'utils/palette';
 import { useService } from 'hooks';
-import { type Message } from 'utils/messages';
 
 import { useItemContext } from './ItemContext';
 
@@ -22,12 +22,8 @@ export const MainIcon: FC = () => {
   const onArchiveAndOpen = async () => {
     if (service.isUpdatable) {
       setIconLoading(true);
-      const ok = await service.archiveItem(id);
-      if (ok) {
-        const message: Message = { action: 'refresh' };
-        chrome.runtime.sendMessage(message);
-        chrome.tabs.create({ url });
-      }
+      await archiveItem({ service, id });
+      chrome.tabs.create({ url });
       setIconLoading(false);
     } else {
       chrome.tabs.create({ url });
