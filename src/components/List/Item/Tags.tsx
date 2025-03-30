@@ -6,13 +6,14 @@ import { useQueryClient } from 'react-query';
 import { useService } from 'hooks';
 import { getRgba } from 'utils/palette';
 import { clearCache } from 'utils/dataCache';
+import { removeTag } from 'utils/updatable';
 import { TagsContext } from 'hooks/TagsContext';
 
 import { useItemContext } from './ItemContext';
 import { TagAutocomplete } from './TagAutocomplete';
 
 export const Tags: FC = () => {
-  const { getQueryKey, ...service } = useService();
+  const service = useService();
   const { id, rgb, tags, isOpen, isAddTagsOpen, setIsAddTagsOpen } = useItemContext();
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,10 +26,8 @@ export const Tags: FC = () => {
   const remove = async (tag: string) => {
     if (!service.isUpdatable) return;
     setIsLoading(true);
-    const ok = await service.removeTag(id, tag);
-    if (ok) {
-      await clearCache(getQueryKey, queryClient);
-    }
+    await removeTag({ service, id, tag });
+    await clearCache(service.getQueryKey, queryClient);
     setIsLoading(false);
   };
 

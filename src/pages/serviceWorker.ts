@@ -1,26 +1,14 @@
 import { vars } from 'helpers/vars';
 import { getService, getServices } from 'utils/getService';
-import { setBadge, setBadgeColor } from 'utils/badge';
-import { forceGet, get } from 'utils/get';
+import { setBadgeColor } from 'utils/badge';
+import { get } from 'utils/get';
 import { currentUrlIsMatching } from 'utils/currentUrlIsMatching';
 import { createContextMenus } from 'utils/createContextMenus';
 import { Message } from 'utils/messages';
 import { getAllTags } from 'utils/getAllTags';
-import { getShowCountOnBadge } from 'utils/getShowCountOnBadge';
 import { getRefreshInterval } from 'utils/refreshInterval';
-
-const refreshBadge = async (force = true) => {
-  await Promise.all(
-    getServices().map(async (service) => {
-      const isConnected = await service.isConnected();
-      if (!isConnected) return;
-      const showCountOnBadge = await getShowCountOnBadge();
-      if (showCountOnBadge[service.name] === false) return;
-      const { data } = force ? await forceGet(service) : await get(service);
-      setBadge(service.name, data.length);
-    }),
-  );
-};
+import { addItem, addTag, archiveItem, deleteItem, removeTag } from 'utils/updatable';
+import { refreshBadge } from 'utils/refreshBadge';
 
 const refreshBadgeIfMatching = async (currentUrl: string) => {
   const services = getServices();
@@ -31,7 +19,7 @@ const refreshBadgeIfMatching = async (currentUrl: string) => {
 const alarmListener = async (alarm: chrome.alarms.Alarm) => {
   switch (alarm.name) {
     case vars.refreshInterval:
-      await refreshBadge();
+      await refreshBadge(true);
       break;
     default:
       console.warn('alarm', new Date(), alarm);
@@ -70,11 +58,8 @@ const onMessageListener = async (
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
-      if (!service.isUpdatable) {
-        throw Error(`cannot add: service "${message.service}" is not updatable`);
-      }
-      await service.add(message.url, message.tags);
-      await refreshBadge();
+      const { url, tags } = message;
+      await addItem({ service, url, tags });
       return;
     }
     case 'archiveFromService': {
@@ -83,11 +68,8 @@ const onMessageListener = async (
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
-      if (!service.isUpdatable) {
-        throw Error(`cannot archive: service "${message.service}" is not updatable`);
-      }
-      await service.archiveItem(message.id);
-      await refreshBadge();
+      const { id } = message;
+      await archiveItem({ service, id });
       return;
     }
     case 'deleteFromService': {
@@ -96,11 +78,8 @@ const onMessageListener = async (
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
-      if (!service.isUpdatable) {
-        throw Error(`cannot delete: service "${message.service}" is not updatable`);
-      }
-      await service.deleteItem(message.id);
-      await refreshBadge();
+      const { id } = message;
+      await deleteItem({ service, id });
       return;
     }
     case 'addTag': {
@@ -109,17 +88,15 @@ const onMessageListener = async (
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
-      if (!service.isUpdatable) {
-        throw Error(`cannot add tag: service "${message.service}" is not updatable`);
-      }
-      await service.addTag(message.id, message.tag);
+      const { id, tag } = message;
+      const tags = await addTag({ service, id, tag });
+
       if (sender.tab?.id) {
-        const cachedData = await forceGet(service);
         const newMessage: Message = {
           action: 'service',
           service: service.name,
           url: message.url,
-          tags: getAllTags(cachedData),
+          tags,
         };
         chrome.tabs.sendMessage(sender.tab.id, newMessage);
       }
@@ -131,17 +108,15 @@ const onMessageListener = async (
       if (!service) {
         throw Error(`couldn't find service "${message.service}"`);
       }
-      if (!service.isUpdatable) {
-        throw Error(`cannot remove tag: service "${message.service}" is not updatable`);
-      }
-      await service.removeTag(message.id, message.tag);
+      const { id, tag } = message;
+      const tags = await removeTag({ service, id, tag });
+
       if (sender.tab?.id) {
-        const cachedData = await forceGet(service);
         const newMessage: Message = {
           action: 'service',
           service: service.name,
           url: message.url,
-          tags: getAllTags(cachedData),
+          tags,
         };
         chrome.tabs.sendMessage(sender.tab.id, newMessage);
       }
@@ -149,7 +124,7 @@ const onMessageListener = async (
     }
     case 'refresh': {
       sendMessage();
-      await refreshBadge();
+      await refreshBadge(true);
     }
   }
 };

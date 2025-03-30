@@ -103,6 +103,7 @@ export const List: FC = () => {
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
     await clearCache(service.getQueryKey, queryClient);
+    setIsRefreshing(false);
   }, [service, queryClient]);
 
   const openSearch = async (open: boolean) => {

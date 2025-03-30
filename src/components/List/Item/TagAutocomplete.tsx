@@ -2,6 +2,7 @@ import { FC, useCallback, useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { clearCache } from 'utils/dataCache';
+import { addTag } from 'utils/updatable';
 import { useService } from 'hooks';
 import { Autocomplete, Option } from 'components/Autocomplete';
 import { useListContext } from 'components/List/ListContext';
@@ -10,7 +11,7 @@ import { useTagsContext } from 'hooks/TagsContext';
 import { useItemContext } from './ItemContext';
 
 export const TagAutocomplete: FC = () => {
-  const { getQueryKey, ...service } = useService();
+  const service = useService();
   const { allTags } = useListContext();
   const { id, isOpen, setIsAddTagsOpen, tags } = useItemContext();
   const { isLoading, setIsLoading } = useTagsContext();
@@ -28,14 +29,12 @@ export const TagAutocomplete: FC = () => {
   const addValue = useCallback(
     async (value: string) => {
       if (service.isUpdatable) {
-        const ok = await service.addTag(id, value);
-        if (ok) {
-          await clearCache(getQueryKey, queryClient);
-        }
+        await addTag({ service, id, tag: value });
+        await clearCache(service.getQueryKey, queryClient);
       }
       close();
     },
-    [close, getQueryKey, id, queryClient, service],
+    [close, id, queryClient, service],
   );
 
   if (!service.isUpdatable) return null;
