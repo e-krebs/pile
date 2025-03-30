@@ -16,7 +16,7 @@ interface BaseService {
 }
 
 export interface UpdatableService {
-  add: (url: string, tags?: string[]) => Promise<void>;
+  add: (url: string, tags?: string[]) => Promise<ListItem>;
   archiveItem: (id: string) => Promise<boolean>;
   deleteItem: (id: string) => Promise<boolean>;
   addTag: (id: string, tag: string) => Promise<boolean>;

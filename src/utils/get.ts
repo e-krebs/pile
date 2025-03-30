@@ -9,7 +9,7 @@ type GetType = 'default' | 'force' | 'search';
 
 export type GetParams =
   | {
-      type: Exclude<GetType, 'search'>;
+      type: Exclude<GetType, 'search' | 'tag'>;
     }
   | {
       type: 'search';
@@ -21,7 +21,7 @@ export type GetParams =
     };
 
 const rawGet = async (param: GetParams, service: Service): Promise<JsonArrayCache<ListItem>> => {
-  if (!service.isConnected()) throw Error('not connected to pocket');
+  if (!service.isConnected()) throw Error(`not connected to ${service.name}`);
 
   let list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
   const refreshInterval = await getRefreshInterval();
