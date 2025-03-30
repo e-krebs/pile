@@ -98,7 +98,16 @@ const onMessageListener = async (
         throw Error(`cannot archive: service "${message.service}" is not updatable`);
       }
       await service.archiveItem(message.id);
-      await refreshBadge();
+      const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
+      const index = list ? list.data.findIndex(({ id }) => message.id === id) : -1;
+      if (list && index !== -1) {
+        // optimistic update
+        list.data.splice(index, 1);
+        await setToLocalStorage(service.getQueryKey, list);
+        await refreshBadge(false);
+      } else {
+        await refreshBadge(true);
+      }
       return;
     }
     case 'deleteFromService': {
@@ -111,7 +120,16 @@ const onMessageListener = async (
         throw Error(`cannot delete: service "${message.service}" is not updatable`);
       }
       await service.deleteItem(message.id);
-      await refreshBadge();
+      const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
+      const index = list ? list.data.findIndex(({ id }) => message.id === id) : -1;
+      if (list && index !== -1) {
+        // optimistic update
+        list.data.splice(index, 1);
+        await setToLocalStorage(service.getQueryKey, list);
+        await refreshBadge(false);
+      } else {
+        await refreshBadge(true);
+      }
       return;
     }
     case 'addTag': {
