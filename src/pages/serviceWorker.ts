@@ -8,6 +8,9 @@ import { Message } from 'utils/messages';
 import { getAllTags } from 'utils/getAllTags';
 import { getShowCountOnBadge } from 'utils/getShowCountOnBadge';
 import { getRefreshInterval } from 'utils/refreshInterval';
+import { getFromLocalStorage, setToLocalStorage } from 'helpers/localstorage';
+import { JsonArrayCache } from 'utils/dataCache';
+import { ListItem } from 'utils/typings';
 
 const refreshBadge = async (force = true) => {
   await Promise.all(
@@ -73,8 +76,16 @@ const onMessageListener = async (
       if (!service.isUpdatable) {
         throw Error(`cannot add: service "${message.service}" is not updatable`);
       }
-      await service.add(message.url, message.tags);
-      await refreshBadge();
+      const item = await service.add(message.url, message.tags);
+      const list = await getFromLocalStorage<JsonArrayCache<ListItem> | null>(service.getQueryKey);
+      if (list) {
+        // optimistic update
+        list.data.unshift(item);
+        await setToLocalStorage(service.getQueryKey, list);
+        await refreshBadge(false);
+      } else {
+        await refreshBadge(true);
+      }
       return;
     }
     case 'archiveFromService': {
