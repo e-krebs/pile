@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import { Loader, RefreshCw, Tag } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
@@ -10,7 +10,7 @@ import { ListItem } from 'utils/typings';
 import { Icon } from 'components/Icon';
 import { setBadge } from 'utils/badge';
 import { useService } from 'hooks';
-import { filterTag, get, search } from 'utils/get';
+import { filterTag, forceGet, get, search } from 'utils/get';
 import { getAllTags } from 'utils/getAllTags';
 import { getLastTag, setLastTag } from 'utils/lastTag';
 import { getActiveTab } from 'utils/getActiveTab';
@@ -35,9 +35,11 @@ export const List: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<URL | undefined>();
   const [tag, setTagLocal] = useState<string | null | undefined>();
+  const [isInitial, updateIsInitial] = useReducer(() => false, true);
   const { data } = useQuery(service.getQueryKey, async () => {
-    const list = await get(service);
+    const list = await (isInitial ? get(service) : forceGet(service));
     setBadge(service.name, list.data.length);
+    updateIsInitial();
     return list;
   });
 
