@@ -134,8 +134,8 @@ export const Page = () => {
       <Modal.Content id="pile-content" className="flex flex-col items-center space-y-4">
         <div
           className={cx(
-            'absolute -top-px left-0 !my-6 flex h-[calc(100%-3rem+2px)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
-            doneVisible ? 'opacity-1 visible' : 'invisible opacity-0',
+            'absolute -top-px left-0 my-6! flex h-[calc(100%-3rem+2px)] w-full items-center justify-center rounded-lg bg-white text-[5rem] font-bold text-green-500 transition-opacity dark:bg-gray-900',
+            doneVisible ? 'visible opacity-1' : 'invisible opacity-0',
           )}
         >
           ✓

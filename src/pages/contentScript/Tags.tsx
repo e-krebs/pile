@@ -93,7 +93,7 @@ export const Tags: FC<TagsProps> = ({
           className={cx(
             'group flex cursor-default flex-col rounded-lg text-xs leading-4',
             isAddTagsOpen ? 'max-w-[calc(100%+1rem)]' : 'max-w-full',
-            'transition-max-width hover:max-w-[calc(100%+1rem)]',
+            'transition-[max-width] hover:max-w-[calc(100%+1rem)]',
             'text-gray-900 dark:text-gray-100',
             'border-gray-900 dark:border-gray-100',
           )}
@@ -104,7 +104,7 @@ export const Tags: FC<TagsProps> = ({
               'border-gray-400 text-gray-500 dark:text-gray-400',
             )}
           >
-            <TagIcon className={cx('mb-[2px] mt-[3px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
+            <TagIcon className={cx('mt-[3px] mb-[2px] h-3 w-3 shrink-0', isLoading && 'animate-spin')} />
 
             {tags.length > 0 && (
               <div className="mt-[-1px] flex truncate border-inherit">
@@ -122,7 +122,7 @@ export const Tags: FC<TagsProps> = ({
                     <span>{tag}</span>
                     <X
                       className={cx(
-                        'mb-[-3px] h-3 transition-width group-hover:w-3',
+                        'mb-[-3px] h-3 transition-[width] group-hover:w-3',
                         isAddTagsOpen ? 'w-3' : 'w-0',
                       )}
                     />
@@ -139,7 +139,7 @@ export const Tags: FC<TagsProps> = ({
               <Add
                 className={cx(
                   isAddTagsOpen ? 'w-3' : 'w-0',
-                  'mb-[-1px] h-3 transition-width group-hover:ml-1 group-hover:w-3',
+                  'mb-[-1px] h-3 transition-[width] group-hover:ml-1 group-hover:w-3',
                 )}
               />
             </div>

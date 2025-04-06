@@ -12,5 +12,5 @@ export const Chevron: FC = () => {
     setIsOpen(!isOpen);
   };
 
-  return <Chevron className="!ml-0 h-8 w-8 shrink-0 cursor-pointer p-2" onClick={toggleOpen} />;
+  return <Chevron className="ml-0! h-8 w-8 shrink-0 cursor-pointer p-2" onClick={toggleOpen} />;
 };

@@ -1,4 +1,5 @@
 import { type UserConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { crx, type ManifestV3Export } from '@crxjs/vite-plugin';
 import svgr from 'vite-plugin-svgr';
@@ -10,7 +11,7 @@ const manifest = manifestJson as ManifestV3Export;
 
 // https://vitejs.dev/config/
 export default {
-  plugins: [react(), svgr({ include: '**/*.svg' }), crx({ manifest })],
+  plugins: [react(), tailwindcss(), svgr({ include: '**/*.svg' }), crx({ manifest })],
   resolve: {
     alias: [
       { find: 'public', replacement: resolve(__dirname, './public') },
