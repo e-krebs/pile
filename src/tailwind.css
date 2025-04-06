@@ -1,145 +1,213 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import '@e-krebs/react-library/tailwind.css';
+@source '../node_modules/@e-krebs/react-library/dist';
+
+@plugin "tailwindcss-react-aria-components";
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@theme {
+  --color-algolia: rgb(0, 61, 255);
+  --color-pocket: #ef4056;
+  --inherit: inherit;
+}
+
+@utility bg-th {
+  /* background-color classes */
+  @apply bg-gray-50 dark:bg-gray-900;
+}
+
+@utility bg-th-reversed {
+  @apply bg-gray-900 dark:bg-gray-50;
+}
+
+@utility bg-primary {
+  @apply bg-primary-500 dark:bg-primary-400;
+}
+
+@utility bg-primary/5 {
+  @apply bg-primary-500/5 dark:bg-primary-400/5;
+}
+
+@utility bg-primary/95 {
+  @apply bg-primary-500/95 dark:bg-primary-400/95;
+  &.border-primary {
+    @apply border-primary-500/95 dark:border-primary-400/95;
+  }
+}
+
+@utility bg-destructive {
+  @apply bg-red-600 dark:bg-red-500;
+}
+
+@utility bg-error {
+  @apply bg-red-600 dark:bg-red-500;
+}
+
+@utility bg-destructive/5 {
+  @apply bg-red-600/5 dark:bg-red-500/5;
+}
+
+@utility bg-th-light {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+@utility bg-th-hover {
+  @apply bg-gray-200 dark:bg-gray-700;
+}
+
+@utility border-th {
+  /* border-color classes */
+  @apply border-gray-700 dark:border-gray-300;
+}
+
+@utility border-primary {
+  @apply border-primary-500 dark:border-primary-400;
+  &.bg-primary\/95 {
+    @apply border-primary-500/95 dark:border-primary-400/95;
+  }
+}
+
+@utility border-destructive {
+  @apply border-red-600 dark:border-red-500;
+}
+
+@utility border-error {
+  @apply border-red-600 dark:border-red-500;
+}
+
+@utility border-th-light {
+  @apply border-gray-400 dark:border-gray-500;
+}
+
+@utility border-th-bg {
+  @apply border-gray-50 dark:border-gray-900;
+}
+
+@utility text-th {
+  /* text-color classes */
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+@utility text-h1 {
+  @apply text-gray-900 dark:text-gray-50;
+}
+
+@utility text-primary {
+  @apply text-primary-500 dark:text-primary-400;
+}
+
+@utility text-destructive {
+  @apply text-red-600 dark:text-red-500;
+}
+
+@utility text-error {
+  @apply text-red-600 dark:text-red-500;
+}
+
+@utility text-valid {
+  @apply text-green-600 dark:text-green-400;
+}
+
+@utility text-th-reversed {
+  @apply text-gray-50 dark:text-gray-900;
+}
+
+@utility ring-th {
+  /* ring-color classes */
+  @apply ring-gray-700 dark:ring-gray-300;
+}
+
+@utility ring-primary {
+  @apply ring-primary-500 dark:ring-primary-400;
+}
+
+@utility ring-destructive {
+  @apply ring-red-600 dark:ring-red-500;
+}
+
+@utility ring-error {
+  @apply ring-red-600 dark:ring-red-500;
+}
+
+@utility ring-offset-th {
+  /* ring-offset-color classes */
+  @apply ring-offset-white dark:ring-offset-gray-900;
+}
+
+@utility outline-primary {
+  /* outline-color classes */
+  @apply outline-primary-500 dark:outline-primary-400;
+}
+
+@utility outline-destructive {
+  @apply outline-red-600 dark:outline-red-500;
+}
+
+@utility outline-error {
+  @apply outline-red-600 dark:outline-red-500;
+}
+
+@utility caret-primary {
+  /* caret-color classes */
+  @apply caret-primary-500 dark:caret-primary-400;
+}
+
+@utility caret-destructive {
+  @apply caret-red-600 dark:caret-red-500;
+}
+
+@utility caret-error {
+  @apply caret-red-600 dark:caret-red-500;
+}
+
+@utility stroke-th {
+  /* stroke-color classes */
+  @apply stroke-white dark:stroke-gray-900;
+}
+
+@utility fill-th {
+  /* fill-color classes */
+  @apply fill-gray-500 dark:fill-gray-400;
+}
+
+@utility shadow-th {
+  /* shadow class */
+  @apply shadow-md dark:shadow-inner;
+}
 
 @layer base {
-  html, :host {
+  html,
+  :host {
     @apply font-sans;
   }
   body {
     width: 499px;
     min-height: 499px;
   }
-  body, #pile-content {
-    @apply bg-white text-gray-500 text-base;
-    @apply dark:bg-gray-900 dark:text-gray-400 dark:fill-gray-400;
+  body,
+  #pile-content {
+    @apply bg-white text-base! text-gray-500;
+    @apply dark:bg-gray-900 dark:fill-gray-400 dark:text-gray-400;
   }
 
   a {
-    @apply outline-none;
-  }
-}
-
-@layer utilities {
-  /* background-color classes */
-  .bg-th {
-    @apply bg-gray-50 dark:bg-gray-900;
-  }
-  .bg-th-reversed {
-    @apply bg-gray-900 dark:bg-gray-50;
-  }
-  .bg-primary {
-    @apply bg-primary-500 dark:bg-primary-400;
-  }
-  .bg-primary\/5 {
-    @apply bg-primary-500/5 dark:bg-primary-400/5;
-  }
-  .bg-primary\/95 {
-    @apply bg-primary-500/95 dark:bg-primary-400/95;
-  }
-  .bg-destructive,
-  .bg-error {
-    @apply bg-red-600 dark:bg-red-500;
-  }
-  .bg-destructive\/5 {
-    @apply bg-red-600/5 dark:bg-red-500/5;
-  }
-  .bg-th-light {
-    @apply bg-gray-100 dark:bg-gray-800;
-  }
-  .bg-th-hover {
-    @apply bg-gray-200 dark:bg-gray-700;
-  }
-
-  /* border-color classes */
-  .border-th {
-    @apply border-gray-700 dark:border-gray-300;
-  }
-  .border-primary {
-    @apply border-primary-500 dark:border-primary-400;
-  }
-  .border-destructive,
-  .border-error {
-    @apply border-red-600 dark:border-red-500;
-  }
-  .border-primary.bg-primary\/95 {
-    @apply border-primary-500/95 dark:border-primary-400/95;
-  }
-  .border-th-light {
-    @apply border-gray-400 dark:border-gray-500;
-  }
-  .border-th-bg {
-    @apply border-gray-50 dark:border-gray-900;
-  }
-
-  /* text-color classes */
-  .text-th {
-    @apply text-gray-500 dark:text-gray-400;
-  }
-  .text-h1 {
-    @apply text-gray-900 dark:text-gray-50;
-  }
-  .text-primary {
-    @apply text-primary-500 dark:text-primary-400;
-  }
-  .text-destructive,
-  .text-error {
-    @apply text-red-600 dark:text-red-500;
-  }
-  .text-valid {
-    @apply text-green-600 dark:text-green-400;
-  }
-  .text-th-reversed {
-    @apply text-gray-50 dark:text-gray-900;
-  }
-
-  /* ring-color classes */
-  .ring-th {
-    @apply ring-gray-700 dark:ring-gray-300;
-  }
-  .ring-primary {
-    @apply ring-primary-500 dark:ring-primary-400;
-  }
-  .ring-destructive,
-  .ring-error {
-    @apply ring-red-600 dark:ring-red-500;
-  }
-
-  /* ring-offset-color classes */
-  .ring-offset-th {
-    @apply ring-offset-white dark:ring-offset-gray-900;
-  }
-
-  /* outline-color classes */
-  .outline-primary {
-    @apply outline-primary-500 dark:outline-primary-400;
-  }
-  .outline-destructive,
-  .outline-error {
-    @apply outline-red-600 dark:outline-red-500;
-  }
-
-  /* caret-color classes */
-  .caret-primary {
-    @apply caret-primary-500 dark:caret-primary-400;
-  }
-  .caret-destructive,
-  .caret-error {
-    @apply caret-red-600 dark:caret-red-500;
-  }
-
-  /* stroke-color classes */
-  .stroke-th {
-    @apply stroke-white dark:stroke-gray-900;
-  }
-
-  /* fill-color classes */
-  .fill-th {
-    @apply fill-gray-500 dark:fill-gray-400;
-  }
-
-  /* shadow class */
-  .shadow-th {
-    @apply shadow-md dark:shadow-inner;
+    @apply outline-hidden;
   }
 }
