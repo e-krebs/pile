@@ -74,7 +74,7 @@ export const TagFilter: FC<TagFilterProps> = ({ hasUntaggedItem, tagOpen, openTa
         {hasTag && (
           <div className="group flex items-center border-b border-transparent text-sm hover:border-dashed hover:border-inherit">
             <span>{tag ? tag : 'untagged'}</span>
-            <X className="mb-[-3px] h-4 w-0 transition-width group-hover:w-4" />
+            <X className="mb-[-3px] h-4 w-0 transition-[width] group-hover:w-4" />
           </div>
         )}
       </div>
@@ -87,7 +87,7 @@ export const TagFilter: FC<TagFilterProps> = ({ hasUntaggedItem, tagOpen, openTa
               ...(hasUntaggedItem ? [{ value: 'null', label: 'untagged' }] : []),
               ...allTags.map((value) => ({ value })),
             ]}
-            className="absolute left-0 top-[-0.25rem] w-full shadow-xl"
+            className="absolute top-[-0.25rem] left-0 w-full shadow-xl"
             isLoading={isLoading}
             setIsLoading={setIsLoading}
             close={onTag}

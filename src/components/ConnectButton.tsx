@@ -23,7 +23,7 @@ export const ConnectButton: FC = () => {
       <Button
         iconStart={Icon}
         onPress={loading ? () => {} : onClick}
-        className="h-auto border-none bg-transparent px-3 py-3 hover:bg-gray-200 dark:bg-transparent hover:dark:bg-gray-700"
+        className="h-auto border-none bg-transparent px-3 py-3 hover:bg-gray-200 dark:bg-transparent dark:hover:bg-gray-700"
       >
         {loading ? 'connecting' : 'connect'} to {service.name}
       </Button>

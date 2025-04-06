@@ -27,7 +27,7 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
     <div
       className={cx(
         className,
-        'ml-4 mr-2 flex h-8 items-center px-2 text-base leading-8',
+        'mr-2 ml-4 flex h-8 items-center px-2 text-base leading-8',
         'rounded-md border border-gray-200',
       )}
     >
@@ -35,7 +35,7 @@ export const SearchInput: FC<IProps> = ({ className, onSearch }) => {
         ref={searchInput}
         type="text"
         placeholder="Search"
-        className={'grow bg-transparent outline-none'}
+        className={'grow bg-transparent outline-hidden'}
         autoFocus={true}
         onChange={debounce({ delay: 300 }, onChange)}
       />

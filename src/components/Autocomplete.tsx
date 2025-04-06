@@ -120,8 +120,8 @@ export const Autocomplete: FC<AutocompleteProps> = ({
         <li
           key={option.value}
           className={cx(
-            'cursor-pointer truncate rounded-sm px-1 leading-5',
-            'hover:bg-white hover:dark:bg-gray-900',
+            'cursor-pointer truncate rounded-xs px-1 leading-5',
+            'hover:bg-white dark:hover:bg-gray-900',
             index === optionIndex && 'bg-white dark:bg-gray-900',
           )}
           onClick={() => add(option.value)}

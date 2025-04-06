@@ -18,7 +18,7 @@ export const Tab: FC<IProps> = ({ active = false, onClick, rounded = 't-md', ...
   return (
     <div
       className={cx(
-        'cursor-pointer p-3 hover:bg-gray-200 hover:dark:bg-gray-600',
+        'cursor-pointer p-3 hover:bg-gray-200 dark:hover:bg-gray-600',
         color,
         rounded === 't-md' && 'rounded-t-md',
         rounded === 'full' && 'rounded-full',

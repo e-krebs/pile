@@ -9,7 +9,7 @@ interface Props {
 
 export const Link: FC<PropsWithChildren<Props>> = ({ url, className, title, children }) => (
   <a
-    className={cx('cursor-pointer hover:text-gray-900 hover:dark:text-gray-100', className)}
+    className={cx('cursor-pointer hover:text-gray-900 dark:hover:text-gray-100', className)}
     href={url}
     target="_blank"
     rel="noreferrer"
