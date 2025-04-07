@@ -46,7 +46,10 @@ export const ItemComponent: FC<RefAttributes<HTMLDivElement>> = forwardRef<HTMLD
           </div>
           {isUpdatable && (
             <div
-              className={cx('flex px-2 transition-[height]', isOpen ? 'visible h-10' : 'invisible h-0')}
+              className={cx(
+                'flex overflow-hidden px-2 transition-[height]',
+                isOpen ? 'visible h-10' : 'invisible h-0',
+              )}
             >
               <div className="grow" />
               <DeleteAction />
