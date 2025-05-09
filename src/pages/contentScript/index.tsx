@@ -14,6 +14,14 @@ if (shadow.shadowRoot) {
   link.textContent = inline;
   shadow.shadowRoot.appendChild(link);
 
+  const cssSize = document.defaultView?.getComputedStyle(document.body).getPropertyValue('font-size');
+  if (cssSize && cssSize.endsWith('px')) {
+    const size = parseFloat(cssSize.substring(0, cssSize.length - 2));
+    const cssZoom = document.createElement('style');
+    cssZoom.textContent = `:host { zoom: calc(16 / ${size}) }`;
+    shadow.shadowRoot.appendChild(cssZoom);
+  }
+
   const container = document.createElement('div');
   shadow.shadowRoot.appendChild(container);
 
