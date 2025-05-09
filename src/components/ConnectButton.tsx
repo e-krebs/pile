@@ -20,11 +20,7 @@ export const ConnectButton: FC = () => {
 
   return (
     <div className="flex justify-center py-10 text-lg">
-      <Button
-        iconStart={Icon}
-        onPress={loading ? () => {} : onClick}
-        className="h-auto border-none bg-transparent px-3 py-3 hover:bg-gray-200 dark:bg-transparent dark:hover:bg-gray-700"
-      >
+      <Button variant="unstyled" iconStart={Icon} onPress={loading ? () => {} : onClick}>
         {loading ? 'connecting' : 'connect'} to {service.name}
       </Button>
     </div>
