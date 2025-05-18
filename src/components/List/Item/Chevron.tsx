@@ -1,3 +1,4 @@
+import { Button } from '@e-krebs/react-library';
 import { FC, useMemo } from 'react';
 import { Icon as FeatherIcon, ChevronDown, ChevronUp } from 'react-feather';
 
@@ -12,5 +13,12 @@ export const Chevron: FC = () => {
     setIsOpen(!isOpen);
   };
 
-  return <Chevron className="ml-0! h-8 w-8 shrink-0 cursor-pointer p-2" onClick={toggleOpen} />;
+  return (
+    <Button
+      iconStart={Chevron}
+      onPress={toggleOpen}
+      variant="unstyled"
+      className="ml-0! h-8 w-8 shrink-0 cursor-pointer p-2"
+    />
+  );
 };
