@@ -1,6 +1,6 @@
 {
   "name": "pile",
-  "version": "1.13.1",
+  "version": "1.13.2",
   "author": "Emmanuel Krebs <e-krebs@users.noreply.github.com>",
   "license": "MIT",
   "type": "module",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.32",
-    "@e-krebs/react-library": "^0.1.0",
+    "@e-krebs/react-library": "^0.1.1",
     "@eslint/compat": "^1.2.9",
     "@tailwindcss/vite": "^4.1.6",
     "@types/bun": "^1.2.12",
