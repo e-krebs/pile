@@ -26,5 +26,5 @@ export const pocket: Service & UpdatableService & ServiceWithOAuth = {
   borderClassName: 'border-pocket',
   hasOAuth: true,
   isUpdatable: true,
-  isTogglable: false,
+  isTogglable: true,
 };
