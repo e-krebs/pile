@@ -11,6 +11,7 @@ import { archiveItem, deleteItem, addTag, removeTag } from './actions';
 export type PocketServiceName = 'pocket';
 
 export const pocket: Service & UpdatableService & ServiceWithOAuth = {
+  // @ts-expect-error pocket is now removed
   name,
   getQueryKey,
   get,
