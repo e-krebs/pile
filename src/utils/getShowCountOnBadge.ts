@@ -1,5 +1,5 @@
 import { getFromLocalStorage } from 'helpers/localstorage';
-import { type ServiceNames } from 'services';
+import { services, type ServiceNames } from 'services';
 import { serviceVars } from 'helpers/vars';
 
 export const getShowCountOnBadge = async (): Promise<Record<ServiceNames, boolean>> => {
@@ -7,11 +7,13 @@ export const getShowCountOnBadge = async (): Promise<Record<ServiceNames, boolea
     (await getFromLocalStorage<Partial<Record<ServiceNames, boolean>>>(serviceVars.showCountOnBadge)) ??
     {};
 
-  const result: Record<ServiceNames, boolean> = { algolia: true, pocket: true };
-
-  for (const [serviceName, value] of Object.entries(values)) {
-    result[serviceName as ServiceNames] = value;
-  }
+  const result: Record<ServiceNames, boolean> = (Object.keys(services) as ServiceNames[]).reduce(
+    (acc, serviceName) => {
+      acc[serviceName] = values[serviceName] ?? true;
+      return acc;
+    },
+    {} as Record<ServiceNames, boolean>,
+  );
 
   return result;
 };

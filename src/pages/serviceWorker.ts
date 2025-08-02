@@ -9,6 +9,8 @@ import { getAllTags } from 'utils/getAllTags';
 import { getRefreshInterval } from 'utils/refreshInterval';
 import { addItem, addTag, archiveItem, deleteItem, removeTag } from 'utils/updatable';
 import { refreshBadge } from 'utils/refreshBadge';
+import { deleteFromLocalStorage } from 'helpers/localstorage';
+import { pocket } from 'services/pocket';
 
 const refreshBadgeIfMatching = async (currentUrl: string) => {
   const services = getServices();
@@ -162,6 +164,11 @@ chrome.contextMenus.onClicked.addListener(onContextMenuClickedListener);
 (async () => {
   chrome.alarms.create(vars.refreshInterval, { periodInMinutes: await getRefreshInterval() });
   chrome.alarms.onAlarm.addListener(alarmListener);
+
+  if (await pocket.isConnected()) {
+    await deleteFromLocalStorage(pocket.getQueryKey);
+    await pocket.disconnect();
+  }
 
   await refreshBadge(false);
 })();
