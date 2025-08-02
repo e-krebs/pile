@@ -4,6 +4,7 @@ import { Loader, RefreshCw, Tag } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery, useQueryClient } from 'react-query';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+import { GridList, GridListItem } from 'react-aria-components';
 
 import { clearCache } from 'utils/dataCache';
 import { ListItem } from 'utils/typings';
@@ -194,17 +195,20 @@ export const List: FC = () => {
             {!searchTerm && tag === undefined && `No items in your ${service.name} list.`}
           </div>
         )}
-        {!isLoading &&
-          list.length > 0 &&
-          list.map((item) => (
-            <Item
-              item={item}
-              key={item.id}
-              isOpen={itemOpen !== undefined ? item.id === itemOpen : isMatching(item.url)}
-              isActive={isMatching(item.url)}
-              isAddTagsOpen={item.id === addTagsItemOpen}
-            />
-          ))}
+        {!isLoading && list.length > 0 && (
+          <GridList selectionMode="single">
+            {list.map((item) => (
+              <GridListItem key={item.id} textValue={item.title}>
+                <Item
+                  item={item}
+                  isOpen={itemOpen !== undefined ? item.id === itemOpen : isMatching(item.url)}
+                  isActive={isMatching(item.url)}
+                  isAddTagsOpen={item.id === addTagsItemOpen}
+                />
+              </GridListItem>
+            ))}
+          </GridList>
+        )}
       </div>
     </ListContext.Provider>
   );
