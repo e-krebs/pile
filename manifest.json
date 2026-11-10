@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "pile",
   "description": "pile",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "icons": {
     "16": "src/content/icons/icon-16.png",
     "48": "src/content/icons/icon-48.png",
@@ -23,7 +23,7 @@
   "host_permissions": [
     "https://getpocket.com/v3/*",
     "https://t0.gstatic.com/faviconV2/*",
-    "https://logo.clearbit.com/*",
+    "https://icons.duckduckgo.com/ip3/*",
     "https://img.readitlater.com/i/*"
   ],
   "background": {

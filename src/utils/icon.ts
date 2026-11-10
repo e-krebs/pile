@@ -17,7 +17,7 @@ const getIconBlob = async (hostname: string, fallback: string | null): Promise<R
   });
   if (res.ok) return res;
 
-  res = await getBlob({ url: `https://logo.clearbit.com/${hostname}?size=32` });
+  res = await getBlob({ url: `https://icons.duckduckgo.com/ip3/${hostname}.ico` });
   if (res.ok) return res;
 
   res = await getBlob({ url: `https://img.readitlater.com/i/${hostname}/favicon.ico` });
